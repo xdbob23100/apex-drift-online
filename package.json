@@ -1,1 +1,1 @@
-{"name":"apex-drift-online","version":"1.0.0","private":true,"description":"Apex Drift 2D multiplayer rooms","scripts":{"start":"node server.js"},"engines":{"node":">=18"},"dependencies":{"ws":"^8.18.0"}}
+{"name":"apex-drift-online","version":"1.1.0","private":true,"description":"Apex Drift 2D multiplayer with owner menu","scripts":{"start":"node server.js"},"engines":{"node":">=18"},"dependencies":{"ws":"^8.18.0"}}
