@@ -81,7 +81,7 @@ wss.on('connection',ws=>{
     }
     if(!ws.room)return;const room=rooms.get(ws.room);if(!room)return;
     if(m.type==='track'){
-      if(room.host!==ws.pid||!Number.isInteger(m.track)||m.track<0||m.track>18)return;
+      if(room.host!==ws.pid||!Number.isInteger(m.track)||m.track<0||m.track>19)return;
       room.track=m.track;broadcast(room,{type:'track',track:room.track},ws);return;
     }
     if(m.type==='position'){
