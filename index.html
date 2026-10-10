@@ -279,7 +279,7 @@ function setGarage(open){garageOpen=open;document.querySelector('#garage').class
 const c=document.querySelector('canvas'),ctx=c.getContext('2d');let W,H,dpr;function resize(){dpr=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;c.width=W*dpr;c.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0)}addEventListener('resize',resize);resize();
 const tracks=[
 {name:'Grand Prix Circuit',width:155,closed:true,pts:[[0,0],[250,-70],[570,-40],[820,130],[880,420],[710,670],[400,740],[100,660],[-190,720],[-460,590],[-570,300],[-510,20],[-320,-130]]},
-{name:'Mountain Touge',width:155,closed:true,pts:[[0,0],[210,-65],[440,-220],[600,-480],[480,-690],[230,-640],[30,-800],[110,-1040],[390,-1180],[680,-1080],[810,-1360],[620,-1570],[360,-1540],[180,-1790],[310,-2050],[650,-2190],[850,-2440],[670,-2700],[400,-2630],[220,-2880],[390,-3100],[720,-3260],[1050,-3150],[1270,-2940],[1360,-2660],[1250,-2430],[1410,-2220],[1530,-1970],[1380,-1760],[1490,-1510],[1550,-1260],[1400,-1030],[1520,-810],[1440,-560],[1230,-400],[1300,-170],[1170,90],[940,250],[720,200],[510,340],[280,290],[90,160],[-80,80],[-130,-20],[-80,-55]]},
+{name:'Hakone Mountain Touge · Summit Run',width:122,closed:true,touge:true,pts:[[0,0],[210,-65],[440,-220],[600,-480],[480,-690],[230,-640],[30,-800],[110,-1040],[390,-1180],[680,-1080],[810,-1360],[620,-1570],[360,-1540],[180,-1790],[310,-2050],[650,-2190],[850,-2440],[670,-2700],[400,-2630],[220,-2880],[390,-3100],[720,-3260],[1050,-3150],[1270,-2940],[1360,-2660],[1250,-2430],[1410,-2220],[1530,-1970],[1380,-1760],[1490,-1510],[1550,-1260],[1400,-1030],[1520,-810],[1440,-560],[1230,-400],[1300,-170],[1170,90],[940,250],[720,200],[510,340],[280,290],[90,160],[-80,80],[-130,-20],[-80,-55]]},
 {name:'Figure 8 Drift Park',width:155,closed:true,pts:[[0,0],[200,-230],[490,-310],[720,-130],[640,120],[400,220],[120,100],[-110,-110],[-360,-270],[-610,-180],[-660,80],[-430,250],[-170,220]]},
 {name:'Drift Playground',width:155,closed:true,pts:[[0,0],[320,-120],[620,-50],[750,220],[610,460],[300,490],[100,340],[-160,470],[-460,400],[-610,170],[-460,-60],[-240,-120]]}
  ];
@@ -336,6 +336,8 @@ for(let k=0;k<technicalTrackIds.length;k++){
 }
 
 tracks.push({name:'Drag Racing Park · 1 Mile',width:260,closed:false,drag:true,pts:[[0,0],[500,0],[1100,0],[1700,0],[2300,0],[2900,0],[3500,0],[4100,0],[4700,0],[5300,0],[6000,0],[6800,0],[7500,0]]});
+// Mountain pass is a longer, tighter, elevation-inspired course with distinct hairpins.
+tracks[1].pts=tracks[1].pts.map(([x,y])=>[Math.round(x*1.45),Math.round(y*1.45)]);
 const DRAG_TRACK_ID=tracks.length-1;
 let gear=1,dragElapsed=0,dragStarted=false,dragFinished=false,dragBest=null,dragSplits={},dragRunBest={};
 function shiftGear(delta){if(garageOpen)return;const next=Math.max(1,Math.min(6,gear+delta));if(next!==gear){gear=next;toast('GEAR '+gear)}}
@@ -353,11 +355,11 @@ function getSceneryChunk(cx,cy){
  if(sceneryChunks.has(key))return sceneryChunks.get(key);
  const rand=sceneryRand(Math.imul(cx,73856093)^Math.imul(cy,19349663)^Math.imul(trackId+1,83492791));
  const items=[];
- const density=tracks[trackId].drag?19:25;
+ const density=tracks[trackId].drag?19:trackId===1?38:25;
  for(let i=0;i<density;i++){
    const x=(cx+rand())*SCENERY_CHUNK,y=(cy+rand())*SCENERY_CHUNK;
    // Avoid placing trees or buildings on the track; remote chunks need no expensive search.
-   const r=5+rand()*14;
+   const r=trackId===1?9+rand()*20:5+rand()*14;
    let tooClose=false;
    for(let j=0;j<samples.length;j+=5){
      const p=samples[j],dx=x-p.x,dy=y-p.y;
@@ -427,9 +429,46 @@ function drawSceneryItem(o){
  else if(kind==='reed'){ctx.strokeStyle='#c3bd6b';ctx.lineWidth=2;for(let i=-2;i<=2;i++){ctx.beginPath();ctx.moveTo(i*3,r);ctx.lineTo(i*5,-r*.7);ctx.stroke();}}
  ctx.restore();
 }
+
+// Mountain-pass environment: layered terrain, rocky ridges, streams, guardrails and signs.
+function drawTougeTerrain(l,r,t,b){
+ const unit=330;
+ for(let ix=Math.floor(l/unit)-1;ix<=Math.ceil(r/unit)+1;ix++)for(let iy=Math.floor(t/unit)-1;iy<=Math.ceil(b/unit)+1;iy++){
+  const x=ix*unit,y=iy*unit,noise=Math.sin(ix*4.123+iy*9.71)*Math.cos(iy*5.33-ix*2.91);
+  ctx.fillStyle=noise>.24?'#2c5144':noise<-.38?'#496451':'#355b48';ctx.fillRect(x,y,unit+1,unit+1);
+  // Aerial contour lines: subtle rings of higher terrain.
+  const h=Math.abs(Math.sin(ix*2.19+iy*3.74));
+  if(h>.43){ctx.strokeStyle='#b6d0a514';ctx.lineWidth=2;for(let k=0;k<4;k++){
+   ctx.beginPath();ctx.ellipse(x+unit*.5,y+unit*.48,80+k*35,42+k*26,(ix+iy)*.31,0,Math.PI*2);ctx.stroke();
+  }}
+  if(noise<-.57){ctx.fillStyle='#7d8b7955';ctx.beginPath();ctx.ellipse(x+145,y+135,68,38,.5,0,7);ctx.fill();}
+ }
+}
+function drawTougeRoadside(){
+ const len=samples.length;
+ for(let i=8;i<len-8;i+=5){
+  const p=samples[i],p0=samples[i-3],p1=samples[i+3];
+  const a=Math.atan2(p1.y-p0.y,p1.x-p0.x),nx=-Math.sin(a),ny=Math.cos(a);
+  for(const side of [-1,1]){
+   const ox=p.x+nx*side*(roadWidth/2+19),oy=p.y+ny*side*(roadWidth/2+19);
+   if((Math.floor(i/65)+side+2)%3!==0){
+    ctx.fillStyle='#131f24';ctx.beginPath();ctx.arc(ox+3,oy+4,4.5,0,7);ctx.fill();
+    ctx.fillStyle='#e9e9dc';ctx.beginPath();ctx.arc(ox,oy,3.5,0,7);ctx.fill();
+    ctx.fillStyle=i%2?'#f8c862':'#d9eced';ctx.beginPath();ctx.arc(ox,oy,1.8,0,7);ctx.fill();
+   }
+  }
+ }
+ // Metal barriers outside the most technical corners, in short sections.
+ for(const [start,end,side] of [[180,250,1],[400,475,-1],[610,675,1],[780,850,-1]]){
+  ctx.save();ctx.lineJoin='round';ctx.lineCap='round';ctx.strokeStyle='#111e21';ctx.lineWidth=13;ctx.beginPath();
+  for(let i=start;i<=Math.min(end,len-1);i+=2){const p=samples[i],prev=samples[Math.max(0,i-2)],next=samples[Math.min(len-1,i+2)],a=Math.atan2(next.y-prev.y,next.x-prev.x),nx=-Math.sin(a),ny=Math.cos(a),x=p.x+nx*side*(roadWidth/2+26),y=p.y+ny*side*(roadWidth/2+26);if(i===start)ctx.moveTo(x,y);else ctx.lineTo(x,y)}ctx.stroke();ctx.strokeStyle='#c5d3d0';ctx.lineWidth=6;ctx.stroke();ctx.restore();
+ }
+ // Branded roadside checkpoint banners.
+ for(let i=100;i<len-20;i+=145){const p=samples[i],n=samples[Math.min(len-1,i+3)],a=Math.atan2(n.y-p.y,n.x-p.x);ctx.save();ctx.translate(p.x,p.y);ctx.rotate(a);ctx.fillStyle='#0e262e';ctx.fillRect(-8,-roadWidth/2-53,68,26);ctx.fillStyle='#83f5ce';ctx.font='bold 12px system-ui';ctx.fillText('TOUGE  '+Math.floor(i/145+1),-2,-roadWidth/2-36);ctx.restore()}
+}
 function toggleCamera(){cameraMode=(cameraMode+1)%2;document.querySelector('#cameraBtn').textContent=cameraMode?'📷 CAMERA: FOLLOW (V)':'📷 CAMERA: CLASSIC (V)';toast(cameraMode?'FOLLOW CAMERA · 2D':'CLASSIC CAMERA · 2D')}
 document.querySelector('#cameraBtn').addEventListener('click',toggleCamera);
-function draw(){ctx.fillStyle=themes[trackId][1];ctx.fillRect(0,0,W,H);ctx.save();ctx.translate(W/2,H/2);let zoom=Math.max(.53,Math.min(.9,Math.min(W/1150,H/780)))*(cameraMode?1.48:1);ctx.scale(zoom,zoom);if(cameraMode)ctx.rotate(cameraRotation);ctx.translate(-cam.x,-cam.y);let tile=100;let radius=Math.hypot(W,H)/zoom*.64+230;let l=cam.x-radius,r=cam.x+radius,t=cam.y-radius,b=cam.y+radius;for(let x=Math.floor(l/tile)*tile;x<r;x+=tile)for(let y=Math.floor(t/tile)*tile;y<b;y+=tile){let v=(Math.sin(x*0.037+y*.043)+1)/2;ctx.fillStyle=v>.5?themes[trackId][1]:'#00000012';ctx.fillRect(x,y,tile,tile)}drawContinuousScenery(l,r,t,b)
+function draw(){ctx.fillStyle=themes[trackId][1];ctx.fillRect(0,0,W,H);ctx.save();ctx.translate(W/2,H/2);let zoom=Math.max(.53,Math.min(.9,Math.min(W/1150,H/780)))*(cameraMode?1.48:1);ctx.scale(zoom,zoom);if(cameraMode)ctx.rotate(cameraRotation);ctx.translate(-cam.x,-cam.y);let tile=100;let radius=Math.hypot(W,H)/zoom*.64+230;let l=cam.x-radius,r=cam.x+radius,t=cam.y-radius,b=cam.y+radius;for(let x=Math.floor(l/tile)*tile;x<r;x+=tile)for(let y=Math.floor(t/tile)*tile;y<b;y+=tile){let v=(Math.sin(x*0.037+y*.043)+1)/2;ctx.fillStyle=v>.5?themes[trackId][1]:'#00000012';ctx.fillRect(x,y,tile,tile)}if(trackId===1)drawTougeTerrain(l,r,t,b);drawContinuousScenery(l,r,t,b)
 
 // Layered circuit surface: shoulders, clean asphalt, realistic edge paint and subtle wear.
 stroke(roadWidth+30,'#1b2528');
@@ -449,7 +488,7 @@ ctx.restore();
 // Solid boundary paint, dashed middle lane and darker tyre-worn racing lines.
 stroke(roadWidth-24,'#cbd2d0');stroke(roadWidth-29,'#343a3d');
 stroke(roadWidth*.43,'#24292d22');
-stroke(3,'#e7dfb899',[20,19]);
+stroke(3,'#e7dfb899',[20,19]);if(trackId===1)drawTougeRoadside();
 for(let i=0;i<samples.length;i+=9){let pt=samples[i],n=samples[(i+1)%samples.length],ang=Math.atan2(n.y-pt.y,n.x-pt.x);ctx.save();ctx.translate(pt.x,pt.y);ctx.rotate(ang);for(let side of [-1,1]){ctx.fillStyle=i%18===0?'#f5eee0':'#f1d27b';ctx.fillRect(-3,side*(roadWidth/2+13)-3,6,6)}ctx.restore()}
 if(trackId===DRAG_TRACK_ID){ctx.save();
 // Two race lanes, staging markers, floodlights and timing gantries.
