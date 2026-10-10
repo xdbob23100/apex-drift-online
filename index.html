@@ -1,0 +1,324 @@
+<!doctype html><html><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>Apex Drift 2D</title><style>html,body{margin:0;overflow:hidden;background:#08111d;color:white;font-family:system-ui,Arial}canvas{display:block}#hud{position:fixed;top:18px;left:20px;background:#07121dcc;border:1px solid #ffffff35;border-radius:14px;padding:14px 20px;backdrop-filter:blur(10px);min-width:205px}#speed{font-size:45px;font-weight:800;letter-spacing:-2px}#speed small{font-size:15px;letter-spacing:0;color:#aac1d0}#status{color:#92d8ff;font-weight:700}#help{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:#07121dd9;border:1px solid #ffffff30;border-radius:12px;padding:10px 20px;text-align:center;font-size:13px}#title{font-weight:900;letter-spacing:3px;color:#f6a94e}#trackSelect{position:fixed;top:18px;right:160px;background:#102437;color:#fff;border:1px solid #6a9bb4;border-radius:9px;padding:10px;font-weight:700}#scorebox{margin-top:9px;border-top:1px solid #ffffff35;padding-top:8px}#points{font-size:27px;color:#ffcb64;font-weight:900}#combo{color:#f9a9e9;font-weight:800}#reset{position:fixed;top:18px;right:20px;background:#f6a94e;color:#111;border:0;border-radius:9px;padding:10px 15px;font-weight:800;cursor:pointer}#garageBtn{position:fixed;top:18px;right:155px;background:#20d6ac;color:#06221c;border:0;border-radius:9px;padding:11px 16px;font-weight:900;cursor:pointer}#trackSelect{right:310px!important}#wallet{position:fixed;top:69px;right:20px;background:#102437dd;border:1px solid #45e1b1;border-radius:10px;padding:9px 15px;font-weight:900;color:#8fffd8}#garage{display:none;position:fixed;inset:0;background:#020a12d9;z-index:30;overflow:auto;padding:35px 18px;box-sizing:border-box}#garage.open{display:block}.garagePanel{max-width:1040px;margin:auto;background:#0d1d2b;border:1px solid #3b6074;border-radius:20px;padding:24px;box-shadow:0 20px 80px #0009}.garageHead{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.garageHead h1{margin:0;color:#e7faff}.garageHead button,.carcard button{background:#24d8b1;border:0;border-radius:9px;padding:10px 16px;color:#06241c;font-weight:900;cursor:pointer}.garageHead button{background:#e8f1f7}.carGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;margin-top:18px}.carcard{background:#142a3b;border:1px solid #36566b;border-radius:15px;padding:16px}.carcard h3{margin:6px 0}.carcard p{font-size:12px;color:#bbd0dc;line-height:1.6}.carcard .price{font-weight:900;color:#ffe096;font-size:19px}.carcard button{width:100%;margin-top:10px}.carcard button:disabled{background:#586b78;color:#e0e5e8;cursor:default}.swatch{height:120px;overflow:hidden;position:relative;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:900;letter-spacing:2px;text-shadow:0 2px 5px #0009}#toast{position:fixed;bottom:75px;left:50%;transform:translateX(-50%);background:#0d2736;color:#b9ffe6;border:1px solid #3ee7b3;border-radius:12px;padding:12px 20px;display:none;z-index:50;font-weight:800}#help{max-width:calc(100% - 30px)}#dayBtn{position:fixed;right:20px;top:120px;background:#23394d;color:#fff;border:1px solid #89b4d2;border-radius:9px;padding:9px 13px;font-weight:800;cursor:pointer}@media(max-width:800px){#trackSelect{top:112px;right:15px!important}#garageBtn{right:120px}#wallet{top:65px}#hud{transform:scale(.78);transform-origin:top left}} #tuningShop{margin-top:20px;padding:18px;border:1px solid #4b7187;background:#102b3c;border-radius:16px}#tuningShop h2{margin:0 0 6px;color:#9bffe5}.tuneGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin-top:12px}.tuneItem{padding:12px;background:#19394b;border-radius:11px}.tuneItem button{background:#ffd27a;border:0;border-radius:8px;padding:9px 12px;cursor:pointer;font-weight:800;width:100%;margin-top:8px}.tuneItem button:disabled{opacity:.5;cursor:default}.tuneItem input{width:100%;accent-color:#3ae0bc}.tuneItem small{display:block;color:#a9c6d4;margin-top:5px} </style><style id="multiplayer-css">#multiBtn{position:fixed;right:20px;top:170px;background:#5e86ff;color:white;border:0;border-radius:10px;padding:11px 16px;font-weight:900;cursor:pointer;z-index:12}#multiInfo{position:fixed;right:20px;top:220px;color:#d5e7ff;background:#102437d9;border:1px solid #5878b5;padding:8px 12px;border-radius:9px;font-size:12px;z-index:12}#multiPanel{display:none;position:fixed;inset:0;background:#010915dc;z-index:70;align-items:center;justify-content:center;padding:20px}#multiPanel.open{display:flex}.multiCard{background:#102337;border:1px solid #6588c1;border-radius:18px;padding:26px;max-width:430px;width:100%;box-shadow:0 24px 80px #000b}.multiCard h2{margin-top:0}.multiCard input{display:block;box-sizing:border-box;width:100%;background:#091624;color:white;border:1px solid #64809d;border-radius:8px;padding:12px;margin:8px 0 16px;font-size:16px}.multiCard button{border:0;border-radius:8px;padding:11px 14px;margin:3px;cursor:pointer;font-weight:800;background:#5e86ff;color:white}.multiCard .secondary{background:#40536c}.multiCard p{color:#c2d5ea;font-size:13px;line-height:1.6}#roomStatus{min-height:22px;color:#ffdc83;font-weight:700;overflow-wrap:anywhere}#playerList{color:#a5f6db;line-height:1.7;font-size:13px}#roomCodeView{font-size:24px;font-weight:900;letter-spacing:4px;color:#9fe9ff}</style></head><body><canvas id='game'></canvas><button id="multiBtn">🌐 MULTIPLAYER (M)</button><div id="multiInfo">SOLO · OFFLINE</div><div id="multiPanel"><div class="multiCard"><h2>🌐 APEX ONLINE</h2><p>Make a private room, then share its six-character code. Up to 8 drivers. All drivers use the same track. Your own credits and garage stay saved on this device.</p><label>DRIVER NAME<input id="driverName" maxlength="18" placeholder="Your name"></label><label>JOIN CODE (for joining only)<input id="joinCode" maxlength="6" placeholder="ABC123" autocapitalize="characters"></label><div><button id="createRoom">CREATE ROOM</button><button id="joinRoom">JOIN ROOM</button><button id="leaveRoom" class="secondary">LEAVE ROOM</button><button id="closeMulti" class="secondary">CLOSE</button></div><p id="roomStatus"></p><div id="roomCodeView"></div><div id="playerList"></div><p>Controls: M = multiplayer menu. Only the room host can change tracks. This is shared driving, not collision-based PvP.</p></div></div><div id='hud'><div id='title'>APEX DRIFT 2D</div><div id='speed'>0 <small>MPH</small></div><div id='status'>GRIP</div><div id='angle' style='font-size:22px;font-weight:900;color:#ffd26d;margin:7px 0'>DRIFT ANGLE 0°</div><div id='direction' style='font-size:12px;color:#bcd0e5'>STRAIGHT</div><div id='lap'>LAP 1 · 00:00.0</div><div id='best'>BEST —</div><div id='scorebox'><div>ACTIVE DRIFT POINTS</div><div id='points'>0</div><div id='combo'>COMBO x1.0</div><div id='bank'>BEST DRIFT 0</div></div></div><select id='trackSelect'><option value='0'>1 · Grand Prix Circuit</option><option value='1'>2 · Mountain Touge</option><option value='2'>3 · Figure 8</option><option value='3'>4 · Drift Playground</option></select><button id='reset'>RESET CAR (R)</button><button id='garageBtn'>🚗 GARAGE (G)</button><button id='dayBtn'>☀ DAY / NIGHT (N)</button><div id='wallet'>CREDITS: <span id='credits'>0</span> CR</div><div id='garage'><div class='garagePanel'><div class='garageHead'><div><h1>APEX MOTORWORKS · GARAGE</h1><p>Earn 15 CR per 100 banked drift points, multiplied by your car bonus. Buy cars once, drive them forever.</p><b id='garageMoney'></b></div><button id='closeGarage'>BACK TO TRACK ✕</button></div><div id='tuningShop'></div><div class='carGrid' id='carGrid'></div></div></div><div id='toast'></div><div id='help'>W / ↑ Accelerate · S / ↓ Brake / Reverse · A D / ← → Steer · SPACE Handbrake / Drift · N Day/Night · 1–4 Quick Tracks · Dropdown: All 15 · RWD · R Reset</div><script>
+const CARS=[
+{id:'s15',name:'Silvia S15',group:'JDM',price:0,power:1,grip:1,steer:1,color:'#18a9d0',desc:'Starter · Balanced RWD drift setup'},
+{id:'180sx',name:'180SX Type X',group:'JDM',price:18000,power:1.04,grip:.92,steer:1.06,color:'#f8d264',desc:'Easy initiation · Playful rear end'},
+{id:'240sx',name:'240SX Coupe',group:'JDM',price:16000,power:1.08,grip:.95,steer:1.02,color:'#ee7e69',desc:'Predictable long slides'},
+{id:'s14',name:'Silvia S14',group:'JDM',price:22000,power:1.14,grip:1.06,steer:1.03,color:'#aa8df5',desc:'Smooth transitions · Stable chassis'},
+{id:'rx7',name:'RX-7 FD',group:'JDM',price:42000,power:1.23,grip:1.13,steer:1.14,color:'#f35460',desc:'Lightweight · Quick steering'},
+{id:'supra',name:'Supra MK4',group:'JDM',price:65000,power:1.34,grip:1.04,steer:.96,color:'#f5f5f5',desc:'Turbo torque · Long drifts'},
+{id:'mustang',name:'Mustang GT',group:'American Muscle',price:32000,power:1.32,grip:.9,steer:.91,color:'#4eb3f5',desc:'Big V8 torque · Tail happy'},
+{id:'camaro',name:'Camaro ZL1',group:'American Muscle',price:62000,power:1.55,grip:1.03,steer:.92,color:'#f4a13d',desc:'High power · Aggressive exits'},
+{id:'challenger',name:'Challenger',group:'American Muscle',price:40000,power:1.65,grip:.86,steer:.82,color:'#a6e369',desc:'Heavy muscle · Huge smoky slides'},
+{id:'911',name:'911 GT3',group:'Supercar',price:145000,power:1.48,grip:1.45,steer:1.25,color:'#f7cd48',desc:'Precision cornering · Strong traction'},
+{id:'huracan',name:'Huracán',group:'Supercar',price:205000,power:1.68,grip:1.28,steer:1.14,color:'#83ec5c',desc:'Fast response · High revs'},
+{id:'ferrari',name:'488 GTB',group:'Supercar',price:165000,power:1.78,grip:1.35,steer:1.17,color:'#ff5252',desc:'Powerful and balanced'},
+{id:'mclaren',name:'P1',group:'Hypercar',price:1950000,power:2.05,grip:1.52,steer:1.21,color:'#f3a33f',desc:'Hybrid power · Fast transitions'},
+{id:'bugatti',name:'Chiron',group:'Hypercar',price:3000000,power:2.3,grip:1.4,steer:.84,color:'#4384f5',desc:'Extreme speed · Heavy handling'},
+{id:'koenigsegg',name:'Jesko',group:'Hypercar',price:3500000,power:2.65,grip:1.55,steer:1.22,color:'#d9e4f1',desc:'Ultimate high-speed machine'},
+{id:'r34',name:'Skyline R34 GT-R',group:'JDM',price:135000,power:1.42,grip:1.20,steer:1.04,color:'#3869db',desc:'Legendary turbo coupe · Controlled slides'},
+{id:'ae86',name:'Toyota AE86 Trueno',group:'JDM',price:23000,power:.92,grip:.87,steer:1.22,color:'#f1efe5',desc:'Lightweight touge specialist · Pop-up lamps'},
+{id:'corvette',name:'Corvette C7 Z06',group:'American Muscle',price:76000,power:1.82,grip:1.18,steer:1.11,color:'#e8d34c',desc:'Wide V8 sports car · Strong torque'},
+{id:'viper',name:'Dodge Viper ACR',group:'American Muscle',price:155000,power:1.96,grip:1.08,steer:.99,color:'#c82c38',desc:'Long-bonnet V10 · Aggressive drift setup'},
+{id:'gtr35',name:'Nissan GT-R R35',group:'Supercar',price:85000,power:1.89,grip:1.42,steer:1.08,color:'#7a8795',desc:'High-powered coupe · Stable transitions'}
+];
+const SAVEKEY='apex_drift_2d_garage_v1';let saved={};try{saved=JSON.parse(localStorage.getItem(SAVEKEY)||'{}')}catch(e){};let credits=Math.max(0,Number(saved.credits)||0),owned=new Set(['s15',...(Array.isArray(saved.owned)?saved.owned:[])]),selected=owned.has(saved.selected)?saved.selected:'s15';let currentCar=()=>CARS.find(c=>c.id===selected)||CARS[0];function carCreditMultiplier(price=currentCar().price){return price>=2000000?5:price>=1000000?4:price>=200000?3:price>=75000?2:price>=25000?1.5:1;}function driftPayout(points){return Math.floor(points*.15*carCreditMultiplier());}let tunes=(saved.tunes&&typeof saved.tunes==='object')?saved.tunes:{};const turboIds=new Set(['s15','180sx','s14','rx7','supra','r34','gtr35','huracan','ferrari','mclaren','bugatti','koenigsegg']);function tuneFor(id=selected){if(!tunes[id])tunes[id]={engine:0,turbo:0,trans:0,camber:0,toe:0,offset:0};return tunes[id]}function tunedPower(){let t=tuneFor();return currentCar().power*(1+t.engine*.095+t.turbo*.12)}function tunedGrip(){let t=tuneFor();return currentCar().grip*Math.max(.72,1-Math.abs(t.camber)*.013-Math.abs(t.toe)*.025)}function tunedSteer(){let t=tuneFor();return currentCar().steer*(1+t.toe*.035+t.camber*.012)}let garageOpen=false;function persist(){try{localStorage.setItem(SAVEKEY,JSON.stringify({credits,owned:[...owned],selected,tunes}))}catch(e){}}function money(n){return Math.floor(n).toLocaleString('en-GB')}function toast(msg){let e=document.querySelector('#toast');e.textContent=msg;e.style.display='block';clearTimeout(toast.timer);toast.timer=setTimeout(()=>e.style.display='none',2200)}function shapeFor(v){
+ const id=v.id;
+ const types={s15:[0,0,0], '180sx':[1,0,0], '240sx':[2,0,0],s14:[3,0,0],rx7:[4,0,0],supra:[5,0,0],mustang:[6,1,0],camaro:[7,1,0],challenger:[8,1,0],'911':[9,2,0],huracan:[10,2,0],ferrari:[11,2,0],mclaren:[12,3,0],bugatti:[13,3,0],koenigsegg:[14,3,0],r34:[15,0,0],ae86:[16,0,0],corvette:[17,1,0],viper:[18,1,0],gtr35:[19,2,0]};
+ let k=types[id]||types.s15;return {index:k[0],classId:k[1],color:v.color,wing:['s15','s14','rx7','911','mclaren','koenigsegg'].includes(id),id};
+}
+function drawUniqueCar(g,v,preview=false){
+ const q=shapeFor(v),i=q.index,cl=q.classId;
+ const L=[73,70,76,79,70,80,83,80,88,68,75,74,79,90,78,81,65,83,94,85][i],B=[34,34,35,37,35,39,39,40,43,37,39,38,39,43,39,38,30,43,42,44][i];
+ const rear=-L*.51,front=L*.51,roofStart=[-13,-25,-16,-12,-18,-13,-7,-9,-15,-19,-8,-11,-9,-8,-8,-11,-19,-4,-7,-10][i],roofEnd=[17,10,13,16,15,15,13,13,11,17,10,13,12,12,10,13,15,12,9,11][i];
+ g.save(); // No artificial car ground shadow
+ g.fillStyle='#101217';for(const x of [rear+9,front-19])for(const y of [-B/2-5-tuneFor(v.id).offset*.24,B/2-4+tuneFor(v.id).offset*.24]){g.beginPath();g.roundRect(x,y,15,9,2);g.fill()}
+ // Each model has different silhouette, bumpers and nose.
+ g.beginPath();g.moveTo(rear+5,-B/2);g.lineTo(front-9,-B/2);g.lineTo(front, -B*.36);
+ g.lineTo(front+(i===13?2:0),B*.36);g.lineTo(front-9,B/2);g.lineTo(rear+5,B/2);
+ if(i===8||i===13){g.lineTo(rear-5,B*.39);g.lineTo(rear-5,-B*.39)}else{g.quadraticCurveTo(rear-5,B*.38,rear,-B*.2);g.lineTo(rear+5,-B/2)}g.closePath();g.fillStyle=q.color;g.fill();g.strokeStyle='#e9f4ff88';g.lineWidth=1.3;g.stroke();
+ // Long bonnets for muscle, compact cabin for mid-engine cars, hatchback for 180SX.
+ let r=roofStart,f=roofEnd;
+ g.fillStyle='#111f2b';g.beginPath();g.moveTo(r,-B*.38);g.lineTo(f-4,-B*.38);g.lineTo(f,B*.0-B*.24);g.lineTo(f,B*.24);g.lineTo(f-4,B*.38);g.lineTo(r,B*.38);g.closePath();g.fill();
+ g.strokeStyle='#a9dce4';g.lineWidth=1.2;g.stroke();
+ let pillar=i===1?r+6:r+(f-r)*.45;
+ g.strokeStyle='#a9c2ce';g.beginPath();g.moveTo(pillar,-B*.36);g.lineTo(pillar,B*.36);g.stroke();
+ if(i===1){g.fillStyle='#75a1b5';g.fillRect(rear+5,-B*.32,9,B*.64)}
+ if(i===9){g.strokeStyle='#f9fbff';g.beginPath();g.ellipse(f+4,0,7,B*.34,0,-Math.PI/2,Math.PI/2);g.stroke()}
+ if(i===10||i===12||i===14){g.fillStyle='#141e29';g.beginPath();g.moveTo(rear+7,-B*.34);g.lineTo(rear+21,-B*.25);g.lineTo(rear+21,B*.25);g.lineTo(rear+7,B*.34);g.fill()}
+ if(i===13){g.strokeStyle='#e9f7ff';g.lineWidth=3;g.beginPath();g.moveTo(front-17,-B*.32);g.lineTo(front-17,B*.32);g.stroke()}
+ if(i===6||i===7||i===8){g.fillStyle='#111820';g.fillRect(front-11,-B*.35,4,B*.7);g.strokeStyle='#ffffffaa';g.beginPath();g.moveTo(rear+16,0);g.lineTo(front-17,0);g.stroke()}
+ if(i===5){g.fillStyle='#222e3a';g.fillRect(front-17,-B*.19,8,B*.38)}
+ if(i===4){g.fillStyle='#242d37';g.fillRect(front-14,-B*.35,4,B*.7)}
+ if(i===15){g.fillStyle='#1a2230';g.fillRect(front-18,-B*.25,7,B*.5);g.strokeStyle='#ffffff88';g.strokeRect(rear+8,-B*.37,12,B*.74)}if(i===16){g.fillStyle='#161d25';g.fillRect(front-12,-B*.32,7,7);g.fillRect(front-12,B*.17,7,7)}if(i===17){g.fillStyle='#111b25';g.fillRect(front-20,-B*.3,12,5);g.fillRect(front-20,B*.18,12,5)}if(i===18){g.strokeStyle='#fff9';g.lineWidth=3;g.beginPath();g.moveTo(rear+18,0);g.lineTo(front-18,0);g.stroke()}if(i===19){g.fillStyle='#111b25';g.fillRect(rear+7,-B*.36,9,B*.72)}if(i===2){g.strokeStyle='#f4e9c0';g.beginPath();g.moveTo(front-8,-B*.36);g.lineTo(front-8,B*.36);g.stroke()}
+ // Different headlights and taillight signatures.
+ g.fillStyle='#ffebca';let light=cl>=2?10:7;
+ for(const side of [-1,1]){g.save();g.translate(front-5,side*(B*.29));g.rotate(side*(i===10||i===14?.5:.12));g.fillRect(-2,-3,4,light);g.restore()}
+ g.fillStyle='#ff304e';for(const side of [-1,1])g.fillRect(rear+1,side*B*.31-3,4,i===8?10:7);
+ if(q.wing){g.fillStyle='#17212b';g.fillRect(rear-5,-B*.59,5,B*1.18);g.fillRect(rear+1,-B*.4,5,3);g.fillRect(rear+1,B*.35,5,3)}
+ if(i===7){g.fillStyle='#121e29';g.fillRect(front-6,-B*.17,4,B*.34)}
+ if(i===11){g.fillStyle='#121b24';g.fillRect(rear+7,-B*.38,5,B*.76)}
+ g.strokeStyle='#ffffff55';g.beginPath();g.moveTo(rear+10,-B*.46);g.lineTo(front-11,-B*.46);g.moveTo(rear+10,B*.46);g.lineTo(front-11,B*.46);g.stroke();
+ // Model-specific livery, roof treatment, vents and aerodynamic accessories.
+ g.save();g.globalAlpha=.85;
+ if(['s15','s14','240sx'].includes(q.id)){g.strokeStyle='#fff8';g.lineWidth=2;g.beginPath();g.moveTo(rear+12,-B*.25);g.lineTo(front-18,-B*.25);g.stroke()}
+ if(q.id==='180sx'){g.fillStyle='#151c28';g.fillRect(rear+8,-B*.29,10,B*.58);g.fillStyle='#ffdf89';g.fillRect(front-14,-B*.34,7,5);g.fillRect(front-14,B*.2,7,5)}
+ if(q.id==='rx7'){g.fillStyle='#161d26';g.fillRect(front-25,-B*.32,12,5);g.fillRect(front-25,B*.18,12,5)}
+ if(q.id==='supra'){g.strokeStyle='#222b38';g.lineWidth=3;g.beginPath();g.moveTo(front-25,-B*.22);g.lineTo(front-15,-B*.22);g.moveTo(front-25,B*.22);g.lineTo(front-15,B*.22);g.stroke()}
+ if(cl===1){g.strokeStyle=i===8?'#171c22':'#f8f7e7';g.lineWidth=i===8?5:3;g.beginPath();g.moveTo(rear+19,-B*.13);g.lineTo(front-22,-B*.13);g.moveTo(rear+19,B*.13);g.lineTo(front-22,B*.13);g.stroke()}
+ if(cl>=2){g.fillStyle='#111a23';g.beginPath();g.moveTo(rear+9,-B*.29);g.lineTo(rear+22,-B*.18);g.lineTo(rear+22,B*.18);g.lineTo(rear+9,B*.29);g.fill();g.fillStyle='#dcecff66';g.fillRect(front-14,-B*.19,3,B*.38)}
+ if(q.id==='koenigsegg'){g.strokeStyle='#eafaff';g.lineWidth=2;g.beginPath();g.moveTo(rear+17,0);g.lineTo(front-15,0);g.stroke()}
+ if(q.id==='bugatti'){g.strokeStyle='#ecf5ff';g.lineWidth=2;g.beginPath();g.ellipse(front-15,0,7,B*.22,0,0,Math.PI*2);g.stroke()}
+ g.restore();g.restore();
+}
+function carPreview(v){
+ const q=shapeFor(v);const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+ // Use the same top-down shape as the playable car for honest garage previews.
+ const cv=document.createElement('canvas');cv.width=420;cv.height=210;const g=cv.getContext('2d');
+ let bg=g.createLinearGradient(0,0,420,210);bg.addColorStop(0,'#1b3444');bg.addColorStop(1,'#07121b');g.fillStyle=bg;g.fillRect(0,0,420,210);
+ g.strokeStyle='#ffffff12';g.lineWidth=1;for(let x=0;x<420;x+=30){g.beginPath();g.moveTo(x,0);g.lineTo(x,210);g.stroke()}for(let y=0;y<210;y+=30){g.beginPath();g.moveTo(0,y);g.lineTo(420,y);g.stroke()}
+ g.save();g.translate(210,108);g.scale(3.5,3.5);drawUniqueCar(g,v,true);g.restore();
+ g.fillStyle='#d9edf5';g.font='bold 13px system-ui';g.fillText(v.group.toUpperCase(),14,22);g.fillStyle='#ffffff99';g.font='11px system-ui';g.fillText(v.name.toUpperCase(),14,194);
+ return `<img src="${cv.toDataURL('image/png')}" alt="Unique top-down ${v.name} car preview" style="width:100%;height:100%;object-fit:contain">`;
+}
+function renderGarage(){document.querySelector('#credits').textContent=money(credits);document.querySelector('#garageMoney').textContent=money(credits)+' CR AVAILABLE';document.querySelector('#carGrid').innerHTML=[...CARS].sort((a,b)=>a.price-b.price).map(v=>{let has=owned.has(v.id),active=selected===v.id;return `<div class="carcard"><div class="swatch" style="background:linear-gradient(120deg,${v.color},#182838)">${carPreview(v)}</div><h3>${v.name}</h3><div class="price">${v.price===0?'FREE · STARTER':money(v.price)+' CR'}</div><div style="color:#8fffd8;font-weight:800;margin-top:5px">EARNINGS ×${carCreditMultiplier(v.price).toFixed(1)}</div><p>${v.desc}<br>Power ${Math.round(v.power*100)}% · Grip ${Math.round(v.grip*100)}% · Steering ${Math.round(v.steer*100)}%</p><button data-car="${v.id}" ${active?'disabled':''}>${active?'✓ CURRENT CAR':has?'DRIVE THIS CAR':credits>=v.price?'BUY CAR':'LOCKED · EARN CREDITS'}</button></div>`}).join('');document.querySelectorAll('[data-car]').forEach(b=>b.onclick=()=>{let v=CARS.find(x=>x.id===b.dataset.car);if(!owned.has(v.id)){if(credits<v.price){toast('Not enough credits — keep drifting!');return}credits-=v.price;owned.add(v.id);toast('Purchased '+v.name+'!')}selected=v.id;persist();renderGarage();reset();});renderTuning()}
+function renderTuning(){let v=currentCar(),t=tuneFor(),turbo=turboIds.has(v.id),shop=document.querySelector('#tuningShop');const items=[['engine','ENGINE',4,1600,'More torque and acceleration'],['turbo','TURBO',3,2600,'More boost and power'],['trans','TRANSMISSION',3,1900,'Improves power delivery and top speed']];shop.innerHTML=`<h2>🔧 TUNING SHOP · ${v.name}</h2><div style="color:#b4d4df">Upgrades are purchased per car. Alignment adjustments cost 250 CR per change. Your setup is saved.</div><div class="tuneGrid">${items.map(([id,name,max,cost,desc])=>{let level=t[id],price=cost*(level+1);return `<div class="tuneItem"><b>${name}</b><small>${desc}</small><div>Level ${level}/${max}</div><button data-upgrade="${id}" ${level>=max||credits<price||id==='turbo'&&!turbo?'disabled':''}>${id==='turbo'&&!turbo?'NOT TURBO EQUIPPED':level>=max?'MAX LEVEL':'UPGRADE · '+money(price)+' CR'}</button></div>`}).join('')}${[['camber','CAMBER',-8,8,'Degrees · negative for stance'],['toe','TOE',-5,5,'Steering response vs stability'],['offset','WHEEL OFFSET',-10,10,'Wheel poke / width']].map(([id,name,min,max,desc])=>`<div class="tuneItem"><b>${name}</b><small>${desc}</small><div>${t[id]>0?'+':''}${t[id]}${id==='offset'?' mm':'°'}</div><input data-align="${id}" type="range" min="${min}" max="${max}" step="1" value="${t[id]}"><button data-apply="${id}" disabled>SET ALIGNMENT · 250 CR</button></div>`).join('')}</div>`;shop.querySelectorAll('[data-upgrade]').forEach(b=>b.onclick=()=>{let id=b.dataset.upgrade,cost={engine:1600,turbo:2600,trans:1900}[id]*(t[id]+1);if(credits<cost)return;credits-=cost;t[id]++;persist();renderGarage();toast(id.toUpperCase()+' upgraded!')});shop.querySelectorAll('[data-align]').forEach(input=>{let id=input.dataset.align,btn=shop.querySelector(`[data-apply="${id}"]`);input.oninput=()=>{btn.disabled=+input.value===t[id]||credits<250;btn.textContent='SET '+(id==='offset'?input.value+' mm':input.value+'°')+' · 250 CR'};btn.onclick=()=>{if(credits<250)return;credits-=250;t[id]=+input.value;persist();renderGarage();toast(id.toUpperCase()+' adjusted!')}})}
+function setGarage(open){garageOpen=open;document.querySelector('#garage').classList.toggle('open',open);renderGarage();if(open)for(let k in keys)keys[k]=false}document.querySelector('#garageBtn').onclick=()=>setGarage(true);document.querySelector('#closeGarage').onclick=()=>setGarage(false);
+const c=document.querySelector('canvas'),ctx=c.getContext('2d');let W,H,dpr;function resize(){dpr=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;c.width=W*dpr;c.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0)}addEventListener('resize',resize);resize();
+const tracks=[
+{name:'Grand Prix Circuit',width:155,closed:true,pts:[[0,0],[250,-70],[570,-40],[820,130],[880,420],[710,670],[400,740],[100,660],[-190,720],[-460,590],[-570,300],[-510,20],[-320,-130]]},
+{name:'Mountain Touge',width:155,closed:true,pts:[[0,0],[210,-65],[440,-220],[600,-480],[480,-690],[230,-640],[30,-800],[110,-1040],[390,-1180],[680,-1080],[810,-1360],[620,-1570],[360,-1540],[180,-1790],[310,-2050],[650,-2190],[850,-2440],[670,-2700],[400,-2630],[220,-2880],[390,-3100],[720,-3260],[1050,-3150],[1270,-2940],[1360,-2660],[1250,-2430],[1410,-2220],[1530,-1970],[1380,-1760],[1490,-1510],[1550,-1260],[1400,-1030],[1520,-810],[1440,-560],[1230,-400],[1300,-170],[1170,90],[940,250],[720,200],[510,340],[280,290],[90,160],[-80,80],[-130,-20],[-80,-55]]},
+{name:'Figure 8 Drift Park',width:155,closed:true,pts:[[0,0],[200,-230],[490,-310],[720,-130],[640,120],[400,220],[120,100],[-110,-110],[-360,-270],[-610,-180],[-660,80],[-430,250],[-170,220]]},
+{name:'Drift Playground',width:155,closed:true,pts:[[0,0],[320,-120],[620,-50],[750,220],[610,460],[300,490],[100,340],[-160,470],[-460,400],[-610,170],[-460,-60],[-240,-120]]}
+ ];
+// Eleven additional purpose-built layouts, with deterministic, smooth closed loops.
+const extraLayouts=[
+ ['Cherry Blossom Pass',790,570,3,110,0.2],
+ ['Midnight Expressway',1050,390,2,95,1.4],
+ ['Desert Switchbacks',850,650,5,120,0.8],
+ ['Harbour Drift Loop',720,470,4,85,2.1],
+ ['Alpine Serpentine',940,720,6,145,0.5],
+ ['Neon City Ring',670,640,3,90,2.7],
+ ['Forest Roller',1010,520,5,110,1.8],
+ ['Sunset Speedway',1180,440,2,70,0.6],
+ ['Canyon Carousel',810,750,7,125,1.3],
+ ['Lakeside Circuit',1000,650,4,115,2.4],
+ ['Drift Academy',600,460,6,75,0.9]
+];
+for(const [name,rx,ry,waves,amplitude,phase] of extraLayouts){
+ let pts=[];const N=36;
+ for(let j=0;j<N;j++){
+  let t=j*2*Math.PI/N;
+  let varying=.53+.47*Math.sin(t*2+phase-.8)**2;let ripple=amplitude*varying*Math.sin(waves*t+phase)+amplitude*.19*Math.sin((waves+2)*t-phase*1.7);
+  pts.push([Math.round((rx+ripple)*Math.cos(t)),Math.round((ry+ripple*.65)*Math.sin(t))]);
+ }
+ tracks.push({name,width:155,closed:true,pts});
+}
+let trackId=0,roadWidth=155,samples=[],scenery=[];let nightMode=false;function toggleNight(){nightMode=!nightMode;document.querySelector('#dayBtn').textContent=nightMode?'☾ NIGHT · N TO CHANGE':'☀ DAY · N TO CHANGE'}document.querySelector('#dayBtn').onclick=toggleNight;
+const trackMenu=document.querySelector('#trackSelect');for(let i=4;i<tracks.length;i++){let opt=document.createElement('option');opt.value=i;opt.textContent=(i+1)+' · '+tracks[i].name;trackMenu.appendChild(opt)}
+function cat(a,b,c,d,t){return .5*((2*b)+(-a+c)*t+(2*a-5*b+4*c-d)*t*t+(-a+3*b-3*c+d)*t*t*t)}
+function buildTrack(){let tr=tracks[trackId],p=tr.pts;roadWidth=tr.width;samples=[];let segments=tr.closed?p.length:p.length-1;for(let i=0;i<segments;i++)for(let j=0;j<24;j++){let t=j/24,at=k=>p[tr.closed?(k+p.length)%p.length:Math.max(0,Math.min(p.length-1,k))];samples.push({x:cat(at(i-1)[0],at(i)[0],at(i+1)[0],at(i+2)[0],t),y:cat(at(i-1)[1],at(i)[1],at(i+1)[1],at(i+2)[1],t)})}if(!tr.closed)samples.push({x:p.at(-1)[0],y:p.at(-1)[1]});scenery=[];let xs=p.map(q=>q[0]),ys=p.map(q=>q[1]),xmin=Math.min(...xs)-480,xmax=Math.max(...xs)+480,ymin=Math.min(...ys)-480,ymax=Math.max(...ys)+480;for(let i=0;i<1300;i++){let x=xmin+Math.random()*(xmax-xmin),y=ymin+Math.random()*(ymax-ymin);if(nearest(x,y).d>roadWidth/2+30)scenery.push({x,y,r:4+Math.random()*13,t:Math.random()})}}
+function nearest(x,y){let best=Infinity,index=0;for(let i=0;i<samples.length;i++){let p=samples[i],d=(p.x-x)**2+(p.y-y)**2;if(d<best){best=d;index=i}}return {d:Math.sqrt(best),index}}buildTrack();let start=samples[0],next=samples[5];let car,lap=1,lapStart=performance.now(),best=Infinity,lastIndex=0,passedHalf=false;function reset(){start=samples[0];next=samples[5];car={x:start.x,y:start.y,a:Math.atan2(next.y-start.y,next.x-start.x),vx:0,vy:0,slip:0,slideMode:false,gripDelay:0};lapStart=performance.now();passedHalf=false;lastIndex=0}reset();let totalPoints=0,comboPoints=0,comboTime=0,comboMultiplier=1,bestDrift=0;function changeTrack(id,remote=false){if(multiConnected&&!multiHost&&!remote){toast("Only the room host can change tracks");return;}if(multiConnected&&!remote)sendMulti({type:"track",track:id});trackId=id;buildTrack();lap=1;best=Infinity;totalPoints=0;comboPoints=0;comboTime=0;comboMultiplier=1;particles=[];reset();cam.x=car.x;cam.y=car.y;document.querySelector('#trackSelect').value=String(id)}document.querySelector('#trackSelect').onchange=e=>changeTrack(+e.target.value);document.querySelector('#reset').onclick=reset;const keys={};addEventListener('keydown',e=>{keys[e.code]=true;if(['Space','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.code))e.preventDefault();if(e.code==='KeyR'&&!garageOpen)reset();if(e.code==='KeyN'&&!e.repeat)toggleNight();if(e.code==='KeyM'&&!e.repeat)toggleMulti();if(e.code==='KeyG'&&!e.repeat)setGarage(!garageOpen);if(e.code==='Escape'&&garageOpen)setGarage(false);if(['Digit1','Digit2','Digit3','Digit4'].includes(e.code))changeTrack(Number(e.code.slice(-1))-1)});addEventListener('keyup',e=>keys[e.code]=false);// Standard Gamepad API: Xbox/GameSir style mapping, polled each frame.
+let padState={steer:0,gas:0,brake:0,hand:false},padPrev=[];
+function pollPad(){
+ const pads=navigator.getGamepads?navigator.getGamepads():[];
+ const p=Array.from(pads||[]).find(v=>v&&v.connected);
+ if(!p){padState={steer:0,gas:0,brake:0,hand:false};padPrev=[];return;}
+ const axis=p.axes[0]||0;
+ padState.steer=Math.abs(axis)>.12?Math.sign(axis)*(Math.abs(axis)-.12)/.88:0;
+ const b=i=>p.buttons[i]?.pressed||false;
+ const val=i=>p.buttons[i]?.value||0;
+ padState.gas=Math.max(val(7),p.axes.length>5?(p.axes[5]+1)/2:0);
+ padState.brake=Math.max(val(6),p.axes.length>4?(p.axes[4]+1)/2:0);
+ padState.hand=b(0);
+ const rising=i=>b(i)&&!padPrev[i];
+ if(rising(3))setGarage(!garageOpen);
+ if(rising(2))toggleNight();
+ if(rising(1)&&!garageOpen)reset();
+ if(rising(14))changeTrack((trackId+tracks.length-1)%tracks.length);
+ if(rising(15))changeTrack((trackId+1)%tracks.length);
+ if(rising(9)&&garageOpen)setGarage(false);
+ padPrev=p.buttons.map(x=>x.pressed);
+}
+let cam={x:car.x,y:car.y},particles=[],time=0;function path(){ctx.beginPath();samples.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));if(tracks[trackId].closed)ctx.closePath()}function stroke(width,color,dash=[]){ctx.save();path();ctx.lineWidth=width;ctx.strokeStyle=color;ctx.lineJoin='round';ctx.lineCap='round';ctx.setLineDash(dash);ctx.stroke();ctx.restore()}
+const themes=[
+ ['park','#294f32','tree'],['mountain','#355044','pine'],['arena','#40535c','cone'],['industrial','#555b55','barrel'],
+ ['cherry','#56684b','cherry'],['night','#202b43','lamp'],['desert','#947447','cactus'],['harbour','#45616b','container'],
+ ['alpine','#426051','pine'],['neon','#242c48','neon'],['forest','#294c37','pine'],['sunset','#80634b','palm'],
+ ['canyon','#9b6847','rock'],['lake','#416f68','reed'],['academy','#555b62','cone']
+];
+function drawSceneryItem(o){
+ const kind=themes[trackId][2],x=o.x,y=o.y,r=o.r;
+ ctx.save();ctx.translate(x,y);
+ ctx.fillStyle='#0004';ctx.beginPath();ctx.ellipse(5,7,r*1.2,r*.65,0,0,Math.PI*2);ctx.fill();
+ if(kind==='pine'){ctx.fillStyle='#513c2b';ctx.fillRect(-2,0,4,r*.9);for(let k=0;k<3;k++){ctx.fillStyle=k%2?'#235b45':'#174935';ctx.beginPath();ctx.moveTo(0,-r*1.9+k*r*.52);ctx.lineTo(-r*.95,r*.45+k*r*.25);ctx.lineTo(r*.95,r*.45+k*r*.25);ctx.fill();}}
+ else if(kind==='cherry'||kind==='tree'){ctx.fillStyle='#66462e';ctx.fillRect(-2,-r*.3,4,r*1.2);for(let k=0;k<3;k++){ctx.fillStyle=kind==='cherry'?['#f7a8d0','#ffd0e2','#dd7eb3'][k]:['#245b37','#387f45','#4e9553'][k];ctx.beginPath();ctx.arc((k-1)*r*.45,-r*.55+(k%2)*r*.3,r*.65,0,7);ctx.fill();}}
+ else if(kind==='cone'){ctx.fillStyle='#f18d2b';ctx.beginPath();ctx.moveTo(0,-r);ctx.lineTo(-r*.7,r);ctx.lineTo(r*.7,r);ctx.fill();ctx.fillStyle='#fff';ctx.fillRect(-r*.42,0,r*.84,3);}
+ else if(kind==='barrel'){ctx.fillStyle='#a65a37';ctx.fillRect(-r*.65,-r,r*1.3,r*2);ctx.fillStyle='#ddd';ctx.fillRect(-r*.65,-r*.5,r*1.3,3);ctx.fillRect(-r*.65,r*.5,r*1.3,3);}
+ else if(kind==='cactus'){ctx.strokeStyle='#276b40';ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(0,r);ctx.lineTo(0,-r);ctx.moveTo(0,0);ctx.lineTo(-r*.6,0);ctx.lineTo(-r*.6,-r*.55);ctx.moveTo(0,r*.3);ctx.lineTo(r*.6,r*.3);ctx.lineTo(r*.6,-r*.2);ctx.stroke();}
+ else if(kind==='container'){ctx.fillStyle=['#b85242','#3e87a3','#e1a24c'][Math.floor(o.t*3)];ctx.fillRect(-r*1.5,-r*.8,r*3,r*1.6);ctx.strokeStyle='#ffffff55';for(let i=-1;i<=1;i++){ctx.beginPath();ctx.moveTo(i*r*.6,-r*.8);ctx.lineTo(i*r*.6,r*.8);ctx.stroke();}}
+ else if(kind==='lamp'||kind==='neon'){ctx.fillStyle='#414c5a';ctx.fillRect(-2,-r*1.5,4,r*2);ctx.fillStyle=kind==='neon'?'#ff5cf2':'#ffe7a1';ctx.shadowColor=ctx.fillStyle;ctx.shadowBlur=18;ctx.beginPath();ctx.arc(0,-r*1.5,5,0,7);ctx.fill();ctx.shadowBlur=0;}
+ else if(kind==='palm'){ctx.strokeStyle='#6c4831';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(0,r);ctx.lineTo(0,-r*.8);ctx.stroke();ctx.strokeStyle='#31734d';ctx.lineWidth=5;for(let i=0;i<6;i++){let a=i*Math.PI/3;ctx.beginPath();ctx.moveTo(0,-r*.8);ctx.lineTo(Math.cos(a)*r*1.3,-r*.8+Math.sin(a)*r*.9);ctx.stroke();}}
+ else if(kind==='rock'){ctx.fillStyle=o.t>.5?'#a67b59':'#795943';ctx.beginPath();ctx.moveTo(-r,0);ctx.lineTo(-r*.3,-r);ctx.lineTo(r*.7,-r*.65);ctx.lineTo(r,r*.5);ctx.lineTo(-r*.4,r*.8);ctx.fill();}
+ else if(kind==='reed'){ctx.strokeStyle='#c3bd6b';ctx.lineWidth=2;for(let i=-2;i<=2;i++){ctx.beginPath();ctx.moveTo(i*3,r);ctx.lineTo(i*5,-r*.7);ctx.stroke();}}
+ ctx.restore();
+}
+function draw(){ctx.fillStyle=themes[trackId][1];ctx.fillRect(0,0,W,H);ctx.save();ctx.translate(W/2,H/2);let zoom=Math.max(.53,Math.min(.9,Math.min(W/1150,H/780)));ctx.scale(zoom,zoom);ctx.translate(-cam.x,-cam.y);let tile=100;let l=cam.x-W/zoom/2-150,r=cam.x+W/zoom/2+150,t=cam.y-H/zoom/2-150,b=cam.y+H/zoom/2+150;for(let x=Math.floor(l/tile)*tile;x<r;x+=tile)for(let y=Math.floor(t/tile)*tile;y<b;y+=tile){let v=(Math.sin(x*0.037+y*.043)+1)/2;ctx.fillStyle=v>.5?themes[trackId][1]:'#00000012';ctx.fillRect(x,y,tile,tile)}for(let o of scenery){if(o.x<l||o.x>r||o.y<t||o.y>b)continue;drawSceneryItem(o)}
+
+// Layered circuit surface: shoulders, clean asphalt, realistic edge paint and subtle wear.
+stroke(roadWidth+30,'#1b2528');
+stroke(roadWidth+23,'#6a6761');
+stroke(roadWidth+17,'#d9d7cd');
+stroke(roadWidth+11,'#b93b36',[22,22]);
+stroke(roadWidth-4,'#262c30');
+stroke(roadWidth-13,'#343a3d');
+// Asphalt grain, confined to the actual road shape.
+ctx.save();path();ctx.lineWidth=roadWidth-15;ctx.lineCap='round';ctx.lineJoin='round';ctx.strokeStyle='#343a3d';ctx.stroke();
+ctx.beginPath();samples.forEach((pt,i)=>i?ctx.lineTo(pt.x,pt.y):ctx.moveTo(pt.x,pt.y));if(tracks[trackId].closed)ctx.closePath();ctx.lineWidth=roadWidth-17;ctx.strokeStyle='#ffffff';
+// Clip to the stroke using a stroked Path2D so texture never spills onto grass.
+let asphaltPath=new Path2D();samples.forEach((pt,i)=>i?asphaltPath.lineTo(pt.x,pt.y):asphaltPath.moveTo(pt.x,pt.y));if(tracks[trackId].closed)asphaltPath.closePath();
+// Sparse aggregate texture on asphalt.
+for(let j=0;j<samples.length;j+=3){let pt=samples[j],n=samples[(j+1)%samples.length],ang=Math.atan2(n.y-pt.y,n.x-pt.x),nx=-Math.sin(ang),ny=Math.cos(ang);for(let k=-3;k<=3;k++){let off=k*(roadWidth-29)/8,noise=Math.sin(j*13.73+k*24.19)*2;ctx.fillStyle=(j+k)%3===0?'#ffffff0b':'#00000012';ctx.fillRect(pt.x+nx*(off+noise),pt.y+ny*(off+noise),2.3,2.3)}}
+ctx.restore();
+// Solid boundary paint, dashed middle lane and darker tyre-worn racing lines.
+stroke(roadWidth-24,'#cbd2d0');stroke(roadWidth-29,'#343a3d');
+stroke(roadWidth*.43,'#24292d22');
+stroke(3,'#e7dfb899',[20,19]);
+for(let i=0;i<samples.length;i+=9){let pt=samples[i],n=samples[(i+1)%samples.length],ang=Math.atan2(n.y-pt.y,n.x-pt.x);ctx.save();ctx.translate(pt.x,pt.y);ctx.rotate(ang);for(let side of [-1,1]){ctx.fillStyle=i%18===0?'#f5eee0':'#f1d27b';ctx.fillRect(-3,side*(roadWidth/2+13)-3,6,6)}ctx.restore()}
+let p=samples[0],n=samples[1],a=Math.atan2(n.y-p.y,n.x-p.x);ctx.save();ctx.translate(p.x,p.y);ctx.rotate(a);for(let y=-roadWidth/2+8;y<roadWidth/2-8;y+=13)for(let x=-10;x<10;x+=10){ctx.fillStyle=((Math.floor((y+roadWidth/2)/13)+Math.floor((x+10)/10))%2)?'#111':'#fff';ctx.fillRect(x,y,10,13)}ctx.restore();for(let s of particles){ctx.globalAlpha=Math.min(.56,(s.life/s.maxLife)*.52);let fog=ctx.createRadialGradient(s.x,s.y,0,s.x,s.y,s.r);fog.addColorStop(0,'#e7edf0cc');fog.addColorStop(.55,'#d5dce288');fog.addColorStop(1,'#bfcbd000');ctx.fillStyle=fog;ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,7);ctx.fill()}ctx.globalAlpha=1;
+drawRemoteCars();
+ctx.save();ctx.translate(car.x,car.y);ctx.rotate(car.a);
+// Model-specific body shapes match the garage previews.
+drawUniqueCar(ctx,currentCar());
+ctx.restore();ctx.restore();
+if(nightMode){
+ // Darken the environment, then add actual warm/cool light rather than dark cut-outs.
+ const sx=W/2+(car.x-cam.x)*zoom,sy=H/2+(car.y-cam.y)*zoom;
+ const dx=Math.cos(car.a),dy=Math.sin(car.a),nx=-dy,ny=dx;
+ const model=currentCar();
+ const warmIds=new Set(['ae86','180sx','240sx','s14','s15','rx7','supra','mustang','camaro','challenger','viper']);
+ const warm=warmIds.has(model.id);
+ const core=warm?'255,225,133':'225,243,255';
+ const haloColor=warm?'255,198,85':'180,222,255';
+ ctx.save();ctx.fillStyle='rgba(3,8,22,.83)';ctx.fillRect(0,0,W,H);
+ // Use screen blending so headlights visibly BRIGHTEN the road.
+ ctx.globalCompositeOperation='screen';
+ for(const side of [-1,1]){
+  const bx=sx+dx*23*zoom+nx*side*11*zoom;
+  const by=sy+dy*23*zoom+ny*side*11*zoom;
+  const length=390*zoom, width=125*zoom;
+  ctx.save();ctx.translate(bx,by);ctx.rotate(car.a);
+  const cone=ctx.createLinearGradient(0,0,length,0);
+  cone.addColorStop(0,`rgba(${core},.49)`);
+  cone.addColorStop(.30,`rgba(${core},.27)`);
+  cone.addColorStop(1,`rgba(${core},0)`);
+  ctx.fillStyle=cone;ctx.beginPath();ctx.moveTo(0,-5*zoom);
+  ctx.quadraticCurveTo(length*.45,-width*.46,length,-width);
+  ctx.lineTo(length,width);
+  ctx.quadraticCurveTo(length*.45,width*.46,0,5*zoom);
+  ctx.closePath();ctx.fill();ctx.restore();
+  for(let i=1;i<=7;i++){
+   const t=i/8,dist=(30+320*t)*zoom;
+   const x=bx+dx*dist,y=by+dy*dist,r=(21+76*t)*zoom;
+   const glow=ctx.createRadialGradient(x,y,0,x,y,r);
+   glow.addColorStop(0,`rgba(${haloColor},${.23*(1-t)+.025})`);
+   glow.addColorStop(1,`rgba(${haloColor},0)`);
+   ctx.fillStyle=glow;ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fill();
+  }
+ }
+ ctx.globalCompositeOperation='source-over';
+ // Bright white or yellow lamp housings remain visible on the car.
+ for(const side of [-1,1]){
+  const x=sx+dx*24*zoom+nx*side*11*zoom;
+  const y=sy+dy*24*zoom+ny*side*11*zoom;
+  const bulb=ctx.createRadialGradient(x,y,0,x,y,11*zoom);
+  bulb.addColorStop(0,warm?'#fff3bc':'#ffffff');
+  bulb.addColorStop(.32,warm?'rgba(255,214,99,.85)':'rgba(210,237,255,.85)');
+  bulb.addColorStop(1,'rgba(255,255,255,0)');
+  ctx.fillStyle=bulb;ctx.beginPath();ctx.arc(x,y,11*zoom,0,Math.PI*2);ctx.fill();
+ }
+ ctx.restore();
+}
+}
+function nearOffTrack(){return nearest(car.x,car.y).d>roadWidth/2+55}
+let grassComboTime=0;
+function update(dt){if(garageOpen)return;time+=dt;let gas=Math.max((keys.KeyW||keys.ArrowUp)?1:0,padState.gas),brake=Math.max((keys.KeyS||keys.ArrowDown)?1:0,padState.brake),left=keys.KeyA||keys.ArrowLeft,right=keys.KeyD||keys.ArrowRight,hand=keys.Space||padState.hand;let fx=Math.cos(car.a),fy=Math.sin(car.a),rx=-fy,ry=fx;let forward=car.vx*fx+car.vy*fy,lateral=car.vx*rx+car.vy*ry;let on=nearest(car.x,car.y).d<roadWidth/2-7;let accel=(on?330:295)*tunedPower()*(1+tuneFor().trans*.045); if(gas){car.vx+=fx*accel*dt*gas;car.vy+=fy*accel*dt*gas}if(brake){let amount=forward>12?-460:-140;car.vx+=fx*amount*dt*brake;car.vy+=fy*amount*dt*brake}let steer=Math.max(-1,Math.min(1,(right?1:0)-(left?1:0)+padState.steer));let speed=Math.hypot(car.vx,car.vy);let steerFactor=Math.min(1,Math.abs(forward)/95);car.a+=steer*steerFactor*(hand?3.3:2.05)*tunedSteer()*dt*(forward>=0?1:-1);// Low grip during a drift; regain normal traction only after 2 seconds
+// of travelling mostly straight without using the handbrake.
+const slidingNow=hand || (Math.abs(lateral)>34 && speed>48);
+if(slidingNow){car.slideMode=true;car.gripDelay=0;}
+else if(car.slideMode){
+  if(Math.abs(lateral)<24 && !hand){car.gripDelay+=dt;}
+  else {car.gripDelay=0;}
+  if(car.gripDelay>=2){car.slideMode=false;car.gripDelay=0;}
+}
+// Subtle self-alignment when the driver releases steering after a slide.
+// Do not fight active countersteering or drift initiation.
+if(!steer&&!hand&&!car.slideMode&&speed>18&&Math.abs(lateral)<30){
+ const travel=Math.atan2(car.vy,car.vx)+(forward<0?Math.PI:0);
+ let delta=Math.atan2(Math.sin(travel-car.a),Math.cos(travel-car.a));
+ car.a+=Math.max(-.6*dt,Math.min(.6*dt,delta*.85*dt));
+}
+// Gentle drift grip prevents snapping straight immediately after initiation.
+let grip=(hand?.35:car.slideMode?(on?1.65:1.25):(on?4.5:3.1))*tunedGrip();
+car.vx-=rx*lateral*Math.min(1,grip*dt);car.vy-=ry*lateral*Math.min(1,grip*dt);let drag=on?.33:.42;car.vx*=Math.exp(-drag*dt);car.vy*=Math.exp(-drag*dt);speed=Math.hypot(car.vx,car.vy);let max=(on?405:350)*Math.min(1.5,Math.sqrt(tunedPower())*(1+tuneFor().trans*.035));if(speed>max){car.vx*=max/speed;car.vy*=max/speed}car.x+=car.vx*dt;car.y+=car.vy*dt;let slide=Math.abs(lateral);car.slip=slide;if((slide>30&&speed>45)||(hand&&speed>40)){
+ const intensity=Math.min(1.8,(slide/75)+(hand?.35:0));
+ for(let k=0;k<Math.min(5,Math.ceil(intensity*2.5));k++){
+  const side=k%2?-1:1,life=1.0+Math.random()*.65;
+  particles.push({x:car.x-fx*29+rx*side*13+(Math.random()-.5)*7,y:car.y-fy*29+ry*side*13+(Math.random()-.5)*7,life,maxLife:life,r:7+Math.random()*7,expand:15+Math.random()*16,vx:-fx*(13+Math.random()*14)+(Math.random()-.5)*17,vy:-fy*(13+Math.random()*14)+(Math.random()-.5)*17});
+ }
+}
+for(let s of particles){s.life-=dt;s.x+=s.vx*dt;s.y+=s.vy*dt;s.r+=s.expand*dt;}
+particles=particles.filter(s=>s.life>0);if(particles.length>320)particles.splice(0,particles.length-320);cam.x+=(car.x-cam.x)*Math.min(1,dt*4);cam.y+=(car.y-cam.y)*Math.min(1,dt*4);let driftAngle=Math.atan2(Math.abs(lateral),Math.max(12,Math.abs(forward)))*180/Math.PI;let signedAngle=Math.atan2(lateral,Math.abs(forward)+0.001)*180/Math.PI;document.querySelector('#angle').textContent='DRIFT ANGLE '+Math.round(Math.abs(signedAngle))+'°';document.querySelector('#direction').textContent=speed<12?'STRAIGHT':Math.abs(signedAngle)<5?'STRAIGHT':signedAngle>0?'SLIDING RIGHT':'SLIDING LEFT';let roadDistance=nearest(car.x,car.y).d;
+// Entire car may hang slightly over the road edge. Farther out is grass.
+let scoringSurface=roadDistance<=roadWidth/2+23;
+let onGrass=!scoringSurface;
+if(onGrass)grassComboTime+=dt;else grassComboTime=0;
+let validDrift=scoringSurface&&speed>55&&driftAngle>9&&driftAngle<89;
+if(comboPoints>0&&onGrass){
+  // Stopping on grass safely banks the existing combo instead of losing it.
+  if(speed<12){
+    let earned=Math.floor(comboPoints);totalPoints+=earned;
+    let payout=driftPayout(earned);credits+=payout;persist();
+    document.querySelector('#credits').textContent=money(credits);
+    bestDrift=Math.max(bestDrift,earned);
+    comboPoints=0;comboMultiplier=1;comboTime=0;grassComboTime=0;
+    toast('+'+money(payout)+' CR · GRASS STOP BANKED');
+  }else if(grassComboTime>=2.5){
+    comboPoints=0;comboMultiplier=1;comboTime=0;
+    toast('GRASS TIMEOUT · COMBO LOST');
+  }
+}else if(validDrift){
+  comboTime=3.0;comboMultiplier=Math.min(5,comboMultiplier+dt*.29);
+  comboPoints+=dt*(driftAngle*3+speed*.18)*comboMultiplier;
+}else if(comboPoints>0){
+  comboTime-=dt;
+  // Do not erase a long drift for a momentary high angle or physics spike.
+  // Bank the earned score only after the car has stopped drifting for 3 seconds.
+  if(comboTime<=0){
+    let earned=Math.floor(comboPoints);totalPoints+=earned;
+    let payout=driftPayout(earned);credits+=payout;persist();
+    document.querySelector('#credits').textContent=money(credits);
+    toast('+'+money(payout)+' CR · DRIFT BANKED');
+    bestDrift=Math.max(bestDrift,earned);
+    comboPoints=0;comboMultiplier=1;
+  }
+}
+document.querySelector('#points').textContent=Math.floor(comboPoints).toLocaleString();document.querySelector('#combo').textContent=(comboPoints>0?'DRIFT +'+Math.floor(comboPoints).toLocaleString()+'  x'+comboMultiplier.toFixed(1):'COMBO x1.0')+' · CR ×'+carCreditMultiplier().toFixed(1);document.querySelector('#bank').textContent=onGrass&&comboPoints>0?'GRASS · '+Math.max(0,2.5-grassComboTime).toFixed(1)+'s TO RETURN':'BEST DRIFT '+bestDrift.toLocaleString();
+let near=nearest(car.x,car.y),index=near.index;if(index>samples.length*.48&&index<samples.length*.7)passedHalf=true;if(tracks[trackId].closed&&passedHalf&&lastIndex>samples.length*.9&&index<samples.length*.1&&near.d<roadWidth/2){let elapsed=(performance.now()-lapStart)/1000;best=Math.min(best,elapsed);lap++;lapStart=performance.now();passedHalf=false}if(!tracks[trackId].closed&&index>=samples.length-5&&near.d<roadWidth/2){lap++;lapStart=performance.now();reset()}lastIndex=index;document.querySelector('#speed').innerHTML=Math.round(speed*.28)+' <small>MPH</small>';document.querySelector('#status').textContent=!on?'OFF TRACK':slide>50?'DRIFTING +':'GRIP';document.querySelector('#status').style.color=!on?'#ff8b76':slide>50?'#ffbd62':'#92d8ff';let sec=(performance.now()-lapStart)/1000;function fmt(t){return String(Math.floor(t/60)).padStart(2,'0')+':'+(t%60).toFixed(1).padStart(4,'0')}document.querySelector('#lap').textContent=(tracks[trackId].closed?'LAP ':'STAGE ')+lap+' · '+fmt(sec);document.querySelector('#best').textContent='BEST '+(isFinite(best)?fmt(best):'—')}
+let prev=performance.now();function frame(now){pollPad();let dt=Math.min((now-prev)/1000,.04);prev=now;for(let i=0;i<Math.ceil(dt/.012);i++)update(dt/Math.ceil(dt/.012));draw();sendPosition(now);requestAnimationFrame(frame)}requestAnimationFrame(frame);renderGarage();
+
+// Private-room multiplayer: authoritative membership/track, client-side driving physics.
+const multiPanel=document.querySelector('#multiPanel'),roomStatus=document.querySelector('#roomStatus'),multiInfo=document.querySelector('#multiInfo');
+let multiSocket=null,multiConnected=false,multiHost=false,multiRoom='',multiId='',multiPlayers=new Map(),multiLastSent=0;
+const multiName=document.querySelector('#driverName');
+try{multiName.value=localStorage.getItem('apex_driver_name')||''}catch(e){}
+function toggleMulti(force){multiPanel.classList.toggle('open',force===undefined?!multiPanel.classList.contains('open'):force)}
+document.querySelector('#multiBtn').onclick=()=>toggleMulti();document.querySelector('#closeMulti').onclick=()=>toggleMulti(false);
+function multiStatus(message){roomStatus.textContent=message}
+function sendMulti(data){if(multiSocket&&multiSocket.readyState===1)multiSocket.send(JSON.stringify(data))}
+function updatePlayers(){const list=[...multiPlayers.values()];document.querySelector('#playerList').textContent=list.length?'DRIVERS: '+list.map(p=>p.name+(p.id===multiId?' (you)':'')).join(' · '):'';document.querySelector('#roomCodeView').textContent=multiRoom?'ROOM: '+multiRoom:'';multiInfo.textContent=multiConnected?'ROOM '+multiRoom+' · '+list.length+'/8 DRIVERS'+(multiHost?' · HOST':''):'SOLO · OFFLINE'}
+function connectRoom(action){const name=multiName.value.trim().replace(/[^\w \-]/g,'').slice(0,18)||'Driver';const code=document.querySelector('#joinCode').value.trim().toUpperCase();if(action==='join'&&!/^[A-Z0-9]{6}$/.test(code)){multiStatus('Enter a valid six-character room code.');return}try{localStorage.setItem('apex_driver_name',name)}catch(e){}if(multiSocket){multiSocket.onclose=null;multiSocket.close()}multiConnected=false;multiPlayers.clear();updatePlayers();multiStatus('Connecting to game server…');const proto=location.protocol==='https:'?'wss:':'ws:';const socket=new WebSocket(proto+'//'+location.host);multiSocket=socket;socket.onopen=()=>sendMulti({type:action,name,code});socket.onmessage=e=>{let msg;try{msg=JSON.parse(e.data)}catch{return}if(msg.type==='error'){multiStatus(msg.message);return}if(msg.type==='joined'){multiConnected=true;multiRoom=msg.code;multiId=msg.id;multiHost=msg.host===msg.id;multiPlayers=new Map(msg.players.map(p=>[p.id,p]));if(Number.isInteger(msg.track)&&msg.track>=0&&msg.track<tracks.length)changeTrack(msg.track,true);multiStatus('Connected! Share code '+multiRoom+' with friends.');updatePlayers();return}if(msg.type==='roster'){multiPlayers=new Map(msg.players.map(p=>[p.id,p]));multiHost=msg.host===multiId;updatePlayers();return}if(msg.type==='track'&&Number.isInteger(msg.track)&&msg.track>=0&&msg.track<tracks.length){changeTrack(msg.track,true);toast('Host changed the track');return}if(msg.type==='position'&&msg.id!==multiId){let p=multiPlayers.get(msg.id);if(p&&Number.isFinite(msg.x)&&Number.isFinite(msg.y)&&Number.isFinite(msg.a)){p.x=msg.x;p.y=msg.y;p.a=msg.a;p.carId=msg.carId;p.seen=performance.now()}}};socket.onerror=()=>multiStatus('Connection failed. Open the game through its hosted website.');socket.onclose=()=>{if(multiSocket!==socket)return;multiConnected=false;multiHost=false;multiRoom='';multiPlayers.clear();updatePlayers();multiStatus('Disconnected. Create or join a room to reconnect.')};}
+document.querySelector('#createRoom').onclick=()=>connectRoom('create');document.querySelector('#joinRoom').onclick=()=>connectRoom('join');document.querySelector('#leaveRoom').onclick=()=>{if(multiSocket)multiSocket.close();multiConnected=false;multiRoom='';multiPlayers.clear();updatePlayers();multiStatus('Left the room.')};
+function sendPosition(now){if(!multiConnected||now-multiLastSent<65)return;multiLastSent=now;sendMulti({type:'position',x:Math.round(car.x*10)/10,y:Math.round(car.y*10)/10,a:car.a,carId:selected})}
+function drawRemoteCars(){for(const p of multiPlayers.values()){if(p.id===multiId||!Number.isFinite(p.x)||!Number.isFinite(p.y)||performance.now()-p.seen>2500)continue;const model=CARS.find(c=>c.id===p.carId)||CARS[0];ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.a);ctx.globalAlpha=.88;drawUniqueCar(ctx,model);ctx.restore();ctx.save();ctx.textAlign='center';ctx.font='bold 16px system-ui';ctx.lineWidth=4;ctx.strokeStyle='#061320';ctx.strokeText(p.name,p.x,p.y-43);ctx.fillStyle='#b7f5ff';ctx.fillText(p.name,p.x,p.y-43);ctx.restore()}}
+updatePlayers();
+</script></body></html>
