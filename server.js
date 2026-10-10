@@ -17,13 +17,14 @@ function cookie(req,name){const all=req.headers.cookie||'';const part=all.split(
 function authed(req){const token=cookie(req,'apex_owner');if(!token)return false;const exp=sessions.get(token);if(!exp)return false;if(Date.now()>exp){sessions.delete(token);return false}return true}
 function cookieHeader(req,token,expire=false){const secure=req.socket.encrypted||req.headers['x-forwarded-proto']==='https:'||req.headers['x-forwarded-proto']==='https';return 'apex_owner='+token+'; Path=/api/admin; HttpOnly; SameSite=Strict; '+(secure?'Secure; ':'')+(expire?'Max-Age=0':'Max-Age=28800')}
 function readJson(req){return new Promise((resolve,reject)=>{let raw='';req.on('data',chunk=>{raw+=chunk;if(raw.length>2048){reject(Error('Too large'));req.destroy()}});req.on('end',()=>{try{resolve(JSON.parse(raw||'{}'))}catch(e){reject(e)}});req.on('error',reject)})}
-function sameOrigin(req){const origin=req.headers.origin;if(!origin)return false;try{const u=new URL(origin);return u.host===req.headers.host&&u.protocol===(req.headers['x-forwarded-proto']==='https'?'https:':'http:')}catch{return false}}
+function sameOrigin(req){const origin=req.headers.origin;if(!origin)return false;try{const u=new URL(origin);return u.host===req.headers.host&&u.protocol===(String(req.headers['x-forwarded-proto']||'http').split(',')[0].trim()==='https'?'https:':'http:')}catch{return false}}
 function safeEqual(a,b){const x=crypto.createHash('sha256').update(a).digest(),y=crypto.createHash('sha256').update(b).digest();return crypto.timingSafeEqual(x,y)}
 const server=http.createServer(async(req,res)=>{
   const pathname=new URL(req.url,'http://localhost').pathname;
   if(pathname==='/'||pathname==='/index.html'){
     res.writeHead(200,{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store','X-Content-Type-Options':'nosniff'});return res.end(html);
   }
+  if(pathname==='/owner'||pathname==='/owner/'){res.writeHead(302,{'Location':'/?owner=1','Cache-Control':'no-store'});return res.end()}
   if(pathname==='/health'){res.writeHead(200,{'Content-Type':'text/plain'});return res.end('OK')}
   if(pathname==='/api/admin/status'&&req.method==='GET')return json(res,200,{authenticated:authed(req)});
   if(pathname.startsWith('/api/admin/')&&req.method==='POST'){
