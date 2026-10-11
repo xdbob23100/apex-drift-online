@@ -718,7 +718,8 @@ if(gas){car.vx+=fx*accel*dt*gas;car.vy+=fy*accel*dt*gas}if(brake){let amount=(fo
 // Drift and road cars use the previous speed-dependent countersteer animation.
 const raceSteering=currentCar().group==='GT3 Racing'||currentCar().group==='Le Mans Hypercar';
 const wheelSpeedBlend=Math.max(0,Math.min(1,(Math.abs(forward)-12)/95));
-const targetWheelSteer=raceSteering?steer:steer*(2*wheelSpeedBlend-1);
+const invertedStreetSteering=currentCar().group==='JDM'||currentCar().group==='American Muscle';
+const targetWheelSteer=invertedStreetSteering?-steer:(raceSteering?steer:steer*(2*wheelSpeedBlend-1));
 const wheelEase=1-Math.exp(-4.5*Math.min(dt,0.05));
 visualSteer+=(targetWheelSteer-visualSteer)*wheelEase;let speed=Math.hypot(car.vx,car.vy);let steerFactor=Math.min(1,Math.abs(forward)/95);
 // Steering takes skill: too much lock at high slip increases the chance of a spin.
