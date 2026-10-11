@@ -155,7 +155,7 @@ function drawUniqueCar(g,v,preview=false){
  const steering=(!preview&&v.id===selected)?visualSteer:0;
  for(const x of [rear+9,front-19])for(const side of [-1,1]){
    const y=side*(B/2+2+tuneFor(v.id).offset*.24);
-   g.save();g.translate(x+7.5,y);if(x>0)g.rotate(-steering*.55);
+   g.save();g.translate(x+7.5,y);if(x>0)g.rotate(steering*.55);
    g.fillStyle='#080a0f';g.beginPath();g.roundRect(-9,-5,18,10,2);g.fill();
    g.fillStyle='#88939d';g.fillRect(-3,-4,6,2);g.restore();
  }
@@ -222,7 +222,7 @@ function drawUniqueCar(g,v,preview=false){
  g.restore();
  // Draw exposed front tyres last, so steering remains visible over the body edge.
  for(const side of [-1,1]){
-   g.save();g.translate(front-12,side*(B/2+3+tuneFor(v.id).offset*.24));g.rotate(preview?0:-visualSteer*(.7+(tuneFor(v.id).angleKit||0)*.14));
+   g.save();g.translate(front-12,side*(B/2+3+tuneFor(v.id).offset*.24));g.rotate(preview?0:visualSteer*(.7+(tuneFor(v.id).angleKit||0)*.14));
    g.fillStyle='#0a0c11';g.fillRect(-10,-5,20,10);g.fillStyle='#a4b3bf';g.fillRect(-4,-4,8,2);g.restore();
  }
   // High-detail model-specific exterior artwork, aligned to the vehicle's nose (+X).
@@ -503,7 +503,7 @@ function drawContinuousScenery(l,r,t,b){
    for(const o of getSceneryChunk(cx,cy))
      if(o.x>=l-30&&o.x<=r+30&&o.y>=t-30&&o.y<=b+30)drawSceneryItem(o);
 }
-function nearest(x,y){let best=Infinity,index=0;for(let i=0;i<samples.length;i++){let p=samples[i],d=(p.x-x)**2+(p.y-y)**2;if(d<best){best=d;index=i}}return {d:Math.sqrt(best),index}}buildTrack();let start=samples[0],next=samples[5];let car,lap=1,lapStart=performance.now(),best=Infinity,lastIndex=0,passedHalf=false;function reset(){gear=1;dragElapsed=0;dragStarted=false;dragFinished=false;dragSplits={};start=samples[0];next=samples[5];car={x:start.x,y:start.y,a:Math.atan2(next.y-start.y,next.x-start.x),vx:0,vy:0,slip:0,slideMode:false,gripDelay:0,spinRisk:0,spinTimer:0,spinVelocity:0,lastTurnSign:1};lapStart=performance.now();passedHalf=false;lastIndex=0}reset();let totalPoints=0,comboPoints=0,comboTime=0,comboMultiplier=1,bestDrift=0;function changeTrack(id,remote=false){if(multiConnected&&!multiHost&&!remote){toast("Only the room host can change tracks");return;}if(multiConnected&&!remote)sendMulti({type:"track",track:id});trackId=id;buildTrack();lap=1;best=Infinity;totalPoints=0;comboPoints=0;comboTime=0;comboMultiplier=1;particles=[];skidMarks=[];lapCarryPoints=0;lapPointHistory=[];reset();cam.x=car.x;cam.y=car.y;document.querySelector('#trackSelect').value=String(id)}document.querySelector('#trackSelect').onchange=e=>changeTrack(+e.target.value);document.querySelector('#reset').onclick=reset;const keys={};addEventListener('keydown',e=>{keys[e.code]=true;if(['Space','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.code))e.preventDefault();if(e.code==='KeyR'&&!garageOpen)reset();if(!e.repeat&&!garageOpen&&!e.ctrlKey&&!e.altKey&&(e.code==='KeyE'||e.code==='KeyQ')){shiftGear(e.code==='KeyE'?1:-1);e.preventDefault()}if(e.code==='KeyN'&&!e.repeat)toggleNight();if(e.code==='KeyV'&&!e.repeat&&!garageOpen)toggleCamera();if(e.code==='KeyM'&&!e.repeat)toggleMulti();if(e.code==='KeyG'&&!e.repeat)setGarage(!garageOpen);if(e.code==='Escape'&&garageOpen)setGarage(false);if(['Digit1','Digit2','Digit3','Digit4'].includes(e.code))changeTrack(Number(e.code.slice(-1))-1)});addEventListener('keyup',e=>keys[e.code]=false);// Standard Gamepad API: Xbox/GameSir style mapping, polled each frame.
+function nearest(x,y){let best=Infinity,index=0;for(let i=0;i<samples.length;i++){let p=samples[i],d=(p.x-x)**2+(p.y-y)**2;if(d<best){best=d;index=i}}return {d:Math.sqrt(best),index}}buildTrack();let start=samples[0],next=samples[5];let car,lap=1,lapStart=performance.now(),best=Infinity,lastIndex=0,passedHalf=false;function reset(){gear=1;dragElapsed=0;dragStarted=false;dragFinished=false;dragSplits={};start=samples[0];next=samples[5];car={x:start.x,y:start.y,a:Math.atan2(next.y-start.y,next.x-start.x),vx:0,vy:0,slip:0,slideMode:false,gripDelay:0,spinRisk:0,spinTimer:0,spinVelocity:0,lastTurnSign:1};lapStart=performance.now();passedHalf=false;lastIndex=0}reset();let totalPoints=0,comboPoints=0,comboTime=0,comboMultiplier=1,bestDrift=0;function changeTrack(id,remote=false){if(!Number.isInteger(id)||id<0||id>=tracks.length)return;if(multiConnected&&!multiHost&&!remote){toast("Only the room host can change tracks");return;}if(multiConnected&&!remote)sendMulti({type:"track",track:id});trackId=id;buildTrack();visualSteer=0;lap=1;best=Infinity;totalPoints=0;comboPoints=0;comboTime=0;comboMultiplier=1;particles=[];skidMarks=[];lapCarryPoints=0;lapPointHistory=[];reset();cam.x=car.x;cam.y=car.y;document.querySelector('#trackSelect').value=String(id)}document.querySelector('#trackSelect').onchange=e=>changeTrack(+e.target.value);document.querySelector('#reset').onclick=reset;const keys={};addEventListener('keydown',e=>{keys[e.code]=true;if(['Space','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.code))e.preventDefault();if(e.code==='KeyR'&&!garageOpen)reset();if(!e.repeat&&!garageOpen&&!e.ctrlKey&&!e.altKey&&(e.code==='KeyE'||e.code==='KeyQ')){shiftGear(e.code==='KeyE'?1:-1);e.preventDefault()}if(e.code==='KeyN'&&!e.repeat)toggleNight();if(e.code==='KeyV'&&!e.repeat&&!garageOpen)toggleCamera();if(e.code==='KeyM'&&!e.repeat)toggleMulti();if(e.code==='KeyG'&&!e.repeat)setGarage(!garageOpen);if(e.code==='Escape'&&garageOpen)setGarage(false);if(['Digit1','Digit2','Digit3','Digit4'].includes(e.code))changeTrack(Number(e.code.slice(-1))-1)});addEventListener('keyup',e=>keys[e.code]=false);// Standard Gamepad API: Xbox/GameSir style mapping, polled each frame.
 let padState={steer:0,gas:0,brake:0,hand:false},padPrev=[];
 function pollPad(){
  const pads=navigator.getGamepads?navigator.getGamepads():[];
@@ -533,10 +533,13 @@ const themes=[
  ['cherry','#56684b','cherry'],['night','#202b43','lamp'],['desert','#947447','cactus'],['harbour','#45616b','container'],
  ['alpine','#426051','pine'],['neon','#242c48','neon'],['forest','#294c37','pine'],['sunset','#80634b','palm'],
  ['canyon','#9b6847','rock'],['lake','#416f68','reed'],['academy','#555b62','cone'],
- ['fd-arena','#364650','cone'],['fd-speedway','#375344','barrel'],['fd-technical','#4a505b','cone'],['fd-finals','#202c46','neon'],['drag','#40545b','cone']
+ ['fd-arena','#364650','cone'],['fd-speedway','#375344','barrel'],['fd-technical','#4a505b','cone'],['fd-finals','#202c46','neon'],
+ ['gp','#355547','tree'],['coast','#41656a','palm'],['endurance','#26394b','lamp'],['lemans','#436348','tree'],
+ ['eifel','#344f3f','pine'],['seaside','#41666d','palm'],['club','#495c51','cone'],['prototype','#3e505b','barrel'],
+ ['drag','#40545b','cone']
 ];
 function drawSceneryItem(o){
- const kind=themes[trackId][2],x=o.x,y=o.y,r=o.r;
+ const kind=(themes[trackId]||themes[0])[2],x=o.x,y=o.y,r=o.r;
  ctx.save();ctx.translate(x,y);
  ctx.fillStyle='#0005';ctx.beginPath();ctx.ellipse(6,8,r*1.35,r*.73,-.2,0,Math.PI*2);ctx.fill();
  if(kind==='pine'){ctx.fillStyle='#513c2b';ctx.fillRect(-2,0,4,r*.9);for(let k=0;k<3;k++){ctx.fillStyle=k%2?'#235b45':'#174935';ctx.beginPath();ctx.moveTo(0,-r*1.9+k*r*.52);ctx.lineTo(-r*.95,r*.45+k*r*.25);ctx.lineTo(r*.95,r*.45+k*r*.25);ctx.fill();}}
@@ -590,7 +593,7 @@ function drawTougeRoadside(){
 }
 function toggleCamera(){cameraMode=(cameraMode+1)%2;cameraLookX=0;cameraLookY=0;document.querySelector('#cameraBtn').textContent=cameraMode?'📷 CAMERA: REFINED CHASE (V)':'📷 CAMERA: CLASSIC (V)';toast(cameraMode?'REFINED CHASE · SMOOTH DRIFT FOLLOW':'CLASSIC CAMERA · 2D')}
 document.querySelector('#cameraBtn').addEventListener('click',toggleCamera);
-function draw(){ctx.fillStyle=themes[trackId][1];ctx.fillRect(0,0,W,H);ctx.save();ctx.translate(W/2,H/2);let zoom=Math.max(.53,Math.min(.9,Math.min(W/1150,H/780)))*(cameraMode?cameraZoom:1);ctx.scale(zoom,zoom);if(cameraMode){ctx.rotate(cameraRotation);}ctx.translate(-cam.x,-cam.y);let tile=100;let radius=Math.hypot(W,H)/zoom*.64+230;let l=cam.x-radius,r=cam.x+radius,t=cam.y-radius,b=cam.y+radius;for(let x=Math.floor(l/tile)*tile;x<r;x+=tile)for(let y=Math.floor(t/tile)*tile;y<b;y+=tile){let v=(Math.sin(x*0.037+y*.043)+1)/2;ctx.fillStyle=v>.5?themes[trackId][1]:'#00000012';ctx.fillRect(x,y,tile,tile)}if(trackId===1)drawTougeTerrain(l,r,t,b);drawContinuousScenery(l,r,t,b)
+function draw(){ctx.fillStyle=(themes[trackId]||themes[0])[1];ctx.fillRect(0,0,W,H);ctx.save();ctx.translate(W/2,H/2);let zoom=Math.max(.53,Math.min(.9,Math.min(W/1150,H/780)))*(cameraMode?cameraZoom:1);ctx.scale(zoom,zoom);if(cameraMode){ctx.rotate(cameraRotation);}ctx.translate(-cam.x,-cam.y);let tile=100;let radius=Math.hypot(W,H)/zoom*.64+230;let l=cam.x-radius,r=cam.x+radius,t=cam.y-radius,b=cam.y+radius;for(let x=Math.floor(l/tile)*tile;x<r;x+=tile)for(let y=Math.floor(t/tile)*tile;y<b;y+=tile){let v=(Math.sin(x*0.037+y*.043)+1)/2;ctx.fillStyle=v>.5?(themes[trackId]||themes[0])[1]:'#00000012';ctx.fillRect(x,y,tile,tile)}if(trackId===1)drawTougeTerrain(l,r,t,b);drawContinuousScenery(l,r,t,b)
 
 // Layered circuit surface: shoulders, clean asphalt, realistic edge paint and subtle wear.
 stroke(roadWidth+30,'#1b2528');
@@ -702,8 +705,7 @@ let accel=Math.min(engineForce*powerBand,380*surfaceTraction*launchGrip);
 if(gas){car.vx+=fx*accel*dt*gas;car.vy+=fy*accel*dt*gas}if(brake){let amount=(forward>12?-460:-140)*(setup.brakeStrength/100);car.vx+=fx*amount*dt*brake;car.vy+=fy*amount*dt*brake}let steer=Math.max(-1,Math.min(1,(right?1:0)-(left?1:0)+padState.steer));// Smooth visual countersteer: wheels ease toward the opposite steering angle instead of snapping.
 // At a standstill or parking speeds, tyres point into the turn normally.
 // As speed rises, smoothly blend into the requested countersteer visual.
-const wheelSpeedBlend=Math.max(0,Math.min(1,(Math.abs(forward)-12)/95));
-const targetWheelSteer=steer*(2*wheelSpeedBlend-1);
+const targetWheelSteer=steer;
 const wheelEase=1-Math.exp(-4.5*Math.min(dt,0.05));
 visualSteer+=(targetWheelSteer-visualSteer)*wheelEase;let speed=Math.hypot(car.vx,car.vy);let steerFactor=Math.min(1,Math.abs(forward)/95);
 // Steering takes skill: too much lock at high slip increases the chance of a spin.
