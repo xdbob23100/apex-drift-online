@@ -1122,7 +1122,7 @@ document.getElementById('apexModeBtn').onclick=apexOpen;
 document.getElementById('apexClose').onclick=apexClose;
 addEventListener('keydown',e=>{if(e.code==='F6'){e.preventDefault();apexPanel.classList.contains('open')?apexClose():apexOpen()}if(e.code==='Escape'&&apexPanel.classList.contains('open'))apexClose();if(e.code==='KeyP'&&!e.repeat&&!garageOpen&&!apexPanel.classList.contains('open'))apexPit()});
 function apexRender(){document.getElementById('apexTabs').innerHTML=apexTabs.map(([id,name])=>`<button data-apextab="${id}" class="${id===apexTab?'active':''}">${name}</button>`).join('');document.querySelectorAll('[data-apextab]').forEach(b=>b.onclick=()=>{apexTab=b.dataset.apextab;apexRender()});
- if(apexTab==='events')apexRenderEvents();if(apexTab==='custom')apexRenderCustom();if(apexTab==='records')apexRenderRecords();if(apexTab==='guide')apexContent.innerHTML='<div class="panelcard"><strong>CONTROLS</strong><p>F6: Motorsport menu · P: pit service when near start/finish at low speed · V: existing camera · E/Q: gears. Race opponents follow the circuit centreline. This is a first playable AI system, not full collision-aware racing AI.</p><p>Career events unlock in order. Earn credits and XP for finishing. Tyre wear and fuel apply only during racing events, and pit service restores both. Car customisation is visual and saved separately.</p></div>';
+ if(apexTab==='events')apexRenderEvents();if(apexTab==='custom')apexRenderCustom();if(apexTab==='records')apexRenderRecords();if(apexTab==='guide')apexContent.innerHTML='<div class="panelcard"><strong>CONTROLS</strong><p>F6: Motorsport menu · P: pit service when near start/finish at low speed · V: existing camera · E/Q: gears. AI drivers brake for bends, accelerate on straights and adjust their racing lines to pass nearby opponents. Full physical collisions are not simulated.</p><p>Career events unlock in order. Earn credits and XP for finishing. Tyre wear and fuel apply only during racing events, and pit service restores both. Car customisation is visual and saved separately.</p></div>';
 }
 function apexRenderEvents(){const racing=!!tracks[trackId].closed&&(!!tracks[trackId].racing||trackId===0||!!tracks[trackId].pro);const names=['Rookie GT Sprint','Club Racing Cup','GT3 Championship','Endurance Challenge','Prototype Masters'];let html=`<div class="panelgrid"><div class="panelcard"><strong>🏁 QUICK RACE</strong><small>Choose your race circuit below. Race events will switch tracks automatically.</small><label>RACE CIRCUIT <select id="apexCircuit">${tracks.map((t,i)=>(t.closed&&(t.racing||i===0||t.pro))?`<option value="${i}" ${i===trackId?'selected':''}>${t.name}</option>`:'').join('')}</select></label><label>AI opponents <select id="apexCount"><option value="3">3</option><option value="5" selected>5</option><option value="8">8</option></select></label><label> Difficulty <select id="apexDifficulty"><option value="0.8">Rookie</option><option value="1" selected>Club</option><option value="1.17">Pro</option></select></label><div class="row"><button class="primary" id="apexQuick">START 3-LAP RACE</button></div></div><div class="panelcard"><strong>⏱ ENDURANCE</strong><small>5-minute race with tyre wear, fuel and pit service. GT3 and Le Mans cars recommended.</small><button class="primary" id="apexEndurance">START ENDURANCE</button></div><div class="panelcard"><strong>💨 DRIFT CHALLENGE</strong><small>Bank 3,000 drift points in 90 seconds. Earn credits and XP if you succeed.</small><button class="primary" id="apexDrift">START CHALLENGE</button></div><div class="panelcard"><strong>🏆 CAREER MODE</strong><small>Wins: ${apexData.careerWins} · Next event ${Math.min(5,apexData.careerEvent+1)}/5</small><small>${names[Math.min(4,apexData.careerEvent)]} · ${racing?'Circuit ready':'Select a GP circuit'}</small><button class="primary" id="apexCareer">START CAREER EVENT</button></div></div>`;
  if(apexRace.active)html+=`<div class="panelcard" style="margin-top:12px"><strong>EVENT RUNNING: ${apexRace.kind.toUpperCase()}</strong><button id="apexQuit">ABANDON EVENT</button></div>`;
@@ -1141,7 +1141,7 @@ function apexRenderRecords(){const rows=Object.entries(apexData.lapRecords).sort
 function apexStart(kind){if(garageOpen){toast('Close garage before starting');return}if(kind!=='drift'&&(!tracks[trackId].closed||!(tracks[trackId].racing||trackId===0||tracks[trackId].pro))){toast('Select a GP racing circuit');return}
  const count=Number(document.getElementById('apexCount')?.value)||5;const diff=Number(document.getElementById('apexDifficulty')?.value)||1;
  Object.assign(apexRace,{active:true,kind,opponents:[],duration:kind==='endurance'?300:kind==='drift'?90:0,elapsed:0,startLap:lap,finished:false,pitCount:0,tyres:100,fuel:100,position:1,aiCount:count,aiDifficulty:diff,recordedLap:lap,startPoints:totalPoints});
- if(kind!=='drift')for(let i=0;i<count;i++)apexRace.opponents.push({progress:Math.max(0,(samples.length-1)-(i+1)*5),speed:(kind==='career'?43:38)*diff*(.92+Math.random()*.17),lane:(i%2?1:-1)*(16+(i%3)*12),color:['#ff5b69','#55bcff','#ffe083','#b18bff','#71e5b2','#ff9d53','#eeeeee','#d87afa'][i],name:'AI '+(i+1)});
+ if(kind!=='drift')for(let i=0;i<count;i++)apexRace.opponents.push({progress:Math.max(0,(samples.length-1)-(i+1)*5),speed:(kind==='career'?43:38)*diff*(.92+Math.random()*.17),lane:(i%2?1:-1)*(16+(i%3)*12),targetLane:0,actualSpeed:0,personality:.85+Math.random()*.3,phase:Math.random()*6.28,carClass:i%3===0?'prototype':'gt3',color:['#ff5b69','#55bcff','#ffe083','#b18bff','#71e5b2','#ff9d53','#eeeeee','#d87afa'][i],name:'AI '+(i+1)});
  toast(kind==='drift'?'DRIFT CHALLENGE STARTED':'RACE STARTED · '+count+' OPPONENTS');
 }
 function apexPit(){if(!apexRace.active||apexRace.kind==='drift')return;const n=nearest(car.x,car.y),speed=Math.hypot(car.vx,car.vy)*.28;if(n.index>Math.max(18,samples.length*.09)||speed>12||n.d>roadWidth/2){toast('PIT: Stop near start/finish under 12 MPH');return}apexRace.tyres=100;apexRace.fuel=100;apexRace.pitCount++;apexRace.elapsed+=8;toast('PIT COMPLETE · TYRES + FUEL · +8s')}
@@ -1153,7 +1153,23 @@ function updateApexModes(dt){if(apexLastTrack!==trackId){apexLastTrack=trackId;i
  apexRace.elapsed+=dt;const speed=Math.hypot(car.vx,car.vy)*.28;
  if(apexRace.kind!=='drift'){
   const tr=tracks[trackId];const len=samples.length;const n=nearest(car.x,car.y);const myProgress=(lap-apexRace.startLap)*len+n.index;
-  for(const bot of apexRace.opponents)bot.progress+=bot.speed*dt*(len/2600);
+  // AI brakes for corners, accelerates on straights and picks a racing line.
+  for(const bot of apexRace.opponents){
+   const idx=((Math.floor(bot.progress)%len)+len)%len;
+   const prev=samples[(idx-12+len)%len],mid=samples[idx],ahead=samples[(idx+18)%len];
+   if(!prev||!mid||!ahead)continue;
+   const a1=Math.atan2(mid.y-prev.y,mid.x-prev.x),a2=Math.atan2(ahead.y-mid.y,ahead.x-mid.x);
+   const bend=Math.abs(Math.atan2(Math.sin(a2-a1),Math.cos(a2-a1)));
+   const cornerFactor=Math.max(.40,1-Math.min(1,bend/1.45)*.58);
+   const desiredSpeed=bot.speed*bot.personality*cornerFactor;
+   bot.actualSpeed+=(desiredSpeed-bot.actualSpeed)*Math.min(1,dt*(desiredSpeed<bot.actualSpeed?3.4:1.2));
+   // Gentle passing when a rival is close ahead; stay inside road limits.
+   const rival=apexRace.opponents.find(other=>other!==bot&&other.progress>bot.progress&&other.progress-bot.progress<12&&Math.abs(other.lane-bot.lane)<28);
+   const safeLane=Math.max(-roadWidth*.24,Math.min(roadWidth*.24,Math.sin(bot.progress*.012+bot.phase)*roadWidth*.09+(rival?(bot.lane<=0?-1:1)*roadWidth*.14:0)));
+   bot.targetLane=safeLane;
+   bot.lane+=(bot.targetLane-bot.lane)*Math.min(1,dt*1.25);
+   bot.progress+=bot.actualSpeed*dt*(len/2600);
+  }
   apexRace.position=1+apexRace.opponents.filter(bot=>bot.progress>myProgress).length;
   apexRace.tyres=Math.max(0,apexRace.tyres-dt*(.025+speed*.00085));apexRace.fuel=Math.max(0,apexRace.fuel-dt*(.07+speed*.0015));
   // Wear is represented as a race penalty, without changing the existing car physics.
@@ -1165,7 +1181,39 @@ function updateApexModes(dt){if(apexLastTrack!==trackId){apexLastTrack=trackId;i
  }else{const gained=Math.floor(totalPoints+comboPoints);hud.innerHTML=`💨 DRIFT CHALLENGE · ${Math.max(0,Math.ceil(90-apexRace.elapsed))}s<div class="muted">Bank 3,000 points · ${Math.floor(totalPoints)} lifetime points</div>`;
  if(apexRace.elapsed>=90)apexFinish(totalPoints-apexRace.startPoints>=3000,'DRIFT CHALLENGE COMPLETE');}
 }
-function drawApexAIWorld(){if(!apexRace.active||!apexRace.opponents.length||!samples.length)return;const len=samples.length;for(const bot of apexRace.opponents){const k=Math.floor(bot.progress)%len;const a=samples[k],b=samples[(k+3)%len];if(!a||!b)continue;const angle=Math.atan2(b.y-a.y,b.x-a.x),nx=-Math.sin(angle),ny=Math.cos(angle),x=a.x+nx*bot.lane,y=a.y+ny*bot.lane;if(Math.abs(x-cam.x)>1700||Math.abs(y-cam.y)>1200)continue;ctx.save();ctx.translate(x,y);ctx.rotate(angle);ctx.fillStyle='#0006';ctx.fillRect(-32,-15,66,34);ctx.fillStyle=bot.color;ctx.beginPath();ctx.roundRect(-31,-16,62,32,8);ctx.fill();ctx.fillStyle='#122b3a';ctx.fillRect(-8,-13,24,26);ctx.fillStyle='#ffffff';ctx.fillRect(-33,-19,5,38);ctx.fillStyle='#fff9';ctx.fillRect(23,-13,5,26);ctx.restore()}}
+function drawApexAIWorld(){
+ if(!apexRace.active||!apexRace.opponents.length||!samples.length)return;
+ const len=samples.length;
+ for(const bot of apexRace.opponents){
+  const k=((Math.floor(bot.progress)%len)+len)%len;
+  const a=samples[k],b=samples[(k+4)%len];if(!a||!b)continue;
+  const angle=Math.atan2(b.y-a.y,b.x-a.x),nx=-Math.sin(angle),ny=Math.cos(angle);
+  const x=a.x+nx*bot.lane,y=a.y+ny*bot.lane;
+  if(Math.abs(x-cam.x)>1700||Math.abs(y-cam.y)>1200)continue;
+  ctx.save();ctx.translate(x,y);ctx.rotate(angle);
+  const prototype=bot.carClass==='prototype',L=prototype?78:68,H=prototype?36:38;
+  // Soft ground shadow and exposed wheels.
+  ctx.fillStyle='#05080b66';ctx.beginPath();ctx.ellipse(3,4,L*.55,H*.64,0,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='#10151b';for(const px of [-L*.32,L*.31])for(const py of [-H*.51,H*.51]){ctx.beginPath();ctx.roundRect(px-9,py-5,18,10,3);ctx.fill()}
+  // Unique GT3 and Le Mans prototype silhouettes.
+  ctx.fillStyle=bot.color;ctx.beginPath();
+  if(prototype){ctx.moveTo(-L*.50,-H*.30);ctx.lineTo(-L*.39,-H*.49);ctx.lineTo(-L*.10,-H*.37);ctx.lineTo(L*.25,-H*.43);ctx.quadraticCurveTo(L*.55,-H*.35,L*.53,0);ctx.quadraticCurveTo(L*.55,H*.35,L*.25,H*.43);ctx.lineTo(-L*.10,H*.37);ctx.lineTo(-L*.39,H*.49);ctx.lineTo(-L*.50,H*.30)}
+  else{ctx.moveTo(-L*.49,-H*.35);ctx.quadraticCurveTo(-L*.45,-H*.51,-L*.20,-H*.48);ctx.lineTo(L*.22,-H*.42);ctx.quadraticCurveTo(L*.51,-H*.33,L*.52,0);ctx.quadraticCurveTo(L*.51,H*.33,L*.22,H*.42);ctx.lineTo(-L*.20,H*.48);ctx.quadraticCurveTo(-L*.45,H*.51,-L*.49,H*.35)}
+  ctx.closePath();ctx.fill();ctx.strokeStyle='#ffffff55';ctx.lineWidth=1.2;ctx.stroke();
+  // Windscreen, cockpit, bonnet vents and painted racing stripe.
+  ctx.fillStyle='#102432';ctx.beginPath();ctx.roundRect(-L*.11,-H*.31,prototype?24:22,H*.62,prototype?10:6);ctx.fill();
+  ctx.fillStyle='#7fc5df55';ctx.fillRect(L*.035,-H*.26,4,H*.52);
+  ctx.fillStyle='#111a25';for(const side of [-1,1]){ctx.fillRect(L*.27,side*H*.22-3,10,6)}
+  ctx.fillStyle='#ffffffbb';ctx.fillRect(-L*.43,-2,L*.64,4);
+  // Number panel and aerodynamic rear wing.
+  ctx.fillStyle='#f3f5ec';ctx.fillRect(-L*.25,-9,16,18);
+  ctx.fillStyle='#15202c';ctx.font='bold 11px system-ui';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(String(apexRace.opponents.indexOf(bot)+11),-L*.25+8,0);
+  ctx.fillStyle='#121b24';ctx.fillRect(-L*.48,-H*.56,8,H*1.12);
+  ctx.fillStyle='#e6f8ff';ctx.fillRect(L*.46,-H*.27,3,8);ctx.fillRect(L*.46,H*.27-8,3,8);
+  ctx.fillStyle='#ff4646';ctx.fillRect(-L*.49,-H*.30,3,8);ctx.fillRect(-L*.49,H*.30-8,3,8);
+  ctx.restore();
+ }
+}
 // Paint override for both garage previews and in-game vehicle drawing, preserving factory colours.
 const apexOriginalDrawUniqueCar=drawUniqueCar;
 drawUniqueCar=function(g,v,preview=false){const paint=apexData.paint[v.id];if(paint){v={...v,color:paint}}apexOriginalDrawUniqueCar(g,v,preview);if(!preview&&apexData.wing[v.id]&&apexData.wing[v.id]!=='stock'){g.save();g.fillStyle='#18202b';g.fillRect(-34,-22,7,44);g.restore()}};
