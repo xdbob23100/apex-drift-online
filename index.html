@@ -35,8 +35,24 @@ box-shadow:0 16px 50px #0009,inset 0 1px #ffffff1c;backdrop-filter:blur(16px);fo
 @media(max-width:800px){#hud{transform:scale(.78);transform-origin:top left}}
 </style>
 <style id="apex-pro-v4">#driveTelemetry{position:fixed;left:16px;bottom:166px;z-index:11;display:flex;gap:6px;pointer-events:none}#driveTelemetry span{padding:7px 10px;border-radius:9px;border:1px solid #70c7c84a;background:#0b2234e8;color:#b7d7df;font:800 10px system-ui;letter-spacing:.5px;backdrop-filter:blur(10px)}#driveTelemetry b{color:#efffff}#tuningShop .setupPanel{margin-top:16px;border:1px solid #4b8f9c;border-radius:14px;background:#0b2332;padding:16px}#tuningShop .setupPanel h3{margin:0;color:#9bffe5}#tuningShop .setupPanel input{width:100%;accent-color:#3ce7c0}#tuningShop .setupPanel label{font-size:12px;color:#c5dfe8}#tuningShop .setupRow{padding:10px;background:#15364a;border-radius:10px}#tuningShop .setupValue{float:right;color:#ffd68c;font-weight:900}@media(max-width:800px){#driveTelemetry{left:12px;bottom:159px;transform:scale(.82);transform-origin:bottom left}}</style>
-<style id="current-car-css">#currentCarBadge{position:fixed;left:16px;top:385px;z-index:11;display:flex;align-items:center;gap:10px;max-width:264px;box-sizing:border-box;padding:9px 12px;border:1px solid #74dfd66e;border-radius:12px;background:linear-gradient(120deg,#0b2536f2,#102c3ef0);box-shadow:0 8px 25px #0007;backdrop-filter:blur(12px);pointer-events:none}#currentCarBadge .car-dot{height:28px;width:4px;border-radius:5px;background:var(--car-accent,#36d8c0);box-shadow:0 0 12px var(--car-accent,#36d8c0)}#currentCarBadge .car-caption{font-size:9px;letter-spacing:1.7px;font-weight:900;color:#89b9c8}#currentCarName{font-size:13px;font-weight:900;color:#f3fcff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:213px;line-height:1.35}#currentCarBadge{top:auto;bottom:108px;left:16px}@media(max-width:800px){#currentCarBadge{bottom:108px;max-width:190px}#currentCarName{max-width:140px;font-size:11px}}</style><style id='camera-styles'>#cameraBtn{position:fixed;right:20px;bottom:122px;z-index:13;background:#1a4154;color:#eafffa;border:1px solid #6ce7d2;border-radius:11px;padding:11px 15px;font-weight:850;cursor:pointer;box-shadow:0 8px 25px #0006}#cameraBtn:hover{background:#23566b}</style></head><body><canvas id='game'></canvas><button id="multiBtn">🌐 MULTIPLAYER (M)</button><div id="multiInfo">SOLO · OFFLINE</div><div id="multiPanel"><div class="multiCard"><h2>🌐 APEX ONLINE</h2><p>Make a private room, then share its six-character code. Up to 8 drivers. All drivers use the same track. Your own credits and garage stay saved on this device.</p><label>DRIVER NAME<input id="driverName" maxlength="18" placeholder="Your name"></label><label>JOIN CODE (for joining only)<input id="joinCode" maxlength="6" placeholder="ABC123" autocapitalize="characters"></label><div><button id="createRoom">CREATE ROOM</button><button id="joinRoom">JOIN ROOM</button><button id="leaveRoom" class="secondary">LEAVE ROOM</button><button id="closeMulti" class="secondary">CLOSE</button></div><p id="roomStatus"></p><div id="roomCodeView"></div><div id="playerList"></div><p>Controls: M = multiplayer menu. Only the room host can change tracks. This is shared driving, not collision-based PvP.</p></div></div><div id='lapAnnouncement' aria-live='polite'><div class='lapTitle' id='lapAnnTitle'></div><div class='lapDetails' id='lapAnnDetails'></div></div><div id="driveTelemetry"><span>SLIP <b id="teleSlip">0°</b></span><span>TYRES <b id="teleTyres">STREET</b></span><span>DIFF <b id="teleDiff">70%</b></span></div><div id='currentCarBadge'><div class='car-dot'></div><div><div class='car-caption'>CURRENT VEHICLE</div><div id='currentCarName'>Silvia S15</div></div></div><div id='hud'><div id='title'>APEX DRIFT 2D</div><div id='speed'>0 <small>MPH</small></div><div id='status'>GRIP</div><div id='gearHud'>GEAR 1 / 6</div><div id='dragHud' style='display:none'></div><div id='angle' style='font-size:22px;font-weight:900;color:#ffd26d;margin:7px 0'>DRIFT ANGLE 0°</div><div id='direction' style='font-size:12px;color:#bcd0e5'>STRAIGHT</div><div id='lap'>LAP 1 · 00:00.0</div><div id='best'>BEST —</div><div id='lapPoints' style='color:#ffe09a;font-weight:800;margin-top:5px'>THIS LAP 0 PTS · UNBANKED</div><div id='lastLapPoints' style='font-size:12px;color:#a8e9d2'>LAST LAP —</div><div id='telemetry'><div class='telemetry-tile'><span>TOP SPEED</span><strong id='specTopSpeed'>— MPH</strong></div><div class='telemetry-tile'><span>ENGINE</span><strong id='specPower'>— HP</strong></div></div><div id='gripMeter'><div id='gripMeterFill'></div></div><div id='scorebox'><div>ACTIVE DRIFT POINTS</div><div id='points'>0</div><div id='combo'>COMBO x1.0</div><div id='bank'>BEST DRIFT 0</div></div></div><select id='trackSelect'><option value='0'>1 · Grand Prix Circuit</option><option value='1'>2 · Mountain Touge</option><option value='2'>3 · Figure 8</option><option value='3'>4 · Drift Playground</option></select><button id='reset'>RESET CAR (R)</button><button id='garageBtn'>🚗 GARAGE (G)</button><button id='dayBtn'>☀ DAY / NIGHT (N)</button><div id='wallet'>CREDITS: <span id='credits'>0</span> CR</div><div id='garage'><div class='garagePanel'><div class='garageHead'><div><h1>APEX MOTORWORKS · GARAGE</h1><p>Earn 16.5 CR per 100 banked drift points, multiplied by your car bonus. Buy cars once, drive them forever.</p><b id='garageMoney'></b></div><button id='closeGarage'>BACK TO TRACK ✕</button></div><div id='tuningShop'></div><div class='carGrid' id='carGrid'></div></div></div><div id='rpmCluster'><div id='rpmLabel'>ENGINE RPM</div><div id='rpmReadout'>900 <span>RPM</span></div><div id='rpmTicks'></div><div id='rpmBar'><div id='rpmFill'></div><div id='rpmRedline'></div></div><div id='rpmFoot'><b id='rpmGear'>1</b><span id='rpmShift'>READY</span></div></div><button id='soundBtn' type='button' title='Enable or mute engine audio'>🔇 ENGINE SOUND: OFF</button><div id='toast'></div><div id="ownerPanel" role="dialog" aria-label="Owner menu" aria-modal="true"><div id="ownerCard"><h2>🔒 APEX DRIFT · OWNER</h2><p id="ownerMessage">Enter your private owner password.</p><div id="ownerLogin"><input id="ownerPassword" type="password" autocomplete="current-password" placeholder="Owner password"><button id="ownerSignIn">SIGN IN</button></div><div id="ownerActions" hidden><p>Signed in as owner on this browser.</p><button data-owner-action="credits">+10,000,000 CR</button><button data-owner-action="cars">UNLOCK ALL CARS</button><button data-owner-action="upgrades">MAX ALL UPGRADES</button><button id="ownerSignOut">SIGN OUT</button></div><button id="ownerClose" style="background:#d9e5ee">CLOSE ✕</button><p style="font-size:12px;color:#9bb6c6">Owner shortcut: Ctrl + Shift + C (or F8)</p></div></div><button id='cameraBtn' type='button' title='Switch between two 2D camera styles'>📷 CAMERA: CLASSIC (V)</button><div id='help'>W / ↑ Accelerate · S / ↓ Brake / Reverse · E/Q Shift · RB/LB Controller Shift · A D / ← → Steer · SPACE Handbrake / Drift · N Day/Night · 1–4 Quick Tracks · V Switch 2D Camera · Dropdown: All 20 · RWD · R Reset</div><script>
+<style id="current-car-css">#currentCarBadge{position:fixed;left:16px;top:385px;z-index:11;display:flex;align-items:center;gap:10px;max-width:264px;box-sizing:border-box;padding:9px 12px;border:1px solid #74dfd66e;border-radius:12px;background:linear-gradient(120deg,#0b2536f2,#102c3ef0);box-shadow:0 8px 25px #0007;backdrop-filter:blur(12px);pointer-events:none}#currentCarBadge .car-dot{height:28px;width:4px;border-radius:5px;background:var(--car-accent,#36d8c0);box-shadow:0 0 12px var(--car-accent,#36d8c0)}#currentCarBadge .car-caption{font-size:9px;letter-spacing:1.7px;font-weight:900;color:#89b9c8}#currentCarName{font-size:13px;font-weight:900;color:#f3fcff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:213px;line-height:1.35}#currentCarBadge{top:auto;bottom:108px;left:16px}@media(max-width:800px){#currentCarBadge{bottom:108px;max-width:190px}#currentCarName{max-width:140px;font-size:11px}}</style><style id='camera-styles'>#cameraBtn{position:fixed;right:20px;bottom:122px;z-index:13;background:#1a4154;color:#eafffa;border:1px solid #6ce7d2;border-radius:11px;padding:11px 15px;font-weight:850;cursor:pointer;box-shadow:0 8px 25px #0006}#cameraBtn:hover{background:#23566b}</style></head><body><canvas id='game'></canvas><button id="multiBtn">🌐 MULTIPLAYER (M)</button><div id="multiInfo">SOLO · OFFLINE</div><div id="multiPanel"><div class="multiCard"><h2>🌐 APEX ONLINE</h2><p>Make a private room, then share its six-character code. Up to 8 drivers. All drivers use the same track. Your own credits and garage stay saved on this device.</p><label>DRIVER NAME<input id="driverName" maxlength="18" placeholder="Your name"></label><label>JOIN CODE (for joining only)<input id="joinCode" maxlength="6" placeholder="ABC123" autocapitalize="characters"></label><div><button id="createRoom">CREATE ROOM</button><button id="joinRoom">JOIN ROOM</button><button id="leaveRoom" class="secondary">LEAVE ROOM</button><button id="closeMulti" class="secondary">CLOSE</button></div><p id="roomStatus"></p><div id="roomCodeView"></div><div id="playerList"></div><p>Controls: M = multiplayer menu. Only the room host can change tracks. This is shared driving, not collision-based PvP.</p></div></div><div id='lapAnnouncement' aria-live='polite'><div class='lapTitle' id='lapAnnTitle'></div><div class='lapDetails' id='lapAnnDetails'></div></div><div id="driveTelemetry"><span>SLIP <b id="teleSlip">0°</b></span><span>TYRES <b id="teleTyres">STREET</b></span><span>DIFF <b id="teleDiff">70%</b></span></div><div id='currentCarBadge'><div class='car-dot'></div><div><div class='car-caption'>CURRENT VEHICLE</div><div id='currentCarName'>Silvia S15</div></div></div><div id='hud'><div id='title'>APEX DRIFT 2D</div><div id='speed'>0 <small>MPH</small></div><div id='status'>GRIP</div><div id='gearHud'>GEAR 1 / 6</div><div id='dragHud' style='display:none'></div><div id='angle' style='font-size:22px;font-weight:900;color:#ffd26d;margin:7px 0'>DRIFT ANGLE 0°</div><div id='direction' style='font-size:12px;color:#bcd0e5'>STRAIGHT</div><div id='lap'>LAP 1 · 00:00.0</div><div id='best'>BEST —</div><div id='lapPoints' style='color:#ffe09a;font-weight:800;margin-top:5px'>THIS LAP 0 PTS · UNBANKED</div><div id='lastLapPoints' style='font-size:12px;color:#a8e9d2'>LAST LAP —</div><div id='telemetry'><div class='telemetry-tile'><span>TOP SPEED</span><strong id='specTopSpeed'>— MPH</strong></div><div class='telemetry-tile'><span>ENGINE</span><strong id='specPower'>— HP</strong></div></div><div id='gripMeter'><div id='gripMeterFill'></div></div><div id='scorebox'><div>ACTIVE DRIFT POINTS</div><div id='points'>0</div><div id='combo'>COMBO x1.0</div><div id='bank'>BEST DRIFT 0</div></div></div><select id='trackSelect'><option value='0'>1 · Grand Prix Circuit</option><option value='1'>2 · Mountain Touge</option><option value='2'>3 · Figure 8</option><option value='3'>4 · Drift Playground</option></select><button id='reset'>RESET CAR (R)</button><button id='garageBtn'>🚗 GARAGE (G)</button><button id='dayBtn'>☀ DAY / NIGHT (N)</button><div id='wallet'>CREDITS: <span id='credits'>0</span> CR</div><div id='garage'><div class='garagePanel'><div class='garageHead'><div><h1>APEX MOTORWORKS · GARAGE</h1><p>Earn credits from drifting and collect GT3 and Le Mans-inspired race cars. Buy cars once, drive them forever.</p><b id='garageMoney'></b></div><button id='closeGarage'>BACK TO TRACK ✕</button></div><div id='tuningShop'></div><div class='carGrid' id='carGrid'></div></div></div><div id='rpmCluster'><div id='rpmLabel'>ENGINE RPM</div><div id='rpmReadout'>900 <span>RPM</span></div><div id='rpmTicks'></div><div id='rpmBar'><div id='rpmFill'></div><div id='rpmRedline'></div></div><div id='rpmFoot'><b id='rpmGear'>1</b><span id='rpmShift'>READY</span></div></div><button id='soundBtn' type='button' title='Enable or mute engine audio'>🔇 ENGINE SOUND: OFF</button><div id='toast'></div><div id="ownerPanel" role="dialog" aria-label="Owner menu" aria-modal="true"><div id="ownerCard"><h2>🔒 APEX DRIFT · OWNER</h2><p id="ownerMessage">Enter your private owner password.</p><div id="ownerLogin"><input id="ownerPassword" type="password" autocomplete="current-password" placeholder="Owner password"><button id="ownerSignIn">SIGN IN</button></div><div id="ownerActions" hidden><p>Signed in as owner on this browser.</p><button data-owner-action="credits">+10,000,000 CR</button><button data-owner-action="cars">UNLOCK ALL CARS</button><button data-owner-action="upgrades">MAX ALL UPGRADES</button><button id="ownerSignOut">SIGN OUT</button></div><button id="ownerClose" style="background:#d9e5ee">CLOSE ✕</button><p style="font-size:12px;color:#9bb6c6">Owner shortcut: Ctrl + Shift + C (or F8)</p></div></div><button id='cameraBtn' type='button' title='Switch between two 2D camera styles'>📷 CAMERA: CLASSIC (V)</button><div id='help'>W / ↑ Accelerate · S / ↓ Brake / Reverse · E/Q Shift · RB/LB Controller Shift · A D / ← → Steer · SPACE Handbrake / Drift · N Day/Night · 1–4 Quick Tracks · V Switch 2D Camera · Dropdown: Drift, GT3 & Endurance · RWD · R Reset</div><script>
 const CARS=[
+{id:'e36',name:'BMW E36 M3',group:'Drift Icons',price:36000,power:1.18,grip:1.03,steer:1.16,color:'#56b7ff',desc:'Classic inline-six drift coupe'},
+{id:'e46',name:'BMW E46 M3',group:'Drift Icons',price:58000,power:1.29,grip:1.11,steer:1.14,color:'#d2b8ff',desc:'High-revving drift favourite'},
+{id:'jzx100',name:'Toyota Chaser JZX100',group:'Drift Icons',price:68000,power:1.27,grip:1.06,steer:1.07,color:'#e9e9f0',desc:'Long-wheelbase turbo drift sedan'},
+{id:'350z',name:'Nissan 350Z',group:'Drift Icons',price:44000,power:1.25,grip:1.09,steer:1.12,color:'#ef974f',desc:'Balanced V6 drift chassis'},
+{id:'370z',name:'Nissan 370Z Nismo',group:'Drift Icons',price:74000,power:1.35,grip:1.19,steer:1.14,color:'#d8d8d8',desc:'Short wheelbase and responsive steering'},
+{id:'brz',name:'Subaru BRZ',group:'Drift Icons',price:32000,power:1.02,grip:1.07,steer:1.21,color:'#3e83ec',desc:'Lightweight, precise low-power drifts'},
+{id:'gt3rs',name:'Porsche 911 GT3 R',group:'GT3 Racing',price:580000,power:1.73,grip:1.88,steer:1.43,color:'#f6dc50',desc:'GT3 endurance racer · aero and traction'},
+{id:'m4gt3',name:'BMW M4 GT3',group:'GT3 Racing',price:520000,power:1.78,grip:1.84,steer:1.34,color:'#f1f4fa',desc:'Long-wheelbase GT3 race machine'},
+{id:'amggt3',name:'Mercedes-AMG GT3',group:'GT3 Racing',price:545000,power:1.76,grip:1.83,steer:1.3,color:'#e3b754',desc:'Front-engine V8 GT3 endurance car'},
+{id:'huracangt3',name:'Lamborghini Huracán GT3 EVO2',group:'GT3 Racing',price:625000,power:1.8,grip:1.87,steer:1.43,color:'#75dc75',desc:'Mid-engine GT3 racing aero'},
+{id:'296gt3',name:'Ferrari 296 GT3',group:'GT3 Racing',price:655000,power:1.85,grip:1.91,steer:1.48,color:'#ed4e56',desc:'Turbo GT3 cornering specialist'},
+{id:'r8gt3',name:'Audi R8 LMS GT3',group:'GT3 Racing',price:590000,power:1.79,grip:1.86,steer:1.42,color:'#8caaff',desc:'V10 GT3 with wide race body'},
+{id:'p963',name:'Porsche 963 Hypercar',group:'Le Mans Hypercar',price:1650000,power:2.12,grip:2.02,steer:1.49,color:'#f3f3f3',desc:'Prototype endurance racer · hybrid-inspired'},
+{id:'f499',name:'Ferrari 499P Hypercar',group:'Le Mans Hypercar',price:1850000,power:2.19,grip:2.03,steer:1.48,color:'#f24242',desc:'Le Mans prototype · high-downforce'},
+{id:'gr010',name:'Toyota GR010 Hypercar',group:'Le Mans Hypercar',price:1550000,power:2.14,grip:2.01,steer:1.45,color:'#fafafa',desc:'Endurance prototype · stable cornering'},
+{id:'peugeot9x8',name:'Peugeot 9X8 Hypercar',group:'Le Mans Hypercar',price:1490000,power:2.12,grip:2.0,steer:1.45,color:'#9ee2c9',desc:'Low-slung endurance prototype'},
 {id:'s15',name:'Silvia S15',group:'JDM',price:0,power:1,grip:1,steer:1,color:'#18a9d0',desc:'Starter · Balanced RWD drift setup'},
 {id:'180sx',name:'180SX Type X',group:'JDM',price:18000,power:1.04,grip:.92,steer:1.06,color:'#f8d264',desc:'Easy initiation · Playful rear end'},
 {id:'240sx',name:'240SX Coupe',group:'JDM',price:16000,power:1.08,grip:.95,steer:1.02,color:'#ee7e69',desc:'Predictable long slides'},
@@ -66,11 +82,45 @@ const CARS=[
 ];
 // Approximate stock/competition-inspired baselines; tuned builds vary in real life.
 const VEHICLE_SPECS={
+'e36':[286,320,1460,'rwd'],
+'e46':[338,365,1495,'rwd'],
+'jzx100':[276,378,1480,'rwd'],
+'350z':[300,353,1490,'rwd'],
+'370z':[350,374,1500,'rwd'],
+'brz':[228,249,1275,'rwd'],
+'gt3rs':[565,530,1260,'rwd'],
+'m4gt3':[590,650,1430,'rwd'],
+'amggt3':[550,650,1350,'rwd'],
+'huracangt3':[585,550,1285,'rwd'],
+'296gt3':[600,710,1250,'rwd'],
+'r8gt3':[585,550,1235,'rwd'],
+'p963':[670,700,1030,'awd'],
+'f499':[680,700,1030,'awd'],
+'gr010':[670,700,1040,'awd'],
+'peugeot9x8':[670,700,1030,'awd'],
+
  s15:[250,275,1240,'rwd'], '180sx':[205,265,1220,'rwd'], '240sx':[155,217,1260,'rwd'],s14:[220,275,1280,'rwd'],rx7:[276,314,1280,'rwd'],supra:[320,427,1510,'rwd'],mustang:[460,570,1680,'rwd'],camaro:[650,881,1760,'rwd'],challenger:[485,644,1940,'rwd'], '911':[502,469,1435,'rwd'],huracan:[610,560,1420,'awd'],ferrari:[661,760,1475,'rwd'],mclaren:[903,900,1490,'rwd'],bugatti:[1479,1600,1995,'awd'],koenigsegg:[1280,1000,1420,'rwd'],r34:[280,392,1560,'awd'],ae86:[128,149,940,'rwd'],corvette:[650,881,1590,'rwd'],viper:[645,814,1530,'rwd'],gtr35:[565,633,1750,'awd'],fdmustang:[1000,1100,1320,'rwd'],fdsupra:[1000,1050,1280,'rwd'],fdcorvette:[1050,1120,1350,'rwd'],fds15:[900,900,1190,'rwd'],fdbmw:[1000,1050,1320,'rwd'],bmwe60:[500,520,1830,'rwd']
 };
 // Approximate real-world stock top speeds (mph); FD entries are competition gearing estimates.
 // Approximate production-spec top speeds (governed where applicable). Exact trims/years vary.
 const STOCK_TOP_SPEED_MPH={
+'e36':155,
+'e46':155,
+'jzx100':155,
+'350z':155,
+'370z':155,
+'brz':140,
+'gt3rs':185,
+'m4gt3':185,
+'amggt3':180,
+'huracangt3':185,
+'296gt3':185,
+'r8gt3':185,
+'p963':210,
+'f499':210,
+'gr010':205,
+'peugeot9x8':205,
+
 s15:146,'180sx':137,'240sx':125,s14:146,rx7:156,supra:155,
 mustang:155,camaro:198,challenger:182,'911':193,huracan:202,
 ferrari:205,mclaren:217,bugatti:261,koenigsegg:300,
@@ -92,8 +142,8 @@ const SAVEKEY='apex_drift_2d_garage_v1';let saved={};try{saved=JSON.parse(localS
  if(tunes[id].brakeStrength==null)tunes[id].brakeStrength=100;
  return tunes[id]}function tunedPower(){let t=tuneFor();return currentCar().power*(1+t.engine*.095+t.turbo*.12)}function tunedGrip(){let t=tuneFor();return currentCar().grip*Math.max(.72,1-Math.abs(t.camber)*.013-Math.abs(t.toe)*.025)}function tunedSteer(){let t=tuneFor();let c=currentCar();return c.steer*(c.fd?1:.86)*(1+t.toe*.035+t.camber*.012)*(1+(t.angleKit||0)*.105)}let garageOpen=false;function persist(){try{localStorage.setItem(SAVEKEY,JSON.stringify({credits,owned:[...owned],selected,tunes}))}catch(e){}}function money(n){return Math.floor(n).toLocaleString('en-GB')}function toast(msg){let e=document.querySelector('#toast');e.textContent=msg;e.style.display='block';clearTimeout(toast.timer);toast.timer=setTimeout(()=>e.style.display='none',2200)}function shapeFor(v){
  const id=v.id;
- const types={s15:[0,0,0], '180sx':[1,0,0], '240sx':[2,0,0],s14:[3,0,0],rx7:[4,0,0],supra:[5,0,0],mustang:[6,1,0],camaro:[7,1,0],challenger:[8,1,0],'911':[9,2,0],huracan:[10,2,0],ferrari:[11,2,0],mclaren:[12,3,0],bugatti:[13,3,0],koenigsegg:[14,3,0],r34:[15,0,0],ae86:[16,0,0],corvette:[17,1,0],viper:[18,1,0],gtr35:[19,2,0],bmwe60:[7,1,0]};
- let k=types[id]||types.s15;return {index:k[0],classId:k[1],color:v.color,wing:['s15','s14','rx7','911','mclaren','koenigsegg'].includes(id),id};
+ const types={'e36':[7,1,0], 'e46':[7,1,0], 'jzx100':[15,0,0], '350z':[4,0,0], '370z':[4,0,0], 'brz':[0,0,0], 'gt3rs':[9,2,0], 'm4gt3':[7,1,0], 'amggt3':[18,1,0], 'huracangt3':[10,2,0], '296gt3':[11,2,0], 'r8gt3':[10,2,0], 'p963':[12,3,0], 'f499':[14,3,0], 'gr010':[13,3,0], 'peugeot9x8':[14,3,0],s15:[0,0,0], '180sx':[1,0,0], '240sx':[2,0,0],s14:[3,0,0],rx7:[4,0,0],supra:[5,0,0],mustang:[6,1,0],camaro:[7,1,0],challenger:[8,1,0],'911':[9,2,0],huracan:[10,2,0],ferrari:[11,2,0],mclaren:[12,3,0],bugatti:[13,3,0],koenigsegg:[14,3,0],r34:[15,0,0],ae86:[16,0,0],corvette:[17,1,0],viper:[18,1,0],gtr35:[19,2,0],bmwe60:[7,1,0]};
+ let k=types[id]||types.s15;return {index:k[0],classId:k[1],color:v.color,wing:(v.group==='GT3 Racing'||v.group==='Le Mans Hypercar'||['s15','s14','rx7','911','mclaren','koenigsegg'].includes(id)),id};
 }
 function drawUniqueCar(g,v,preview=false){
  const q=shapeFor(v),i=q.index,cl=q.classId;
@@ -270,6 +320,21 @@ function drawUniqueCar(g,v,preview=false){
     g.fillStyle='#f6ffff';g.font='bold 5px system-ui';g.textAlign='center';g.fillText('FD',r+(f-r)*.5,1.5);
   }
   g.restore();
+ // Race-spec visual details: contrasting centre stripe, bonnet number and broad rear wing.
+ if(v.group==='GT3 Racing'||v.group==='Le Mans Hypercar'){
+   const prototype=v.group==='Le Mans Hypercar';
+   g.save();
+   g.fillStyle=prototype?'#0a1822':'#f8fbff';g.globalAlpha=.75;
+   g.fillRect(rear+15,-(prototype?3.8:2.6),front-rear-31,prototype?7.6:5.2);
+   g.globalAlpha=1;
+   g.fillStyle='#101820';g.fillRect(rear-9,-B*.65,8,B*1.3);
+   g.fillStyle='#c8d5de';g.fillRect(rear-9,-B*.63,2,B*1.26);
+   if(prototype){g.fillStyle='#0c1925';g.beginPath();g.ellipse(front-12,0,12,B*.22,0,0,Math.PI*2);g.fill();
+     for(const side of [-1,1]){g.fillStyle='#101820';g.fillRect(rear+12,side*B*.33-3,19,6)}}
+   g.font='bold 10px system-ui';g.textAlign='center';g.textBaseline='middle';
+   g.fillStyle='#fff';g.fillRect(rear+21,-8,17,16);g.fillStyle='#17212d';g.fillText(prototype?'9':'7',rear+29.5,0);
+   g.restore();
+ }
  g.restore();
 }
 function carPreview(v){
@@ -369,6 +434,28 @@ for(let k=0;k<technicalTrackIds.length;k++){
  tr.name+=' · Technical';
 }
 
+
+// Dedicated GT3 and endurance racing layouts; original fictional courses.
+const racingLayouts=[
+ ['Apex International GP',1050,670,2,55,.4,155],
+ ['Silver Coast GT Raceway',1200,720,3,75,1.2,150],
+ ['Nightfall Endurance Circuit',1450,900,3,90,2.0,170],
+ ['Le Mans Inspired · Long Straight',2100,1050,2,95,.8,180],
+ ['Eifel Forest Grand Prix',1120,850,5,105,1.6,145],
+ ['Seaside 24H Circuit',1600,960,4,90,2.7,165],
+ ['Velocity Club Raceway',780,530,4,65,.3,140],
+ ['Prototype Test Circuit',1250,760,6,100,1.1,165]
+];
+for(const [name,rx,ry,waves,amp,phase,width] of racingLayouts){
+ const pts=[],N=64;
+ for(let j=0;j<N;j++){
+  const t=j*2*Math.PI/N;
+  const modulation=amp*Math.sin(waves*t+phase)+amp*.25*Math.sin((waves+2)*t-phase);
+  pts.push([Math.round((rx+modulation)*Math.cos(t)),Math.round((ry+modulation*.7)*Math.sin(t))]);
+ }
+ tracks.push({name,width,closed:true,racing:true,pts});
+}
+
 tracks.push({name:'Drag Racing Park · 1 Mile',width:260,closed:false,drag:true,pts:[[0,0],[500,0],[1100,0],[1700,0],[2300,0],[2900,0],[3500,0],[4100,0],[4700,0],[5300,0],[6000,0],[6800,0],[7500,0]]});
 // Mountain pass is a longer, tighter, elevation-inspired course with distinct hairpins.
 tracks[1].pts=tracks[1].pts.map(([x,y])=>[Math.round(x*1.45),Math.round(y*1.45)]);
@@ -439,7 +526,7 @@ function pollPad(){
  padPrev=p.buttons.map(x=>x.pressed);
 }
 function announceLap(completedLap,points,elapsed){const panel=document.querySelector('#lapAnnouncement');document.querySelector('#lapAnnTitle').textContent='LAP '+completedLap+' COMPLETE!';document.querySelector('#lapAnnDetails').textContent=Math.floor(points).toLocaleString('en-GB')+' LAP POINTS  ·  '+elapsed.toFixed(1)+'s  ·  COMBO NOT BANKED';panel.classList.remove('show');void panel.offsetWidth;panel.classList.add('show')}
-let visualSteer=0;let lapCarryPoints=0;let lapPointHistory=[];let cam={x:car.x,y:car.y},cameraMode=0,cameraRotation=0,particles=[],skidMarks=[],skidCooldown=0,time=0;function path(){ctx.beginPath();samples.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));if(tracks[trackId].closed)ctx.closePath()}function stroke(width,color,dash=[]){ctx.save();path();ctx.lineWidth=width;ctx.strokeStyle=color;ctx.lineJoin='round';ctx.lineCap='round';ctx.setLineDash(dash);ctx.stroke();ctx.restore()}
+let visualSteer=0;let lapCarryPoints=0;let lapPointHistory=[];let cam={x:car.x,y:car.y},cameraMode=0,cameraRotation=0,cameraZoom=1,cameraLookX=0,cameraLookY=0,cameraTilt=1,particles=[],skidMarks=[],skidCooldown=0,time=0;function path(){ctx.beginPath();samples.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));if(tracks[trackId].closed)ctx.closePath()}function stroke(width,color,dash=[]){ctx.save();path();ctx.lineWidth=width;ctx.strokeStyle=color;ctx.lineJoin='round';ctx.lineCap='round';ctx.setLineDash(dash);ctx.stroke();ctx.restore()}
 const themes=[
  ['park','#294f32','tree'],['mountain','#355044','pine'],['arena','#40535c','cone'],['industrial','#555b55','barrel'],
  ['cherry','#56684b','cherry'],['night','#202b43','lamp'],['desert','#947447','cactus'],['harbour','#45616b','container'],
@@ -500,9 +587,9 @@ function drawTougeRoadside(){
  // Branded roadside checkpoint banners.
  for(let i=100;i<len-20;i+=145){const p=samples[i],n=samples[Math.min(len-1,i+3)],a=Math.atan2(n.y-p.y,n.x-p.x);ctx.save();ctx.translate(p.x,p.y);ctx.rotate(a);ctx.fillStyle='#0e262e';ctx.fillRect(-8,-roadWidth/2-53,68,26);ctx.fillStyle='#83f5ce';ctx.font='bold 12px system-ui';ctx.fillText('TOUGE  '+Math.floor(i/145+1),-2,-roadWidth/2-36);ctx.restore()}
 }
-function toggleCamera(){cameraMode=(cameraMode+1)%2;document.querySelector('#cameraBtn').textContent=cameraMode?'📷 CAMERA: FOLLOW (V)':'📷 CAMERA: CLASSIC (V)';toast(cameraMode?'FOLLOW CAMERA · 2D':'CLASSIC CAMERA · 2D')}
+function toggleCamera(){cameraMode=(cameraMode+1)%2;cameraLookX=0;cameraLookY=0;document.querySelector('#cameraBtn').textContent=cameraMode?'📷 CAMERA: REFINED CHASE (V)':'📷 CAMERA: CLASSIC (V)';toast(cameraMode?'REFINED CHASE · SMOOTH DRIFT FOLLOW':'CLASSIC CAMERA · 2D')}
 document.querySelector('#cameraBtn').addEventListener('click',toggleCamera);
-function draw(){ctx.fillStyle=themes[trackId][1];ctx.fillRect(0,0,W,H);ctx.save();ctx.translate(W/2,H/2);let zoom=Math.max(.53,Math.min(.9,Math.min(W/1150,H/780)))*(cameraMode?1.48:1);ctx.scale(zoom,zoom);if(cameraMode)ctx.rotate(cameraRotation);ctx.translate(-cam.x,-cam.y);let tile=100;let radius=Math.hypot(W,H)/zoom*.64+230;let l=cam.x-radius,r=cam.x+radius,t=cam.y-radius,b=cam.y+radius;for(let x=Math.floor(l/tile)*tile;x<r;x+=tile)for(let y=Math.floor(t/tile)*tile;y<b;y+=tile){let v=(Math.sin(x*0.037+y*.043)+1)/2;ctx.fillStyle=v>.5?themes[trackId][1]:'#00000012';ctx.fillRect(x,y,tile,tile)}if(trackId===1)drawTougeTerrain(l,r,t,b);drawContinuousScenery(l,r,t,b)
+function draw(){ctx.fillStyle=themes[trackId][1];ctx.fillRect(0,0,W,H);ctx.save();ctx.translate(W/2,H/2);let zoom=Math.max(.53,Math.min(.9,Math.min(W/1150,H/780)))*(cameraMode?cameraZoom:1);ctx.scale(zoom,zoom);if(cameraMode){ctx.rotate(cameraRotation);}ctx.translate(-cam.x,-cam.y);let tile=100;let radius=Math.hypot(W,H)/zoom*.64+230;let l=cam.x-radius,r=cam.x+radius,t=cam.y-radius,b=cam.y+radius;for(let x=Math.floor(l/tile)*tile;x<r;x+=tile)for(let y=Math.floor(t/tile)*tile;y<b;y+=tile){let v=(Math.sin(x*0.037+y*.043)+1)/2;ctx.fillStyle=v>.5?themes[trackId][1]:'#00000012';ctx.fillRect(x,y,tile,tile)}if(trackId===1)drawTougeTerrain(l,r,t,b);drawContinuousScenery(l,r,t,b)
 
 // Layered circuit surface: shoulders, clean asphalt, realistic edge paint and subtle wear.
 stroke(roadWidth+30,'#1b2528');
@@ -545,7 +632,7 @@ drawUniqueCar(ctx,currentCar());
 ctx.restore();ctx.restore();
 if(nightMode){
  // Darken the environment, then add actual warm/cool light rather than dark cut-outs.
- const ox=(car.x-cam.x)*zoom,oy=(car.y-cam.y)*zoom;const sx=W/2+ox*Math.cos(cameraRotation)-oy*Math.sin(cameraRotation),sy=H/2+ox*Math.sin(cameraRotation)+oy*Math.cos(cameraRotation);
+ const ox=(car.x-cam.x)*zoom,oy=(car.y-cam.y)*zoom;const sx=W/2+ox*Math.cos(cameraRotation)-oy*Math.sin(cameraRotation),sy=H/2+(ox*Math.sin(cameraRotation)+oy*Math.cos(cameraRotation))*1;
  const dx=Math.cos(car.a+cameraRotation),dy=Math.sin(car.a+cameraRotation),nx=-dy,ny=dx;
  const model=currentCar();
  const warmIds=new Set(['ae86','180sx','240sx','s14','s15','rx7','supra','mustang','camaro','challenger','viper']);
@@ -557,9 +644,9 @@ if(nightMode){
  ctx.globalCompositeOperation='screen';
  for(const side of [-1,1]){
   const bx=sx+dx*23*zoom+nx*side*11*zoom;
-  const by=sy+dy*23*zoom+ny*side*11*zoom;
+  const by=sy+(dy*23*zoom+ny*side*11*zoom)*1;
   const length=390*zoom, width=125*zoom;
-  ctx.save();ctx.translate(bx,by);ctx.rotate(car.a);
+  ctx.save();ctx.translate(bx,by);ctx.rotate(car.a+cameraRotation);
   const cone=ctx.createLinearGradient(0,0,length,0);
   cone.addColorStop(0,`rgba(${core},.49)`);
   cone.addColorStop(.30,`rgba(${core},.27)`);
@@ -571,7 +658,7 @@ if(nightMode){
   ctx.closePath();ctx.fill();ctx.restore();
   for(let i=1;i<=7;i++){
    const t=i/8,dist=(30+320*t)*zoom;
-   const x=bx+dx*dist,y=by+dy*dist,r=(21+76*t)*zoom;
+   const x=bx+dx*dist,y=by+dy*dist*1,r=(21+76*t)*zoom;
    const glow=ctx.createRadialGradient(x,y,0,x,y,r);
    glow.addColorStop(0,`rgba(${haloColor},${.23*(1-t)+.025})`);
    glow.addColorStop(1,`rgba(${haloColor},0)`);
@@ -582,7 +669,7 @@ if(nightMode){
  // Bright white or yellow lamp housings remain visible on the car.
  for(const side of [-1,1]){
   const x=sx+dx*24*zoom+nx*side*11*zoom;
-  const y=sy+dy*24*zoom+ny*side*11*zoom;
+  const y=sy+(dy*24*zoom+ny*side*11*zoom)*1;
   const bulb=ctx.createRadialGradient(x,y,0,x,y,11*zoom);
   bulb.addColorStop(0,warm?'#fff3bc':'#ffffff');
   bulb.addColorStop(.32,warm?'rgba(255,214,99,.85)':'rgba(210,237,255,.85)');
@@ -694,7 +781,35 @@ car.vx-=rx*lateral*Math.min(1,grip*dt);car.vy-=ry*lateral*Math.min(1,grip*dt);le
  }
 }
 for(let m of skidMarks)m.life-=dt;skidMarks=skidMarks.filter(m=>m.life>0);for(let s of particles){s.life-=dt;s.x+=s.vx*dt;s.y+=s.vy*dt;s.r+=s.expand*dt;}
-particles=particles.filter(s=>s.life>0);if(particles.length>320)particles.splice(0,particles.length-320);let cameraTarget=cameraMode?(-car.a-Math.PI/2):0;let cameraDelta=Math.atan2(Math.sin(cameraTarget-cameraRotation),Math.cos(cameraTarget-cameraRotation));cameraRotation+=cameraDelta*Math.min(1,dt*(cameraMode?3.8:6));cam.x+=(car.x-cam.x)*Math.min(1,dt*(cameraMode?7:4));cam.y+=(car.y-cam.y)*Math.min(1,dt*(cameraMode?7:4));let driftAngle=Math.atan2(Math.abs(lateral),Math.max(12,Math.abs(forward)))*180/Math.PI;let signedAngle=Math.atan2(lateral,Math.abs(forward)+0.001)*180/Math.PI;document.querySelector('#angle').textContent='DRIFT ANGLE '+Math.round(Math.abs(signedAngle))+'°';document.querySelector('#teleSlip').textContent=Math.round(Math.abs(signedAngle))+'°';document.querySelector('#teleTyres').textContent=setup.tyreGrip+'%';document.querySelector('#teleDiff').textContent=setup.diffLock+'%';document.querySelector('#direction').textContent=car.spinTimer>0?'SPIN OUT · RECOVER CONTROL':car.spinRisk>.65?'⚠ HIGH ANGLE · COUNTERSTEER':speed<12?'STRAIGHT':Math.abs(signedAngle)<5?'STRAIGHT':signedAngle>0?'SLIDING RIGHT':'SLIDING LEFT';if(trackId===DRAG_TRACK_ID){const d=document.querySelector('#dragHud');d.style.display='block';if(!dragFinished){if(!dragStarted&&speed>6)dragStarted=true;if(dragStarted)dragElapsed+=dt;if(dragStarted){for(const [x,label] of [[1320,'¼'],[2640,'½'],[5280,'1']]){if(car.x>=x&&dragSplits[label]===undefined){dragSplits[label]=dragElapsed;dragRunBest[label]=Math.min(dragRunBest[label]??Infinity,dragElapsed);toast(label+' MILE · '+dragElapsed.toFixed(2)+'s')}}if(car.x>=5280){dragFinished=true;dragBest=dragBest===null?dragElapsed:Math.min(dragBest,dragElapsed);toast('1 MILE FINISH · '+dragElapsed.toFixed(2)+'s · RESET TO RACE AGAIN')}}}d.textContent='DRAG '+(dragFinished?'FINISHED ':dragStarted?'RUN ':'READY ')+'· '+dragElapsed.toFixed(2)+'s'+(dragSplits['¼']!==undefined?' · ¼ '+dragSplits['¼'].toFixed(2)+'s':'')+(dragSplits['½']!==undefined?' · ½ '+dragSplits['½'].toFixed(2)+'s':'')+(dragSplits['1']!==undefined?' · 1 MI '+dragSplits['1'].toFixed(2)+'s':'');}else document.querySelector('#dragHud').style.display='none';
+particles=particles.filter(s=>s.life>0);if(particles.length>320)particles.splice(0,particles.length-320);// Refined 2D chase: softly damped yaw, drift-aware look-ahead, stable zoom.
+// All movement remains in world space, so the map and car keep their proportions.
+const chaseSpeed=Math.hypot(car.vx,car.vy);
+const chaseForward=Math.cos(car.a)*car.vx+Math.sin(car.a)*car.vy;
+const chaseSide=-Math.sin(car.a)*car.vx+Math.cos(car.a)*car.vy;
+const chaseSlip=Math.atan2(chaseSide,Math.max(30,Math.abs(chaseForward)));
+const chaseDrift=Math.min(1,Math.abs(chaseSlip)/.65);
+const cameraTarget=cameraMode?(-car.a-Math.PI/2+Math.max(-.16,Math.min(.16,chaseSlip*.19))):0;
+const cameraDelta=Math.atan2(Math.sin(cameraTarget-cameraRotation),Math.cos(cameraTarget-cameraRotation));
+// Slow down sudden rotation changes while retaining enough response for tight corners.
+const chaseYawRate=cameraMode?(2.0+Math.min(1,chaseSpeed/190)*.65):7;
+cameraRotation+=cameraDelta*(1-Math.exp(-chaseYawRate*dt));
+const zoomTarget=cameraMode?1.095:1;
+cameraZoom+=(zoomTarget-cameraZoom)*(1-Math.exp(-2.0*dt));
+cameraTilt=1;
+// Look ahead of the bonnet; drift adds a small sideways preview instead of swinging the camera.
+const leadDistance=cameraMode?(105+Math.min(40,chaseSpeed*.11)):0;
+const sideLead=cameraMode?Math.max(-25,Math.min(25,chaseSide*.13)):0;
+const targetLookX=Math.cos(car.a)*leadDistance-Math.sin(car.a)*sideLead;
+const targetLookY=Math.sin(car.a)*leadDistance+Math.cos(car.a)*sideLead;
+const lookEase=1-Math.exp(-(cameraMode?2.35:7)*dt);
+cameraLookX+=(targetLookX-cameraLookX)*lookEase;
+cameraLookY+=(targetLookY-cameraLookY)*lookEase;
+// Spring-like tracking: enough lag to feel cinematic, without a floaty car.
+const targetCamX=car.x+cameraLookX,targetCamY=car.y+cameraLookY;
+const followEase=1-Math.exp(-(cameraMode?5.0:7.5)*dt);
+cam.x+=(targetCamX-cam.x)*followEase;
+cam.y+=(targetCamY-cam.y)*followEase;
+let driftAngle=Math.atan2(Math.abs(lateral),Math.max(12,Math.abs(forward)))*180/Math.PI;let signedAngle=Math.atan2(lateral,Math.abs(forward)+0.001)*180/Math.PI;document.querySelector('#angle').textContent='DRIFT ANGLE '+Math.round(Math.abs(signedAngle))+'°';document.querySelector('#teleSlip').textContent=Math.round(Math.abs(signedAngle))+'°';document.querySelector('#teleTyres').textContent=setup.tyreGrip+'%';document.querySelector('#teleDiff').textContent=setup.diffLock+'%';document.querySelector('#direction').textContent=car.spinTimer>0?'SPIN OUT · RECOVER CONTROL':car.spinRisk>.65?'⚠ HIGH ANGLE · COUNTERSTEER':speed<12?'STRAIGHT':Math.abs(signedAngle)<5?'STRAIGHT':signedAngle>0?'SLIDING RIGHT':'SLIDING LEFT';if(trackId===DRAG_TRACK_ID){const d=document.querySelector('#dragHud');d.style.display='block';if(!dragFinished){if(!dragStarted&&speed>6)dragStarted=true;if(dragStarted)dragElapsed+=dt;if(dragStarted){for(const [x,label] of [[1320,'¼'],[2640,'½'],[5280,'1']]){if(car.x>=x&&dragSplits[label]===undefined){dragSplits[label]=dragElapsed;dragRunBest[label]=Math.min(dragRunBest[label]??Infinity,dragElapsed);toast(label+' MILE · '+dragElapsed.toFixed(2)+'s')}}if(car.x>=5280){dragFinished=true;dragBest=dragBest===null?dragElapsed:Math.min(dragBest,dragElapsed);toast('1 MILE FINISH · '+dragElapsed.toFixed(2)+'s · RESET TO RACE AGAIN')}}}d.textContent='DRAG '+(dragFinished?'FINISHED ':dragStarted?'RUN ':'READY ')+'· '+dragElapsed.toFixed(2)+'s'+(dragSplits['¼']!==undefined?' · ¼ '+dragSplits['¼'].toFixed(2)+'s':'')+(dragSplits['½']!==undefined?' · ½ '+dragSplits['½'].toFixed(2)+'s':'')+(dragSplits['1']!==undefined?' · 1 MI '+dragSplits['1'].toFixed(2)+'s':'');}else document.querySelector('#dragHud').style.display='none';
 document.querySelector('#gearHud').textContent='GEAR '+gear+' / 6 · '+(Math.min(1,speedNow/Math.max(1,gearCap))*100).toFixed(0)+'%';
  document.querySelector('#specTopSpeed').textContent=carTopSpeedMph()+' MPH';
  document.querySelector('#specPower').textContent=Math.round(perf.hp)+' HP';
