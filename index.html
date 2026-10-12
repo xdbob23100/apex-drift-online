@@ -64,7 +64,73 @@ box-shadow:0 16px 50px #0009,inset 0 1px #ffffff1c;backdrop-filter:blur(16px);fo
 </style><style id="xp-owner-css">#xpHud{margin-top:10px;padding:9px 0 2px;border-top:1px solid #ffffff30;font-size:12px;color:#cce9fa}#xpHud strong{color:#a6ffe1}#xpProgress{height:5px;background:#294658;border-radius:9px;overflow:hidden;margin-top:6px}#xpProgressFill{height:100%;width:0;background:linear-gradient(90deg,#25d8ad,#a3f4ff)}.ownerSection{margin:13px 0;padding:12px;border:1px solid #355a70;border-radius:11px;background:#0b1b2b}.ownerSection h3{font-size:13px;color:#a6e8ee;margin:0 0 8px}.ownerGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px}.ownerGrid button{font-size:12px;padding:9px 4px!important;margin:0!important}.ownerGrid button[data-sign="-"]{background:#eaa79a!important;color:#341817!important}#ownerCard{max-height:90vh;overflow-y:auto}#ownerBalance{font-size:12px;color:#b9e5f0;line-height:1.6}</style><style id="rank-style">#rankDisplay{display:flex;align-items:center;gap:6px;margin:0 0 7px;color:var(--rank-color,#b87945);font-weight:900;font-size:13px;letter-spacing:1px}#rankEmblem{font-size:20px;text-shadow:0 0 12px var(--rank-color,#b87945)}#rankNext{font-size:9px;font-weight:600;letter-spacing:0;color:#abc9d9;margin-left:auto}#rankProgress{height:5px;background:#203d4b;border-radius:6px;overflow:hidden;margin:4px 0 6px}#rankProgressFill{height:100%;width:0;background:var(--rank-color,#b87945);transition:width .25s}#garageRank{margin-top:8px;font-size:12px;font-weight:900;letter-spacing:1px}</style><style id="resale-style">.carcard .sellCarBtn{margin-top:7px;background:#293b48;color:#ffc9a4;border:1px solid #ad795b;font-size:12px}.carcard .sellCarBtn:hover{background:#513b38}.sellHint{font-size:11px;color:#9cbac8;margin-top:5px;line-height:1.4}</style><style id="apex-championship-style">
 #apexModeBtn{position:fixed;right:20px;top:115px;z-index:15;border:1px solid #4f8eaa;border-radius:11px;background:#0d2437;color:#dffbff;padding:11px 15px;font-weight:900;cursor:pointer}
 #apexModePanel{display:none;position:fixed;inset:0;background:#030b14db;z-index:110;overflow:auto;padding:4vh 12px;color:#e7f8ff;font-family:Arial,sans-serif}#apexModePanel.open{display:block}#apexModePanel .shell{max-width:780px;margin:auto;background:linear-gradient(130deg,#132c40,#08151f);border:1px solid #32627c;border-radius:20px;padding:23px;box-shadow:0 22px 70px #000b}#apexModePanel h2{margin:0 0 8px;font-size:23px}#apexModePanel p{color:#a9c7d8;font-size:13px;line-height:1.5}#apexModePanel .tabs{display:flex;gap:7px;flex-wrap:wrap;margin:15px 0}#apexModePanel button,#apexModePanel select,#apexModePanel input{background:#1d4154;color:#e8f9ff;border:1px solid #45778d;border-radius:8px;padding:9px;font-weight:700;cursor:pointer}#apexModePanel button.active,#apexModePanel button.primary{background:#18bba4;color:#032522}#apexModePanel input[type=color]{padding:2px;width:75px;height:37px}#apexModePanel .panelgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}#apexModePanel .panelcard{background:#102b3d;border:1px solid #2e5269;border-radius:12px;padding:13px}#apexModePanel .panelcard strong{display:block;margin-bottom:7px}#apexModePanel .panelcard small{display:block;color:#9bbccc;margin:8px 0}#apexRaceHud{position:fixed;top:12px;left:50%;transform:translateX(-50%);z-index:9;pointer-events:none;background:#081824dd;color:#d8f8ff;border:1px solid #437c8b;border-radius:12px;padding:8px 16px;font:800 12px Arial;text-align:center;min-width:215px}#apexRaceHud .muted{font-size:10px;color:#a2c9d8;font-weight:500;margin-top:3px}#apexModePanel .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:8px 0}#apexModePanel label{font-size:12px;color:#c5e3ed}
-</style></head><body><canvas id='game'></canvas><button id="apexModeBtn" type="button">🏁 RACE / CAREER (F6)</button><div id="apexRaceHud">FREE DRIVE<div class="muted">F6 · Race, tune & customise</div></div><div id="apexModePanel"><div class="shell"><div class="row" style="justify-content:space-between"><h2>🏁 APEX MOTORSPORT</h2><button id="apexClose">✕ CLOSE</button></div><p>Career, AI racing, drift events, endurance strategy and car styling. Changes save in this browser.</p><div class="tabs" id="apexTabs"></div><div id="apexTabContent"></div></div></div><button id="multiBtn">🌐 MULTIPLAYER (M)</button><div id="multiInfo">SOLO · OFFLINE</div><div id="multiPanel"><div class="multiCard"><h2>🌐 APEX ONLINE</h2><p>Make a private room, then share its six-character code. Up to 8 drivers. All drivers use the same track. Your own credits and garage stay saved on this device.</p><label>DRIVER NAME<input id="driverName" maxlength="18" placeholder="Your name"></label><label>JOIN CODE (for joining only)<input id="joinCode" maxlength="6" placeholder="ABC123" autocapitalize="characters"></label><div><button id="createRoom">CREATE ROOM</button><button id="joinRoom">JOIN ROOM</button><button id="leaveRoom" class="secondary">LEAVE ROOM</button><button id="closeMulti" class="secondary">CLOSE</button></div><p id="roomStatus"></p><div id="roomCodeView"></div><div id="playerList"></div><p>Controls: M = multiplayer menu. Only the room host can change tracks. This is shared driving, not collision-based PvP.</p></div></div><div id='lapAnnouncement' aria-live='polite'><div class='lapTitle' id='lapAnnTitle'></div><div class='lapDetails' id='lapAnnDetails'></div></div><div id="driveTelemetry"><span>SLIP <b id="teleSlip">0°</b></span><span>TYRES <b id="teleTyres">STREET</b></span><span>DIFF <b id="teleDiff">70%</b></span></div><div id='currentCarBadge'><div class='car-dot'></div><div><div class='car-caption'>CURRENT VEHICLE</div><div id='currentCarName'>Silvia S15</div></div></div><div id='hud'><div id='title'>APEX DRIFT 2D</div><div id='speed'>0 <small>MPH</small></div><div id='status'>GRIP</div><div id='gearHud'>GEAR 1 / 6</div><div id='dragHud' style='display:none'></div><div id='angle' style='font-size:22px;font-weight:900;color:#ffd26d;margin:7px 0'>DRIFT ANGLE 0°</div><div id='direction' style='font-size:12px;color:#bcd0e5'>STRAIGHT</div><div id='lap'>LAP 1 · 00:00.0</div><div id='best'>BEST —</div><div id='lapPoints' style='color:#ffe09a;font-weight:800;margin-top:5px'>THIS LAP 0 PTS · UNBANKED</div><div id='lastLapPoints' style='font-size:12px;color:#a8e9d2'>LAST LAP —</div><div id='telemetry'><div class='telemetry-tile'><span>TOP SPEED</span><strong id='specTopSpeed'>— MPH</strong></div><div class='telemetry-tile'><span>ENGINE</span><strong id='specPower'>— HP</strong></div></div><div id='gripMeter'><div id='gripMeterFill'></div></div><div id="xpHud"><div id="rankDisplay"><span id="rankEmblem">◆</span><span id="rankName">BRONZE</span><span id="rankNext">NEXT: BRONZE II</span></div><div id="rankProgress"><div id="rankProgressFill"></div></div><strong id="xpLevel">LEVEL 1</strong> · <span id="xpAmount">0 XP</span><div id="xpProgress"><div id="xpProgressFill"></div></div></div><div id='scorebox'><div>ACTIVE DRIFT POINTS</div><div id='points'>0</div><div id='combo'>COMBO x1.0</div><div id='bank'>BEST DRIFT 0</div></div></div><select id='trackSelect'><option value='0'>1 · Grand Prix Circuit</option><option value='1'>2 · Mountain Touge</option><option value='2'>3 · Figure 8</option><option value='3'>4 · Drift Playground</option></select><button id='reset'>RESET CAR (R)</button><button id='garageBtn'>🚗 GARAGE (G)</button><button id='dayBtn'>☀ DAY / NIGHT (N)</button><div id='wallet'>CREDITS: <span id='credits'>0</span> CR</div><div id='garage'><div class='garagePanel'><div class='garageHead'><div><h1>APEX MOTORWORKS · GARAGE</h1><p>Earn credits from drifting and collect GT3 and Le Mans-inspired race cars. Buy, tune and sell cars. Selling returns 60% of the purchase price.</p><b id='garageMoney'></b><div id="garageRank">◆ BRONZE RANK · LEVEL 1</div></div><button id='closeGarage'>BACK TO TRACK ✕</button></div><div id='tuningShop'></div><div class='carGrid' id='carGrid'></div></div></div><div id='rpmCluster'><div id='rpmLabel'>ENGINE RPM</div><div id='rpmReadout'>900 <span>RPM</span></div><div id='rpmTicks'></div><div id='rpmBar'><div id='rpmFill'></div><div id='rpmRedline'></div></div><div id='rpmFoot'><b id='rpmGear'>1</b><span id='rpmShift'>READY</span></div></div><button id='soundBtn' type='button' title='Enable or mute engine audio'>🔇 ENGINE SOUND: OFF</button><div id='toast'></div><div id="ownerPanel" role="dialog" aria-label="Owner menu" aria-modal="true"><div id="ownerCard"><h2>🔒 APEX DRIFT · OWNER</h2><p id="ownerMessage">Enter your private owner password.</p><div id="ownerLogin"><input id="ownerPassword" type="password" autocomplete="current-password" placeholder="Owner password"><button id="ownerSignIn">SIGN IN</button></div><div id="ownerActions" hidden><p>Signed in as owner on this browser.</p><div id="ownerBalance"></div><div class="ownerSection"><h3>CREDITS · ADD / REMOVE</h3><div class="ownerGrid" id="ownerCreditGrid"></div></div><div class="ownerSection"><h3>XP · ADD / REMOVE</h3><div class="ownerGrid" id="ownerXpGrid"></div></div><button data-owner-action="cars">UNLOCK ALL CARS</button><button data-owner-action="upgrades">MAX ALL UPGRADES</button><button id="ownerSignOut">SIGN OUT</button></div><button id="ownerClose" style="background:#d9e5ee">CLOSE ✕</button><p style="font-size:12px;color:#9bb6c6">Owner shortcut: Ctrl + Shift + C (or F8)</p></div></div><button id='cameraBtn' type='button' title='Switch between two 2D camera styles'>📷 CAMERA: CLASSIC (V)</button><div id='help'>W / ↑ Accelerate · S / ↓ Brake / Reverse · E/Q Shift · RB/LB Controller Shift · A D / ← → Steer · SPACE Handbrake / Drift · N Day/Night · 1–4 Quick Tracks · V Switch 2D Camera · Dropdown: Drift, GT3 & Endurance · RWD · R Reset</div><script>
+</style><style>
+.drivePill{display:inline-block;border:1px solid #48dfc0;background:#153e3a;color:#83f9dd;padding:3px 8px;border-radius:6px;font-weight:800;font-size:11px;letter-spacing:.05em;white-space:nowrap}
+.driveCardBadge{border:1px solid #385a68;background:#173542;border-radius:5px;padding:3px 6px;color:#b8e4f4}
+.driveCardBadge b{color:#6ee8cc;margin-right:3px}.driveCardBadge.awd b{color:#8fc7ff}
+</style>
+<style id="apex-rain-gear-style">
+#gearHud{display:inline-flex;align-items:center;justify-content:center;min-width:55px;padding:5px 10px;margin-top:7px;background:linear-gradient(130deg,#122f3eea,#071824ee);border:1px solid #4f9d9b88;border-radius:9px;font-size:13px!important;font-weight:850;letter-spacing:1px;color:#a9ffe7;box-shadow:0 3px 12px #0005}
+#apexWeatherHud{background:#081b2de9!important;backdrop-filter:blur(8px);box-shadow:0 5px 16px #0006}
+</style><style id="apex-clickable-score-style">
+#apexRaceHud{pointer-events:auto!important;cursor:pointer;user-select:none;transition:border-color .16s,background .16s,box-shadow .16s;min-width:215px;padding:9px 16px 10px!important;box-shadow:0 6px 24px #0006}
+#apexRaceHud:hover,#apexRaceHud:focus-visible{border-color:#49e4c4!important;background:#103345f5!important;box-shadow:0 0 0 2px #36e7be44,0 8px 26px #0008;outline:none}
+#apexRaceHud:active{transform:translateX(-50%) scale(.98)}
+#apexRaceHud .muted{pointer-events:none}
+#apexScoreBelow{position:fixed;top:66px;left:50%;transform:translateX(-50%);z-index:9;pointer-events:none;background:#081824e8;border:1px solid #3d7787;border-radius:0 0 12px 12px;padding:6px 15px 8px;min-width:170px;box-sizing:border-box;text-align:center;color:#d7f4ff;font:700 11px Arial,sans-serif;box-shadow:0 5px 15px #0005}
+#apexScoreBelow .scoreNumber{font-size:18px;color:#ffd47c;font-weight:900;letter-spacing:.4px;font-variant-numeric:tabular-nums}
+#apexScoreBelow .scoreMeta{color:#a4d5df;font-size:10px;margin-top:2px}
+@media(max-width:600px){#apexRaceHud{min-width:190px!important}#apexScoreBelow{min-width:160px}}
+</style><style id="apex-motorsport-polish">
+/* Motorsport hub visual refresh: no changes to event handlers or save data. */
+#apexModePanel{background:radial-gradient(ellipse at 50% 12%,#15334777,#020810ed 75%);backdrop-filter:blur(9px);padding:clamp(14px,4vh,36px) 14px;box-sizing:border-box}
+#apexModePanel .shell{max-width:990px;box-sizing:border-box;padding:clamp(19px,3vw,34px);background:linear-gradient(145deg,#142e41 0%,#0b1c2c 46%,#07121e 100%);border:1px solid #5d93a766;border-radius:24px;box-shadow:0 30px 100px #000d,inset 0 1px #ffffff15;position:relative;overflow:hidden}
+#apexModePanel .shell:before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,#23d5bc 25%,#6ee7f2 70%,transparent)}
+#apexModePanel h2{font-size:clamp(22px,3vw,30px);letter-spacing:1.2px;font-weight:900;margin:0;color:#f0fbff;text-shadow:0 2px 15px #0005}
+#apexModePanel .shell>p{margin:7px 0 20px;color:#91b6c8;font-size:13px}
+#apexModePanel .tabs{display:flex;gap:9px;margin:20px 0 22px;padding:5px;background:#061522a8;border:1px solid #31506477;border-radius:14px;width:fit-content;max-width:100%}
+#apexModePanel .tabs button{background:transparent;border:1px solid transparent;color:#a8c9d9;border-radius:10px;padding:11px 15px;transition:background .16s,color .16s,transform .16s}
+#apexModePanel .tabs button:hover{background:#1b4152;color:white}
+#apexModePanel .tabs button.active{background:linear-gradient(130deg,#20d9bb,#11b9b5);color:#052a2b;box-shadow:0 3px 16px #1bcdb84d}
+#apexModePanel .panelgrid{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+#apexModePanel .panelcard{background:linear-gradient(150deg,#15364a,#0b2434);border:1px solid #416a7d8c;border-radius:17px;padding:19px;box-shadow:inset 0 1px #ffffff0c,0 8px 25px #0003;min-width:0;transition:border-color .2s,transform .2s}
+#apexModePanel .panelcard:hover{border-color:#3bd8bfaa;transform:translateY(-2px)}
+#apexModePanel .panelcard strong{font-size:15px;color:#f0fbff;margin-bottom:10px;letter-spacing:.3px}
+#apexModePanel .panelcard small{color:#aac9d7;line-height:1.5}
+#apexModePanel button,#apexModePanel select,#apexModePanel input{border-radius:10px;border-color:#547d90;background:#1b4053;transition:filter .15s,border-color .15s}
+#apexModePanel button:hover{filter:brightness(1.13)}
+#apexModePanel button.primary{background:linear-gradient(125deg,#2cdec0,#0fb7ae);color:#062722;border:0;box-shadow:0 4px 14px #09a98c35;padding:11px 13px}
+#apexModePanel select{max-width:100%;box-sizing:border-box}
+#apexClose{background:#18374a!important;border:1px solid #6c9bae!important;color:#e9f8ff!important;padding:11px 15px!important}
+#apexClose:hover{background:#2b5267!important}
+#apexRaceHud{border-color:#4f9f9e;background:linear-gradient(135deg,#0d2a39f2,#071b2af2);border-radius:13px;font-size:13px;letter-spacing:.8px}
+#apexScoreBelow{top:70px;min-width:240px;padding:10px 18px 11px;border-radius:12px;background:linear-gradient(135deg,#102f41f2,#091c2bf2);border-color:#4a9e9c8a;box-shadow:0 8px 25px #0008;font-size:11px;letter-spacing:1.2px}
+#apexScoreBelow .scoreNumber{display:block;font-size:clamp(29px,3.2vw,37px);line-height:1.1;margin:5px 0;color:#ffe08c;letter-spacing:-.7px;text-shadow:0 2px 16px #ffcf6a35}
+#apexScoreBelow .scoreMeta{font-size:10px;letter-spacing:.2px;margin-top:5px}
+@media(max-width:760px){#apexModePanel .panelgrid{grid-template-columns:repeat(2,minmax(0,1fr))}#apexModePanel .tabs{width:auto}#apexModePanel .tabs button{padding:9px 10px;font-size:11px}}
+@media(max-width:520px){#apexModePanel .panelgrid{grid-template-columns:1fr}#apexModePanel .shell{padding:16px}#apexModePanel .tabs{gap:3px}#apexModePanel .tabs button{padding:8px 7px}#apexScoreBelow{min-width:205px}}
+</style><style id="apex-custom-studio">
+#apexModePanel .apex-custom{width:100%}#apexModePanel .custom-hero{display:flex;justify-content:space-between;gap:20px;align-items:end;margin:4px 0 18px;padding:19px 21px;background:linear-gradient(105deg,#173c4d,#0b2234);border:1px solid #386578;border-radius:16px}#apexModePanel .custom-kicker{font-size:10px;font-weight:900;letter-spacing:2px;color:#40dfca}#apexModePanel .custom-hero h3{font-size:24px;margin:7px 0;color:#f2fcff;letter-spacing:1px}#apexModePanel .custom-hero p{margin:0;max-width:520px}#apexModePanel .custom-carname{color:#c4f3f1;font-size:13px;font-weight:900;text-align:right}#apexModePanel .custom-layout{display:grid;grid-template-columns:minmax(0,1fr) 245px;gap:15px;align-items:start}#apexModePanel .custom-main{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}#apexModePanel .custom-section{padding:17px;transform:none!important}#apexModePanel .custom-section-title{display:flex;align-items:center;gap:12px;margin-bottom:14px}#apexModePanel .custom-section-title strong{margin:0}#apexModePanel .custom-section-title small{margin:3px 0 0}#apexModePanel .custom-index{display:grid;place-items:center;min-width:33px;height:33px;background:#173f4c;border:1px solid #39b8ae77;border-radius:10px;color:#54e7d2;font-size:12px;font-weight:900}#apexModePanel .custom-paint-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}#apexModePanel .custom-colour{color:#b4dce7;font-size:12px;letter-spacing:1px;flex:1}#apexModePanel .custom-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}#apexModePanel .custom-fields label{display:flex;flex-direction:column;gap:7px;font-size:10px;font-weight:900;letter-spacing:1px}#apexModePanel .custom-fields select{width:100%;font-size:12px}#apexModePanel .custom-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}#apexModePanel .custom-tyres{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px}#apexModePanel .custom-tyre{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;min-height:78px;border:1px solid #365a6c;border-radius:12px;background:#0a2030;cursor:pointer;padding:7px 3px;text-align:center}#apexModePanel .custom-tyre:has(input:checked){border-color:#38ebc9;background:#123d45;box-shadow:0 0 0 1px #31e5c755}#apexModePanel .custom-tyre input{position:absolute;opacity:0;pointer-events:none}#apexModePanel .tyre-dot{width:20px;height:20px;border-radius:50%;border:5px solid var(--tyre);box-sizing:border-box;background:#0b1722}#apexModePanel .custom-tyre b{font-size:10px;color:#effaff}#apexModePanel .custom-tyre small{font-size:9px;line-height:1.1;margin:0;color:#9cbecc}#apexModePanel .custom-tyre-stats{display:flex;justify-content:space-between;gap:8px;margin-top:13px;flex-wrap:wrap}#apexModePanel .custom-tyre-stats span{font-size:10px;color:#a3c9d4}#apexModePanel .custom-tyre-stats b{color:#eafcff}#apexModePanel .custom-mass{margin:14px 0;font-size:12px;font-weight:800;color:#b2efe5}#apexModePanel .custom-wide{width:100%}#apexModePanel .custom-side{position:sticky;top:10px}#apexModePanel .custom-preview{text-align:center}#apexModePanel .custom-preview-stage{position:relative;display:grid;place-items:center;height:245px;margin:12px 0;background:radial-gradient(ellipse,#235266 0%,#102a3b 48%,#081b2a 100%);border:1px solid #376477;border-radius:16px;overflow:hidden}#apexModePanel .custom-preview-stage:after{content:'';position:absolute;bottom:22px;left:25%;width:50%;height:15px;border-radius:50%;background:#0008;filter:blur(9px)}#apexModePanel .custom-car-shape{position:relative;width:86px;height:175px;background:linear-gradient(90deg,#0004,transparent 23%,#fff3 50%,transparent 78%,#0005),var(--preview-paint);border:3px solid #081b27;border-radius:30px 30px 23px 23px;box-shadow:-12px 28px 25px #0005,0 0 0 2px #ffffff18;transform:rotate(-18deg);z-index:1}#apexModePanel .custom-car-shape:before,#apexModePanel .custom-car-shape:after{content:'';position:absolute;width:12px;height:43px;background:#111c28;border-radius:5px;top:25px;left:-13px;box-shadow:0 84px #111c28}#apexModePanel .custom-car-shape:after{left:auto;right:-13px}#apexModePanel .custom-window,#apexModePanel .custom-windshield,#apexModePanel .custom-tailglass{position:absolute;left:13px;right:13px;background:linear-gradient(135deg,#a6d9e6,#173548 75%);border:2px solid #0c2636}#apexModePanel .custom-window{top:58px;height:49px;border-radius:8px}#apexModePanel .custom-windshield{top:39px;height:17px;border-radius:12px 12px 3px 3px}#apexModePanel .custom-tailglass{top:111px;height:16px;border-radius:3px 3px 9px 9px}#apexModePanel .custom-preview-tags{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-top:14px}#apexModePanel .custom-preview-tags span{font-size:10px;font-weight:900;color:#74e6d4;background:#143a45;padding:7px;border-radius:8px}@media(max-width:900px){#apexModePanel .custom-layout{grid-template-columns:1fr}#apexModePanel .custom-side{position:static}#apexModePanel .custom-preview-stage{height:170px}}@media(max-width:660px){#apexModePanel .custom-main{grid-template-columns:1fr}#apexModePanel .custom-tyres{grid-template-columns:repeat(3,minmax(0,1fr))}#apexModePanel .custom-hero{display:block}#apexModePanel .custom-carname{text-align:left;margin-top:12px}}
+</style><style id="apex-clean-driving-controls-v1">
+/* Clear driving view: compact controls, aligned widgets, optional help. */
+#rpmCluster{left:50%!important;bottom:18px!important;top:auto!important;transform:translateX(-50%)!important;width:236px!important;padding:9px 13px!important;border-radius:16px!important;background:linear-gradient(145deg,#0b2435ed,#07151fee)!important;border:1px solid #60b8c18a!important;box-shadow:0 10px 30px #0008!important;pointer-events:none}
+#rpmLabel{font-size:9px!important;letter-spacing:1.7px!important;color:#8ebdcc!important}
+#rpmReadout{font-size:23px!important;line-height:1.2!important;margin:2px 0!important}
+#rpmReadout span{font-size:10px!important}
+#rpmFoot{margin-top:4px!important}
+#help{left:14px!important;bottom:14px!important;top:auto!important;transform:none!important;max-width:min(340px,calc(100vw - 28px))!important;width:auto!important;box-sizing:border-box!important;z-index:19!important;padding:10px 12px!important;border-radius:12px!important;background:#091e2df2!important;border:1px solid #58a8b37d!important;box-shadow:0 8px 25px #0008!important;font-size:11px!important;line-height:1.6!important;text-align:left!important;display:none!important}
+#help.apexHelpOpen{display:block!important}
+#apexHelpToggle{position:fixed;left:14px;bottom:14px;z-index:20;border:1px solid #5ba5b3a3;border-radius:11px;background:#0c2938ed;color:#d3f7ff;font:800 11px system-ui;padding:10px 13px;cursor:pointer;box-shadow:0 6px 20px #0007;letter-spacing:.4px}
+#apexHelpToggle:hover{border-color:#46e0c1;background:#143b49}
+#help.apexHelpOpen{bottom:56px!important}
+#weatherControls{top:14px!important;bottom:auto!important;right:14px!important;max-width:none!important;gap:7px!important;z-index:17!important;flex-wrap:nowrap!important}
+#weatherControls select,#weatherControls button{background:#0b2939f2!important;border:1px solid #528e9c!important;color:#d6f7fb!important;border-radius:10px!important;padding:9px 11px!important;font-size:10px!important;box-shadow:0 5px 18px #0005!important;cursor:pointer}
+#cameraBtn{top:58px!important;bottom:auto!important;right:14px!important;left:auto!important;z-index:17!important;background:#0b2939f2!important;border:1px solid #528e9c!important;border-radius:10px!important;padding:10px 13px!important;font-size:11px!important;box-shadow:0 5px 18px #0005!important}
+#soundBtn{top:102px!important;bottom:auto!important;right:14px!important;z-index:17!important;background:#0b2939f2!important;border:1px solid #528e9c!important;border-radius:10px!important;padding:10px 13px!important;font-size:10px!important;box-shadow:0 5px 18px #0005!important}
+#driveTelemetry{bottom:75px!important}
+@media(max-width:760px){#weatherControls{right:8px!important;top:8px!important;gap:4px!important}#weatherControls select,#weatherControls button{padding:6px!important;font-size:9px!important}#cameraBtn{right:8px!important;top:44px!important;font-size:9px!important;padding:7px!important}#soundBtn{right:8px!important;top:77px!important;font-size:9px!important;padding:7px!important}#rpmCluster{width:175px!important;bottom:12px!important;padding:6px 9px!important}#apexHelpToggle{bottom:10px;left:8px;padding:8px;font-size:10px}#help{left:8px!important}}
+</style></head><body><canvas id='game'></canvas><button id="apexModeBtn" type="button">🏁 RACE / CAREER (F6)</button><div id="apexRaceHud" role="button" tabindex="0" aria-label="Open race, career and customisation menu" title="Click to open Motorsport menu">FREE DRIVE<div class="muted">CLICK · Motorsport menu (F6)</div></div><div id="apexScoreBelow" aria-live="off"><div>DRIFT SCORE <span class="scoreNumber" id="apexLiveScore">0</span></div><div class="scoreMeta" id="apexLiveScoreMeta">TOTAL BANKED 0 · x1.0</div></div><div id="apexModePanel"><div class="shell"><div class="row" style="justify-content:space-between"><h2>🏁 APEX MOTORSPORT</h2><button id="apexClose">✕ CLOSE</button></div><p>Career, AI racing, drift events, endurance strategy and car styling. Changes save in this browser.</p><div class="tabs" id="apexTabs"></div><div id="apexTabContent"></div></div></div><button id="multiBtn">🌐 MULTIPLAYER (M)</button><div id="multiInfo">SOLO · OFFLINE</div><div id="multiPanel"><div class="multiCard"><h2>🌐 APEX ONLINE</h2><p>Make a private room, then share its six-character code. Up to 8 drivers. All drivers use the same track. Your own credits and garage stay saved on this device.</p><label>DRIVER NAME<input id="driverName" maxlength="18" placeholder="Your name"></label><label>JOIN CODE (for joining only)<input id="joinCode" maxlength="6" placeholder="ABC123" autocapitalize="characters"></label><div><button id="createRoom">CREATE ROOM</button><button id="joinRoom">JOIN ROOM</button><button id="leaveRoom" class="secondary">LEAVE ROOM</button><button id="closeMulti" class="secondary">CLOSE</button></div><p id="roomStatus"></p><div id="roomCodeView"></div><div id="playerList"></div><p>Controls: M = multiplayer menu. Only the room host can change tracks. This is shared driving, not collision-based PvP.</p></div></div><div id='lapAnnouncement' aria-live='polite'><div class='lapTitle' id='lapAnnTitle'></div><div class='lapDetails' id='lapAnnDetails'></div></div><div id="driveTelemetry"><span>SLIP <b id="teleSlip">0°</b></span><span>TYRES <b id="teleTyres">STREET</b></span><span>DIFF <b id="teleDiff">70%</b></span></div><div id='currentCarBadge'><div class='car-dot'></div><div><div class='car-caption'>CURRENT VEHICLE</div><div id='currentCarName'>Silvia S15</div></div></div><div id='hud'><div id='title'>APEX DRIFT 2D</div><div id='speed'>0 <small>MPH</small></div><div id='status'>GRIP</div><div id='gearHud'>GEAR 1 / 6</div><div id='dragHud' style='display:none'></div><div id='angle' style='font-size:22px;font-weight:900;color:#ffd26d;margin:7px 0'>DRIFT ANGLE 0°</div><div id='direction' style='font-size:12px;color:#bcd0e5'>STRAIGHT</div><div id='lap'>LAP 1 · 00:00.0</div><div id='best'>BEST —</div><div id='lapPoints' style='color:#ffe09a;font-weight:800;margin-top:5px'>THIS LAP 0 PTS · UNBANKED</div><div id='lastLapPoints' style='font-size:12px;color:#a8e9d2'>LAST LAP —</div><div id='telemetry'><div class='telemetry-tile'><span>TOP SPEED</span><strong id='specTopSpeed'>— MPH</strong></div><div class='telemetry-tile'><span>ENGINE</span><strong id='specPower'>— HP</strong></div></div><div id='gripMeter'><div id='gripMeterFill'></div></div><div id="xpHud"><div id="rankDisplay"><span id="rankEmblem">◆</span><span id="rankName">BRONZE</span><span id="rankNext">NEXT: BRONZE II</span></div><div id="rankProgress"><div id="rankProgressFill"></div></div><strong id="xpLevel">LEVEL 1</strong> · <span id="xpAmount">0 XP</span><div id="xpProgress"><div id="xpProgressFill"></div></div></div><div id='scorebox'><div>ACTIVE DRIFT POINTS</div><div id='points'>0</div><div id='combo'>COMBO x1.0</div><div id='bank'>BEST DRIFT 0</div></div></div><select id='trackSelect'><option value='0'>1 · Grand Prix Circuit</option><option value='1'>2 · Mountain Touge</option><option value='2'>3 · Figure 8</option><option value='3'>4 · Drift Playground</option></select><button id='reset'>RESET CAR (R)</button><button id='garageBtn'>🚗 GARAGE (G)</button><button id='dayBtn'>☀ DAY / NIGHT (N)</button><div id='wallet'>CREDITS: <span id='credits'>0</span> CR</div><div id='garage'><div class='garagePanel'><div class='garageHead'><div><h1>APEX MOTORWORKS · GARAGE</h1><p>Earn credits from drifting and collect GT3 and Le Mans-inspired race cars. Buy, tune and sell cars. Selling returns 60% of the purchase price.</p><b id='garageMoney'></b><div id="garageRank">◆ BRONZE RANK · LEVEL 1</div></div><button id='closeGarage'>BACK TO TRACK ✕</button></div><div id='tuningShop'></div><div class='carGrid' id='carGrid'></div></div></div><div id='rpmCluster'><div id='rpmLabel'>ENGINE RPM</div><div id='rpmReadout'>900 <span>RPM</span></div><div id='rpmTicks'></div><div id='rpmBar'><div id='rpmFill'></div><div id='rpmRedline'></div></div><div id='rpmFoot'><b id='rpmGear'>1</b><span id='rpmShift'>READY</span></div></div><button id='soundBtn' type='button' title='Enable or mute engine audio'>🔇 ENGINE SOUND: OFF</button><div id='toast'></div><div id="ownerPanel" role="dialog" aria-label="Owner menu" aria-modal="true"><div id="ownerCard"><h2>🔒 APEX DRIFT · OWNER</h2><p id="ownerMessage">Enter your private owner password.</p><div id="ownerLogin"><input id="ownerPassword" type="password" autocomplete="current-password" placeholder="Owner password"><button id="ownerSignIn">SIGN IN</button></div><div id="ownerActions" hidden><p>Signed in as owner on this browser.</p><div id="ownerBalance"></div><div class="ownerSection"><h3>CREDITS · ADD / REMOVE</h3><div class="ownerGrid" id="ownerCreditGrid"></div></div><div class="ownerSection"><h3>XP · ADD / REMOVE</h3><div class="ownerGrid" id="ownerXpGrid"></div></div><button data-owner-action="cars">UNLOCK ALL CARS</button><button data-owner-action="upgrades">MAX ALL UPGRADES</button><button id="ownerSignOut">SIGN OUT</button></div><button id="ownerClose" style="background:#d9e5ee">CLOSE ✕</button><p style="font-size:12px;color:#9bb6c6">Owner shortcut: Ctrl + Shift + C (or F8)</p></div></div><button id='cameraBtn' type='button' title='Switch between two 2D camera styles'>📷 CAMERA: CLASSIC (V)</button><div id='help'>W / ↑ Accelerate · S / ↓ Brake / Reverse · E/Q Shift · RB/LB Controller Shift · A D / ← → Steer · SPACE Handbrake / Drift · N Day/Night · 1–4 Quick Tracks · V Switch 2D Camera · Dropdown: Drift, GT3 & Endurance · RWD · R Reset</div><style>#apexWeatherHud{position:fixed;left:16px;bottom:155px;z-index:12;padding:8px 12px;background:#0a2234e9;border:1px solid #76b8d288;border-radius:10px;font-size:11px;font-weight:850;color:#b8f2ff;pointer-events:none}#weatherControls{position:fixed;right:18px;bottom:195px;z-index:14;display:flex;gap:5px;flex-wrap:wrap;max-width:300px}#weatherControls button,#weatherControls select{border:1px solid #7098a9;border-radius:8px;padding:7px 9px;background:#123349;color:#d8f7ff;font-weight:800;font-size:11px}</style><div id="apexWeatherHud">☀ CLEAR · ROAD DRY</div><div id="weatherControls"><select id="weatherSelect" aria-label="Weather"><option value="auto">AUTO WEATHER</option><option value="clear">CLEAR</option><option value="cloudy">CLOUDY</option><option value="rain">RAIN</option><option value="storm">STORM</option></select><button id="autoDayToggle" type="button">AUTO DAY/NIGHT: ON</button></div>
+<script>
 const CARS=[
 {id:'e36',name:'BMW E36 M3',group:'Drift Icons',price:36000,power:1.18,grip:1.03,steer:1.16,color:'#56b7ff',desc:'Classic inline-six drift coupe'},
 {id:'e46',name:'BMW E46 M3',group:'Drift Icons',price:58000,power:1.29,grip:1.11,steer:1.14,color:'#d2b8ff',desc:'High-revving drift favourite'},
@@ -163,7 +229,8 @@ function carTopSpeedMph(){
  return Math.round(stock*(1+t.trans*.045+t.engine*.012+t.turbo*.016));
 }
 function vehicleSpec(v=currentCar()){const a=VEHICLE_SPECS[v.id]||[225,275,1350,'rwd'];return {hp:a[0],tq:a[1],mass:a[2],drive:a[3]}}
-function carPerformance(){const v=currentCar(),t=tuneFor(),spec=vehicleSpec(v),hp=spec.hp*(1+t.engine*.095+t.turbo*.12),torque=spec.tq*(1+t.engine*.115+t.turbo*.135);return {hp,torque,mass:spec.mass,drive:spec.drive,powerToWeight:hp/spec.mass,traction:tunedGrip()}}
+function driveLabel(d){return d==='awd'?'AWD · ALL-WHEEL DRIVE':d==='fwd'?'FWD · FRONT-WHEEL DRIVE':'RWD · REAR-WHEEL DRIVE'}
+function carPerformance(){const v=currentCar(),t=tuneFor(),spec=vehicleSpec(v),hp=spec.hp*(1+t.engine*.095+t.turbo*.12),torque=spec.tq*(1+t.engine*.115+t.turbo*.135);return {hp,torque,mass:Math.max(650,spec.mass+materialMassDelta()),drive:spec.drive,powerToWeight:hp/Math.max(650,spec.mass+materialMassDelta()),traction:tunedGrip()}}
 const SAVEKEY='apex_drift_2d_garage_v1';let saved={};try{saved=JSON.parse(localStorage.getItem(SAVEKEY)||'{}')}catch(e){};let credits=Math.max(0,Number(saved.credits)||0),owned=new Set(['s15',...(Array.isArray(saved.owned)?saved.owned:[])]),selected=owned.has(saved.selected)?saved.selected:'s15';let currentCar=()=>CARS.find(c=>c.id===selected)||CARS[0];function carCreditMultiplier(price=currentCar().price){return price>=2000000?5:price>=1000000?4:price>=200000?3:price>=75000?2:price>=25000?1.5:1;}function driftPayout(points){return Math.floor(points*.165*carCreditMultiplier());}let xp=Math.max(0,Math.floor(Number(saved.xp)||0));let xpScoreRemainder=Math.max(0,Math.min(99,Math.floor(Number(saved.xpScoreRemainder)||0)));function xpForLevel(level){return (level-1)*1000}function playerLevel(){return Math.floor(xp/1000)+1}const RANKS=[{name:'BRONZE',division:'III',xp:0,color:'#b87945'},{name:'BRONZE',division:'II',xp:1500,color:'#b87945'},{name:'BRONZE',division:'I',xp:3500,color:'#b87945'},{name:'SILVER',division:'III',xp:6500,color:'#b7c5d4'},{name:'SILVER',division:'II',xp:10000,color:'#b7c5d4'},{name:'SILVER',division:'I',xp:14000,color:'#b7c5d4'},{name:'GOLD',division:'III',xp:19000,color:'#e5b94c'},{name:'GOLD',division:'II',xp:25000,color:'#e5b94c'},{name:'GOLD',division:'I',xp:32000,color:'#e5b94c'},{name:'PLATINUM',division:'III',xp:41000,color:'#6dd4dd'},{name:'PLATINUM',division:'II',xp:51000,color:'#6dd4dd'},{name:'PLATINUM',division:'I',xp:63000,color:'#6dd4dd'},{name:'DIAMOND',division:'III',xp:78000,color:'#5cb8ff'},{name:'DIAMOND',division:'II',xp:95000,color:'#5cb8ff'},{name:'DIAMOND',division:'I',xp:115000,color:'#5cb8ff'},{name:'MASTER',division:'III',xp:140000,color:'#b993ff'},{name:'MASTER',division:'II',xp:170000,color:'#b993ff'},{name:'MASTER',division:'I',xp:205000,color:'#b993ff'},{name:'LEGEND',division:'III',xp:245000,color:'#ffcf70'},{name:'LEGEND',division:'II',xp:295000,color:'#ffcf70'},{name:'LEGEND',division:'I',xp:355000,color:'#ffcf70'}];
 function currentRank(){let i=0;for(let j=1;j<RANKS.length;j++){if(xp>=RANKS[j].xp)i=j;else break;}return {rank:RANKS[i],next:RANKS[i+1]||null};}
 function updateRankHud(){const {rank,next}=currentRank();const badge=document.querySelector('#rankDisplay');if(!badge)return;badge.style.setProperty('--rank-color',rank.color);document.querySelector('#rankName').textContent=rank.name+' '+rank.division;document.querySelector('#rankEmblem').textContent=rank.name==='LEGEND'?'♛':'◆';document.querySelector('#rankNext').textContent=next?'NEXT '+next.name+' '+next.division+' · '+(next.xp-xp).toLocaleString()+' XP':'MAX RANK';const rankBar=document.querySelector('#rankProgressFill');if(rankBar)rankBar.style.width=next?Math.max(0,Math.min(100,(xp-rank.xp)/(next.xp-rank.xp)*100))+'%':'100%';const garageRank=document.querySelector('#garageRank');if(garageRank){garageRank.textContent='◆ '+rank.name+' '+rank.division+' · LEVEL '+playerLevel();garageRank.style.color=rank.color;}}
@@ -477,7 +544,7 @@ function renderGarage(){updateRankHud();
  let hero=document.querySelector('#garageHero');if(!hero){hero=document.createElement('div');hero.id='garageHero';hero.className='garageHero';root.parentNode.insertBefore(hero,document.querySelector('#tuningShop'));}
  let controls=document.querySelector('#garageControls');if(!controls){controls=document.createElement('div');controls.id='garageControls';controls.className='garageControls';root.parentNode.insertBefore(controls,root);}
  let v=currentCar(),s=vehicleSpec(v);
- hero.innerHTML=`<div><small>YOUR CURRENT VEHICLE</small><strong>${v.name}</strong><div class="heroStats">${garageCategory(v)} · ${s.hp} HP · ${s.mass} KG · ${s.drive.toUpperCase()}</div></div><div style="font-weight:900;color:#6ff5d1;text-align:right">${owned.size} OWNED<br><span style="font-size:12px;color:#b7d4dd">${CARS.length} TOTAL</span></div>`;
+ hero.innerHTML=`<div><small>YOUR CURRENT VEHICLE</small><strong>${v.name}</strong><div class="heroStats">${garageCategory(v)} · ${s.hp} HP · ${s.mass} KG · <span class="drivePill">${driveLabel(s.drive)}</span></div></div><div style="font-weight:900;color:#6ff5d1;text-align:right">${owned.size} OWNED<br><span style="font-size:12px;color:#b7d4dd">${CARS.length} TOTAL</span></div>`;
  controls.innerHTML=`<div class="garageTabs">${['ALL','OWNED','STREET & DRIFT','FORMULA DRIFT','GT3','LE MANS'].map(k=>`<button type="button" data-filter="${k}" class="${garageFilter===k?'active':''}">${k}</button>`).join('')}</div><input id="garageSearch" placeholder="Search vehicles…" aria-label="Search vehicles" value=""><div id="garageCount"></div>`;
  let search=controls.querySelector('#garageSearch');search.value=garageQuery;
  search.oninput=()=>{garageQuery=search.value;drawGarageCards()};
@@ -487,7 +554,7 @@ function renderGarage(){updateRankHud();
 function drawGarageCards(){
  let filtered=CARS.filter(v=>(garageFilter==='ALL'||(garageFilter==='OWNED'?owned.has(v.id):garageCategory(v)===garageFilter))&&v.name.toLowerCase().includes(garageQuery.toLowerCase())).sort((a,b)=>Number(owned.has(b.id))-Number(owned.has(a.id))||a.price-b.price);
  document.querySelector('#garageCount').textContent=`SHOWING ${filtered.length} OF ${CARS.length} VEHICLES`;
- document.querySelector('#carGrid').innerHTML=filtered.map(v=>{let has=owned.has(v.id),active=selected===v.id,s=vehicleSpec(v);return `<div class="carcard ${active?'isCurrent':''}"><div class="swatch">${carPreview(v)}</div><div class="cardContent"><div class="carClass">${garageCategory(v)} ${active?' · SELECTED':''}</div><h3>${v.name}</h3><div class="cardSpecs"><span><b>${s.hp}</b>HP</span><span><b>${s.mass}</b>KG</span><span><b>${Math.round(v.grip*100)}%</b>GRIP</span></div><div class="price">${v.price===0?'FREE · STARTER':money(v.price)+' CR'}</div><button data-car="${v.id}" ${active?'disabled':''}>${active?'✓ CURRENT CAR':has?'SELECT VEHICLE':credits>=v.price?'PURCHASE VEHICLE':'LOCKED · EARN CREDITS'}</button>${has&&v.id!=='s15'&&v.price>0?`<button type="button" class="sellCarBtn" data-sell="${v.id}">SELL · +${money(Math.floor(v.price*.6))} CR</button><div class="sellHint">60% resale value · upgrades not refunded</div>`:''}</div></div>`}).join('')||'<p style="color:#b8d5df">No vehicles found. Try another search or category.</p>';
+ document.querySelector('#carGrid').innerHTML=filtered.map(v=>{let has=owned.has(v.id),active=selected===v.id,s=vehicleSpec(v);return `<div class="carcard ${active?'isCurrent':''}"><div class="swatch">${carPreview(v)}</div><div class="cardContent"><div class="carClass">${garageCategory(v)} ${active?' · SELECTED':''}</div><h3>${v.name}</h3><div class="cardSpecs"><span><b>${s.hp}</b>HP</span><span><b>${s.mass}</b>KG</span><span><b>${Math.round(v.grip*100)}%</b>GRIP</span><span class="driveCardBadge ${s.drive}"><b>${s.drive.toUpperCase()}</b>DRIVE</span></div><div class="price">${v.price===0?'FREE · STARTER':money(v.price)+' CR'}</div><button data-car="${v.id}" ${active?'disabled':''}>${active?'✓ CURRENT CAR':has?'SELECT VEHICLE':credits>=v.price?'PURCHASE VEHICLE':'LOCKED · EARN CREDITS'}</button>${has&&v.id!=='s15'&&v.price>0?`<button type="button" class="sellCarBtn" data-sell="${v.id}">SELL · +${money(Math.floor(v.price*.6))} CR</button><div class="sellHint">60% resale value · upgrades not refunded</div>`:''}</div></div>`}).join('')||'<p style="color:#b8d5df">No vehicles found. Try another search or category.</p>';
  document.querySelectorAll('[data-car]').forEach(b=>b.onclick=()=>{let v=CARS.find(x=>x.id===b.dataset.car);if(!v)return;if(!owned.has(v.id)){if(credits<v.price){toast('Not enough credits — keep drifting!');return}credits-=v.price;owned.add(v.id);toast('Purchased '+v.name+'!')}selected=v.id;persist();renderGarage();reset()});
  document.querySelectorAll('[data-sell]').forEach(b=>b.onclick=()=>{
   const v=CARS.find(x=>x.id===b.dataset.sell);
@@ -598,6 +665,7 @@ const racingLayouts=[
  ['Prototype Test Circuit',1250,760,4,35,1.1,190]
 ];
 // Technical GP layouts: alternating hairpins, esses and fast sweepers.
+// Circuit dimensions are enlarged when their points are generated below.
 // Each circuit uses a simple closed polar outline to avoid self-crossing roads.
 for(let circuit=0;circuit<racingLayouts.length;circuit++){
  const [name,rx,ry,waves,amp,phase,width]=racingLayouts[circuit];
@@ -618,11 +686,11 @@ for(let circuit=0;circuit<racingLayouts.length;circuit++){
 
 tracks.push({name:'Drag Racing Park · 1 Mile',width:260,closed:false,drag:true,pts:[[0,0],[500,0],[1100,0],[1700,0],[2300,0],[2900,0],[3500,0],[4100,0],[4700,0],[5300,0],[6000,0],[6800,0],[7500,0]]});
 // Mountain pass is a longer, tighter, elevation-inspired course with distinct hairpins.
-tracks[1].pts=tracks[1].pts.map(([x,y])=>[Math.round(x*1.45),Math.round(y*1.45)]);
+for(const tr of tracks){const factor=tr.drag?1.65:1.45;tr.pts=tr.pts.map(([x,y])=>[Math.round(x*factor),Math.round(y*factor)]);}
 const DRAG_TRACK_ID=tracks.length-1;
 let gear=1,dragElapsed=0,dragStarted=false,dragFinished=false,dragBest=null,dragSplits={},dragRunBest={};
-function shiftGear(delta){if(garageOpen)return;const next=Math.max(1,Math.min(6,gear+delta));if(next!==gear){gear=next;shiftBlip=1;toast('GEAR '+gear)}}
-let trackId=0,roadWidth=155,samples=[],scenery=[];let nightMode=false;function toggleNight(){nightMode=!nightMode;document.querySelector('#dayBtn').textContent=nightMode?'☾ NIGHT · N TO CHANGE':'☀ DAY · N TO CHANGE'}document.querySelector('#dayBtn').onclick=toggleNight;
+function shiftGear(delta){if(garageOpen)return;const next=Math.max(1,Math.min(6,gear+delta));if(next!==gear){gear=next;shiftBlip=1}}
+let trackId=0,roadWidth=155,samples=[],scenery=[];let nightMode=false,nightStrength=0,nightTarget=0;function toggleNight(){nightMode=!nightMode;nightTarget=nightMode?1:0;dayClock=nightMode?240:60;document.querySelector('#dayBtn').textContent=nightMode?'☾ NIGHT · N TO CHANGE':'☀ DAY · N TO CHANGE'}document.querySelector('#dayBtn').onclick=toggleNight;
 const trackMenu=document.querySelector('#trackSelect');for(let i=4;i<tracks.length;i++){let opt=document.createElement('option');opt.value=i;opt.textContent=(i+1)+' · '+tracks[i].name;trackMenu.appendChild(opt)}
 function cat(a,b,c,d,t){return .5*((2*b)+(-a+c)*t+(2*a-5*b+4*c-d)*t*t+(-a+3*b-3*c+d)*t*t*t)}
 function buildTrack(){let tr=tracks[trackId],p=tr.pts;roadWidth=tr.width;samples=[];let segments=tr.closed?p.length:p.length-1;for(let i=0;i<segments;i++)for(let j=0;j<(tr.racing?12:24);j++){let t=j/(tr.racing?12:24),at=k=>p[tr.closed?(k+p.length)%p.length:Math.max(0,Math.min(p.length-1,k))];samples.push({x:cat(at(i-1)[0],at(i)[0],at(i+1)[0],at(i+2)[0],t),y:cat(at(i-1)[1],at(i)[1],at(i+1)[1],at(i+2)[1],t)})}if(!tr.closed)samples.push({x:p.at(-1)[0],y:p.at(-1)[1]});scenery=[];if(typeof sceneryChunks!=='undefined')sceneryChunks.clear();}
@@ -793,7 +861,7 @@ let p=samples[0],n=samples[1],a=Math.atan2(n.y-p.y,n.x-p.x);ctx.save();ctx.trans
 ctx.save();ctx.translate(car.x,car.y);ctx.rotate(car.a);
 drawUniqueCar(ctx,currentCar());
 ctx.restore();ctx.restore();
-if(nightMode){
+if(nightStrength>.004){
  // Darken the environment, then add actual warm/cool light rather than dark cut-outs.
  const ox=(car.x-cam.x)*zoom,oy=(car.y-cam.y)*zoom;const sx=W/2+ox*Math.cos(cameraRotation)-oy*Math.sin(cameraRotation),sy=H/2+(ox*Math.sin(cameraRotation)+oy*Math.cos(cameraRotation))*1;
  const dx=Math.cos(car.a+cameraRotation),dy=Math.sin(car.a+cameraRotation),nx=-dy,ny=dx;
@@ -802,9 +870,9 @@ if(nightMode){
  const warm=warmIds.has(model.id);
  const core=warm?'255,225,133':'225,243,255';
  const haloColor=warm?'255,198,85':'180,222,255';
- ctx.save();ctx.fillStyle='rgba(3,8,22,.83)';ctx.fillRect(0,0,W,H);
+ ctx.save();ctx.fillStyle='rgba(3,8,22,'+(.83*nightStrength)+')';ctx.fillRect(0,0,W,H);
  // Use screen blending so headlights visibly BRIGHTEN the road.
- ctx.globalCompositeOperation='screen';
+ ctx.globalCompositeOperation='screen';ctx.globalAlpha=nightStrength;
  for(const side of [-1,1]){
   const bx=sx+dx*23*zoom+nx*side*11*zoom;
   const by=sy+(dy*23*zoom+ny*side*11*zoom)*1;
@@ -856,11 +924,16 @@ let gearPower=Math.max(0,Math.min(1,(gearCap-speedNow)/Math.max(22,gearCap*.17))
 let powerBand=Math.max(.24,1-Math.pow(Math.min(1,speedRatio),5))*gearPower*gearRatio;
 
 const setup=tuneFor();
- let surfaceTraction=(on?1:.53)*Math.max(.62,Math.min(1.45,perf.traction))*(setup.tyreGrip/100);
+ let surfaceTraction=(on?1:.53)*Math.max(.62,Math.min(1.45,perf.traction))*(setup.tyreGrip/100)*weatherTraction();
 const raceCar=currentCar().group==='GT3 Racing'||currentCar().group==='Le Mans Hypercar';
 if(raceCar){car.slideMode=false;car.gripDelay=0;car.spinRisk=0;car.spinTimer=0;}
-let launchGrip=car.slideMode?.58:1;
-let accel=Math.min(engineForce*powerBand,380*surfaceTraction*launchGrip);
+// Drivetrain-specific throttle delivery and launch traction.
+const driveType=perf.drive;
+const lowSpeedLaunch=Math.max(0,1-Math.abs(forward)/130);
+const drivenWheelTraction=driveType==='awd'?1.34:driveType==='fwd'?1.08:.94;
+const throttleDelivery=driveType==='awd'?(1.07+lowSpeedLaunch*.10):driveType==='fwd'?.96:1;
+let launchGrip=car.slideMode?(driveType==='awd'?.83:driveType==='fwd'?.69:.58):1;
+let accel=Math.min(engineForce*powerBand*throttleDelivery,380*surfaceTraction*launchGrip*drivenWheelTraction);
 if(gas){car.vx+=fx*accel*dt*gas;car.vy+=fy*accel*dt*gas}if(brake){let amount=(forward>12?-460:-140)*(setup.brakeStrength/100);car.vx+=fx*amount*dt*brake;car.vy+=fy*amount*dt*brake}// Filter keyboard/controller steering to avoid instant full-lock snapping.
 // Race cars have a tighter steering ratio at speed; drift cars retain wide lock.
 const requestedSteer=Math.max(-1,Math.min(1,(right?1:0)-(left?1:0)+padState.steer));
@@ -943,11 +1016,21 @@ if(Math.abs(steer)<.015&&!hand&&!car.slideMode&&speed>18&&Math.abs(lateral)<30){
 // Grass and the handbrake reduce available traction substantially.
 let slipSeverity=Math.min(1,Math.abs(lateral)/145);
 let baseGrip=hand?.55:raceCar?(on?9.0:2.4):car.slideMode?(on?2.15:1.05):(on?5.1:1.75);
-let grip=baseGrip*Math.max(.68,1-slipSeverity*(raceCar?.08:.26))*tunedGrip()*(setup.tyreGrip/100);
+let grip=baseGrip*Math.max(.68,1-slipSeverity*(raceCar?.08:.26))*tunedGrip()*(setup.tyreGrip/100)*weatherTraction();
 // High-powered rear-drive cars break traction more readily on throttle.
 let wheelspin=gas&&Math.abs(forward)>24?Math.max(0,perf.powerToWeight-.24)*1.45:0;
 if(!raceCar&&gas&&perf.drive==='rwd'&&Math.abs(lateral)>16)grip*=Math.max(.48,1-wheelspin*(.5+setup.diffLock/100));
-if(perf.drive==='awd'&&!hand)grip*=1.12;
+if(driveType==='awd'&&!hand){
+  // AWD keeps the car composed on throttle, but can still slide on wet roads.
+  grip*=1.20;
+  if(gas&&Math.abs(lateral)>18)grip*=1.045;
+}else if(driveType==='fwd'&&gas&&!hand){
+  // FWD tends to push wide on power rather than kick its tail out.
+  grip*=1.06;
+}else if(driveType==='rwd'&&gas&&speed>35&&Math.abs(steer)>.12){
+  // RWD can rotate the rear under throttle, especially on low-grip surfaces.
+  grip*=Math.max(.76,1-.085*gas*Math.min(2,perf.powerToWeight/.25));
+}
 // Countersteering offers extra recovery grip; too much steering into the slide loses it.
 if(car.slideMode&&car.spinTimer<=0){grip*=Math.max(.65,Math.min(1.45,1+oppositeLock*.36));}
 if(car.spinTimer>0)grip*=.48;
@@ -996,7 +1079,7 @@ const followEase=1-Math.exp(-(cameraMode?5.0:7.5)*dt);
 cam.x+=(targetCamX-cam.x)*followEase;
 cam.y+=(targetCamY-cam.y)*followEase;
 let driftAngle=Math.atan2(Math.abs(lateral),Math.max(12,Math.abs(forward)))*180/Math.PI;let signedAngle=Math.atan2(lateral,Math.abs(forward)+0.001)*180/Math.PI;document.querySelector('#angle').textContent='DRIFT ANGLE '+Math.round(Math.abs(signedAngle))+'°';document.querySelector('#teleSlip').textContent=Math.round(Math.abs(signedAngle))+'°';document.querySelector('#teleTyres').textContent=setup.tyreGrip+'%';document.querySelector('#teleDiff').textContent=setup.diffLock+'%';document.querySelector('#direction').textContent=car.spinTimer>0?'SPIN OUT · RECOVER CONTROL':car.spinRisk>.65?'⚠ HIGH ANGLE · COUNTERSTEER':speed<12?'STRAIGHT':Math.abs(signedAngle)<5?'STRAIGHT':signedAngle>0?'SLIDING RIGHT':'SLIDING LEFT';if(trackId===DRAG_TRACK_ID){const d=document.querySelector('#dragHud');d.style.display='block';if(!dragFinished){if(!dragStarted&&speed>6)dragStarted=true;if(dragStarted)dragElapsed+=dt;if(dragStarted){for(const [x,label] of [[1320,'¼'],[2640,'½'],[5280,'1']]){if(car.x>=x&&dragSplits[label]===undefined){dragSplits[label]=dragElapsed;dragRunBest[label]=Math.min(dragRunBest[label]??Infinity,dragElapsed);toast(label+' MILE · '+dragElapsed.toFixed(2)+'s')}}if(car.x>=5280){dragFinished=true;dragBest=dragBest===null?dragElapsed:Math.min(dragBest,dragElapsed);toast('1 MILE FINISH · '+dragElapsed.toFixed(2)+'s · RESET TO RACE AGAIN')}}}d.textContent='DRAG '+(dragFinished?'FINISHED ':dragStarted?'RUN ':'READY ')+'· '+dragElapsed.toFixed(2)+'s'+(dragSplits['¼']!==undefined?' · ¼ '+dragSplits['¼'].toFixed(2)+'s':'')+(dragSplits['½']!==undefined?' · ½ '+dragSplits['½'].toFixed(2)+'s':'')+(dragSplits['1']!==undefined?' · 1 MI '+dragSplits['1'].toFixed(2)+'s':'');}else document.querySelector('#dragHud').style.display='none';
-document.querySelector('#gearHud').textContent='GEAR '+gear+' / 6 · '+(Math.min(1,speedNow/Math.max(1,gearCap))*100).toFixed(0)+'%';
+document.querySelector('#gearHud').textContent='G'+gear+'  /  6';
  document.querySelector('#specTopSpeed').textContent=carTopSpeedMph()+' MPH';
  document.querySelector('#specPower').textContent=Math.round(perf.hp)+' HP';
  document.querySelector('#gripMeterFill').style.width=Math.max(8,Math.min(100,100-Math.abs(lateral)*.55-(on?0:32)))+'%';
@@ -1111,6 +1194,22 @@ function updateEngineDisplayAndAudio(dt){
 const APEX_EXTRA_KEY='apex_motorsport_expansion_v1';
 let apexData={paint:{},wheels:{},wing:{},careerWins:0,careerEvent:0,lapRecords:{},earned:0};
 try{Object.assign(apexData,JSON.parse(localStorage.getItem(APEX_EXTRA_KEY)||'{}'))}catch(e){}
+// Per-car customisation stored alongside existing Motorsport save, without touching garage saves.
+apexData.compounds ||= {};apexData.materials ||= {};apexData.bodykits ||= {};
+const tyreProfiles={soft:{dry:1.14,wet:.59,wear:1.65},medium:{dry:1.04,wet:.65,wear:1},hard:{dry:.94,wet:.70,wear:.67},wet:{dry:.81,wet:1.08,wear:1.30},drift:{dry:.79,wet:.57,wear:1.12}};
+const materialProfiles={steel:{mass:0,cost:0},alloy:{mass:-18,cost:0},carbon:{mass:-46,cost:0},titanium:{mass:-27,cost:0}};
+let simWeather='clear',wetness=0,weatherClock=0,dayClock=60,autoDayNight=true;
+let rainStrength=0,cloudStrength=0,stormStrength=0;
+const weatherOptions=['clear','cloudy','rain','storm'];
+let forcedWeather='auto';
+document.getElementById('weatherSelect').onchange=e=>{forcedWeather=e.target.value;if(forcedWeather!=='auto')simWeather=forcedWeather;};
+document.getElementById('autoDayToggle').onclick=()=>{autoDayNight=!autoDayNight;document.getElementById('autoDayToggle').textContent='AUTO DAY/NIGHT: '+(autoDayNight?'ON':'OFF');};
+
+function currentCompound(){return tyreProfiles[apexData.compounds[selected]]||tyreProfiles.medium}
+function materialMassDelta(id=selected){return (materialProfiles[apexData.materials[id]]||materialProfiles.steel).mass}
+function weatherTraction(){const c=currentCompound();return c.dry*(1-wetness)+c.wet*wetness}
+function updateWeatherHud(){const el=document.getElementById('apexWeatherHud');if(!el)return;el.textContent=(simWeather==='storm'?'⛈':simWeather==='rain'?'🌧':simWeather==='cloudy'?'☁':'☀')+' '+simWeather.toUpperCase()+' · ROAD '+Math.round(wetness*100)+'% WET · '+(apexData.compounds[selected]||'medium').toUpperCase()+' TYRES';}
+
 function apexSave(){try{localStorage.setItem(APEX_EXTRA_KEY,JSON.stringify(apexData))}catch(e){}}
 const apexRace={active:false,kind:'',opponents:[],duration:0,elapsed:0,startLap:0,finished:false,pitCount:0,tyres:100,fuel:100,position:1,aiCount:5,aiDifficulty:1,recordedLap:0,starting:false};
 let apexTab='events',apexLastLap=lap,apexLastTrack=trackId,apexLastCar=selected,apexAiDrawTick=0;
@@ -1119,6 +1218,7 @@ const apexTabs=[['events','🏆 EVENTS'],['custom','🎨 CUSTOMISE'],['records',
 function apexOpen(){apexPanel.classList.add('open');apexRender()}
 function apexClose(){apexPanel.classList.remove('open')}
 document.getElementById('apexModeBtn').onclick=apexOpen;
+const apexRaceHudButton=document.getElementById('apexRaceHud');apexRaceHudButton.addEventListener('click',apexOpen);apexRaceHudButton.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();apexOpen()}});
 document.getElementById('apexClose').onclick=apexClose;
 addEventListener('keydown',e=>{if(e.code==='F6'){e.preventDefault();apexPanel.classList.contains('open')?apexClose():apexOpen()}if(e.code==='Escape'&&apexPanel.classList.contains('open'))apexClose();if(e.code==='KeyP'&&!e.repeat&&!garageOpen&&!apexPanel.classList.contains('open'))apexPit()});
 function apexRender(){document.getElementById('apexTabs').innerHTML=apexTabs.map(([id,name])=>`<button data-apextab="${id}" class="${id===apexTab?'active':''}">${name}</button>`).join('');document.querySelectorAll('[data-apextab]').forEach(b=>b.onclick=()=>{apexTab=b.dataset.apextab;apexRender()});
@@ -1131,12 +1231,45 @@ function apexRenderEvents(){const racing=!!tracks[trackId].closed&&(!!tracks[tra
  ['Quick','Endurance','Drift','Career'].forEach(name=>{let b=document.getElementById('apex'+name);if(b)b.onclick=()=>launch(name.toLowerCase())});
  let quit=document.getElementById('apexQuit');if(quit)quit.onclick=()=>{apexRace.active=false;apexRace.opponents=[];toast('Event abandoned');apexRender()};
 }
-function apexRenderCustom(){const carInfo=currentCar(),paint=apexData.paint[selected]||carInfo.color;apexContent.innerHTML=`<div class="panelgrid"><div class="panelcard"><strong>🎨 ${carInfo.name}</strong><small>Choose a custom paint colour</small><div class="row"><input id="apexPaint" type="color" value="${/^#[0-9a-fA-F]{6}$/.test(paint)?paint:'#ffffff'}"><button id="apexSavePaint" class="primary">SAVE PAINT</button></div><small>Wheel style</small><select id="apexWheel"><option value="stock">Factory</option><option value="black">Black alloy</option><option value="silver">Silver alloy</option><option value="gold">Gold alloy</option></select><small>Rear wing</small><select id="apexWing"><option value="stock">Factory</option><option value="sport">Sport</option><option value="race">Race wing</option></select><div class="row"><button id="apexSaveStyle" class="primary">SAVE STYLE</button><button id="apexResetStyle">RESET</button></div></div><div class="panelcard"><strong>YOUR DESIGN</strong><div id="apexPaintPreview" style="height:95px;border-radius:12px;background:${paint};box-shadow:inset 0 0 35px #0007"></div><p>Paint and wheels appear on your car in gameplay and garage previews. Wings are drawn as a separate accessory on top-down cars.</p></div></div>`;
- document.getElementById('apexWheel').value=apexData.wheels[selected]||'stock';document.getElementById('apexWing').value=apexData.wing[selected]||'stock';document.getElementById('apexPaint').oninput=e=>document.getElementById('apexPaintPreview').style.background=e.target.value;
- document.getElementById('apexSavePaint').onclick=()=>{apexData.paint[selected]=document.getElementById('apexPaint').value;apexSave();renderGarage();toast('Custom paint saved')};
- document.getElementById('apexSaveStyle').onclick=()=>{apexData.wheels[selected]=document.getElementById('apexWheel').value;apexData.wing[selected]=document.getElementById('apexWing').value;apexSave();toast('Car styling saved')};
- document.getElementById('apexResetStyle').onclick=()=>{delete apexData.paint[selected];delete apexData.wheels[selected];delete apexData.wing[selected];apexSave();renderGarage();apexRenderCustom()};
+function apexRenderCustom(){
+ const info=currentCar(), savedPaint=apexData.paint[selected]||info.color;
+ const paint=/^#[0-9a-fA-F]{6}$/.test(savedPaint)?savedPaint:'#ffffff';
+ apexContent.innerHTML=`<div class="apex-custom">
+  <div class="custom-hero"><div><span class="custom-kicker">APEX MOTORWORKS / DESIGN STUDIO</span><h3>CUSTOMISE YOUR RIDE</h3><p>Paint, wheels, aerodynamics, tyre compound and lightweight body panels. Saved individually for each car.</p></div><div class="custom-carname">${info.name}</div></div>
+  <div class="custom-layout">
+   <div class="custom-main">
+    <section class="panelcard custom-section"><div class="custom-section-title"><span class="custom-index">01</span><div><strong>PAINT & FINISH</strong><small>Pick a colour and see it update instantly</small></div></div><div class="custom-paint-row"><input id="apexPaint" type="color" value="${paint}" aria-label="Paint colour"><div class="custom-colour" id="apexPaintCode">${paint.toUpperCase()}</div><button id="apexSavePaint" class="primary">APPLY PAINT</button></div></section>
+    <section class="panelcard custom-section"><div class="custom-section-title"><span class="custom-index">02</span><div><strong>WHEELS & AERO</strong><small>Give your car a different look</small></div></div><div class="custom-fields"><label>WHEEL FINISH<select id="apexWheel"><option value="stock">Factory wheels</option><option value="black">Black alloy</option><option value="silver">Silver alloy</option><option value="gold">Gold alloy</option></select></label><label>REAR WING<select id="apexWing"><option value="stock">Factory</option><option value="sport">Sport wing</option><option value="race">Race wing</option></select></label></div><div class="custom-actions"><button id="apexSaveStyle" class="primary">SAVE WHEELS & AERO</button><button id="apexResetStyle">RESET STYLE</button></div></section>
+    <section class="panelcard custom-section"><div class="custom-section-title"><span class="custom-index">03</span><div><strong>TYRE COMPOUND</strong><small>Tyres change how the car handles on dry and wet roads</small></div></div><div class="custom-tyres" id="apexTyreTiles">
+     <label class="custom-tyre"><input type="radio" name="apexTyre" value="soft"><span class="tyre-dot" style="--tyre:#f15d67"></span><b>SOFT</b><small>High dry grip</small></label>
+     <label class="custom-tyre"><input type="radio" name="apexTyre" value="medium"><span class="tyre-dot" style="--tyre:#f1d66c"></span><b>MEDIUM</b><small>Balanced</small></label>
+     <label class="custom-tyre"><input type="radio" name="apexTyre" value="hard"><span class="tyre-dot" style="--tyre:#e8eef7"></span><b>HARD</b><small>Longer lasting</small></label>
+     <label class="custom-tyre"><input type="radio" name="apexTyre" value="wet"><span class="tyre-dot" style="--tyre:#58b8ff"></span><b>WET</b><small>Rain traction</small></label>
+     <label class="custom-tyre"><input type="radio" name="apexTyre" value="drift"><span class="tyre-dot" style="--tyre:#bb8bff"></span><b>DRIFT</b><small>Controlled slides</small></label>
+    </div><div class="custom-tyre-stats" id="apexTyreStats"></div></section>
+    <section class="panelcard custom-section"><div class="custom-section-title"><span class="custom-index">04</span><div><strong>BODY & MATERIALS</strong><small>Approximate weight savings from replacement panels</small></div></div><div class="custom-fields"><label>BODY KIT<select id="apexBodyKit"><option value="stock">Stock body</option><option value="sport">Sport aero</option><option value="wide">Widebody</option><option value="race">Race aero</option></select></label><label>PANEL MATERIAL<select id="apexMaterial"><option value="steel">Factory steel</option><option value="alloy">Aluminium alloy · −18 kg</option><option value="carbon">Carbon fibre · −46 kg</option><option value="titanium">Titanium · −27 kg</option></select></label></div><div class="custom-mass" id="apexMassReadout"></div><button id="apexSaveSetup" class="primary custom-wide">SAVE TYRES & BODY</button></section>
+   </div>
+   <aside class="custom-side"><div class="panelcard custom-preview"><span class="custom-kicker">LIVE PAINT PREVIEW</span><div id="apexPaintPreview" class="custom-preview-stage" style="--preview-paint:${paint}"><div class="custom-car-shape"><div class="custom-window"></div><div class="custom-windshield"></div><div class="custom-tailglass"></div></div></div><strong>${info.name}</strong><small>Paint and selected styling appear on your vehicle in the game.</small><div class="custom-preview-tags"><span id="apexPreviewTyre">MEDIUM TYRES</span><span id="apexPreviewMaterial">STEEL</span></div></div></aside>
+  </div></div>`;
+ const byId=id=>document.getElementById(id);
+ byId('apexWheel').value=apexData.wheels[selected]||'stock';
+ byId('apexWing').value=apexData.wing[selected]||'stock';
+ byId('apexBodyKit').value=apexData.bodykits[selected]||'stock';
+ byId('apexMaterial').value=apexData.materials[selected]||'steel';
+ const initial=apexData.compounds[selected]||'medium';
+ const checked=byId('apexTyreTiles').querySelector(`input[value="${initial}"]`)||byId('apexTyreTiles').querySelector('input[value="medium"]');checked.checked=true;
+ const tyreName=()=>byId('apexTyreTiles').querySelector('input:checked')?.value||'medium';
+ const updateTyre=()=>{const n=tyreName(),p=tyreProfiles[n];byId('apexTyreStats').innerHTML=`<span>DRY GRIP <b>${Math.round(p.dry*100)}%</b></span><span>WET GRIP <b>${Math.round(p.wet*100)}%</b></span><span>WEAR RATE <b>${p.wear.toFixed(2)}×</b></span>`;byId('apexPreviewTyre').textContent=n.toUpperCase()+' TYRES'};
+ byId('apexTyreTiles').addEventListener('change',updateTyre);updateTyre();
+ const updateMass=()=>{const name=byId('apexMaterial').value,m=materialProfiles[name];byId('apexMassReadout').textContent='ESTIMATED MASS  '+Math.max(650,vehicleSpec(currentCar()).mass+m.mass)+' KG  ·  '+(m.mass===0?'FACTORY WEIGHT':Math.abs(m.mass)+' KG LIGHTER');byId('apexPreviewMaterial').textContent=name.toUpperCase()};
+ byId('apexMaterial').onchange=updateMass;updateMass();
+ byId('apexPaint').oninput=e=>{byId('apexPaintPreview').style.setProperty('--preview-paint',e.target.value);byId('apexPaintCode').textContent=e.target.value.toUpperCase()};
+ byId('apexSavePaint').onclick=()=>{apexData.paint[selected]=byId('apexPaint').value;apexSave();renderGarage();toast('Custom paint saved')};
+ byId('apexSaveStyle').onclick=()=>{apexData.wheels[selected]=byId('apexWheel').value;apexData.wing[selected]=byId('apexWing').value;apexSave();renderGarage();toast('Car styling saved')};
+ byId('apexResetStyle').onclick=()=>{delete apexData.paint[selected];delete apexData.wheels[selected];delete apexData.wing[selected];apexSave();renderGarage();apexRenderCustom()};
+ byId('apexSaveSetup').onclick=()=>{apexData.compounds[selected]=tyreName();apexData.bodykits[selected]=byId('apexBodyKit').value;apexData.materials[selected]=byId('apexMaterial').value;apexSave();renderGarage();updateWeatherHud();toast('Tyres and body setup saved')};
 }
+
 function apexRenderRecords(){const rows=Object.entries(apexData.lapRecords).sort((a,b)=>Number(a[0])-Number(b[0]));apexContent.innerHTML='<div class="panelcard"><strong>PERSONAL LAP RECORDS</strong>'+(rows.length?rows.map(([id,sec])=>`<p>${tracks[+id]?.name||'Track'}: <b>${Number(sec).toFixed(2)}s</b></p>`).join(''):'<p>Complete laps on racing circuits to set records.</p>')+`<p>Career wins: ${apexData.careerWins} · Motorsport rewards: ${Math.floor(apexData.earned)} CR</p></div>`}
 function apexStart(kind){if(garageOpen){toast('Close garage before starting');return}if(kind!=='drift'&&(!tracks[trackId].closed||!(tracks[trackId].racing||trackId===0||tracks[trackId].pro))){toast('Select a GP racing circuit');return}
  const count=Number(document.getElementById('apexCount')?.value)||5;const diff=Number(document.getElementById('apexDifficulty')?.value)||1;
@@ -1148,7 +1281,7 @@ function apexPit(){if(!apexRace.active||apexRace.kind==='drift')return;const n=n
 function apexFinish(won,message){const kind=apexRace.kind;apexRace.active=false;apexRace.opponents=[];let reward=won?(kind==='career'?12000:kind==='endurance'?9500:kind==='drift'?4500:5500):1000;credits+=reward;let bonusXp=won?kind==='career'?1200:500:100;xp+=bonusXp;apexData.earned+=reward;if(kind==='career'&&won){apexData.careerWins++;apexData.careerEvent=Math.min(4,apexData.careerEvent+1)}persist();apexSave();updateRankHud();document.querySelector('#credits').textContent=money(credits);toast(message+' · +'+money(reward)+' CR · +'+bonusXp+' XP');}
 function updateApexModes(dt){if(apexLastTrack!==trackId){apexLastTrack=trackId;if(apexRace.active){apexRace.active=false;apexRace.opponents=[];toast('Race cancelled: track changed')}apexLastLap=lap}
  if(apexLastCar!==selected)apexLastCar=selected;
- const hud=document.getElementById('apexRaceHud');if(!apexRace.active){hud.innerHTML='FREE DRIVE<div class="muted">F6 · Motorsport menu</div>';apexLastLap=lap;return}
+ const hud=document.getElementById('apexRaceHud');if(!apexRace.active){hud.innerHTML='FREE DRIVE<div class="muted">CLICK · Motorsport menu (F6)</div>';apexLastLap=lap;return}
  if(garageOpen||apexPanel.classList.contains('open'))return;
  apexRace.elapsed+=dt;const speed=Math.hypot(car.vx,car.vy)*.28;
  if(apexRace.kind!=='drift'){
@@ -1216,9 +1349,82 @@ function drawApexAIWorld(){
 }
 // Paint override for both garage previews and in-game vehicle drawing, preserving factory colours.
 const apexOriginalDrawUniqueCar=drawUniqueCar;
-drawUniqueCar=function(g,v,preview=false){const paint=apexData.paint[v.id];if(paint){v={...v,color:paint}}apexOriginalDrawUniqueCar(g,v,preview);if(!preview&&apexData.wing[v.id]&&apexData.wing[v.id]!=='stock'){g.save();g.fillStyle='#18202b';g.fillRect(-34,-22,7,44);g.restore()}};
+drawUniqueCar=function(g,v,preview=false){
+ const paint=apexData.paint[v.id];if(paint)v={...v,color:paint};
+ apexOriginalDrawUniqueCar(g,v,preview);
+ const kit=apexData.bodykits[v.id]||'stock',wheel=apexData.wheels[v.id]||'stock';
+ g.save();
+ // Distinct aero packages and additional visible bodywork details.
+ if(kit!=='stock'){
+  g.strokeStyle=kit==='wide'?'#111b27':'#a5b5c8';g.lineWidth=kit==='wide'?5:3;
+  g.beginPath();g.moveTo(-25,-19);g.lineTo(19,-19);g.moveTo(-25,19);g.lineTo(19,19);g.stroke();
+  g.fillStyle='#101720';g.fillRect(17,-13,5,26);g.fillRect(-29,-13,4,26);
+ }
+ if(kit==='race'){g.fillStyle='#141c26';g.fillRect(-32,-23,6,46);g.fillStyle='#e4f1ff';g.fillRect(-33,-17,2,34);}
+ const wheelColor={black:'#232a35',silver:'#bdc9d4',gold:'#cda854'}[wheel];
+ if(wheelColor){for(const x of [-20,18])for(const y of [-20,20]){g.fillStyle=wheelColor;g.beginPath();g.ellipse(x,y,4,2.4,0,0,Math.PI*2);g.fill();}}
+ // Body panel seams and vent details, drawn on top of existing unique car geometry.
+ g.strokeStyle='#d7e9f56e';g.lineWidth=1.15;g.beginPath();g.moveTo(-15,-11);g.lineTo(-8,-15);g.moveTo(-15,11);g.lineTo(-8,15);g.moveTo(7,-13);g.lineTo(12,-11);g.moveTo(7,13);g.lineTo(12,11);g.stroke();
+ g.fillStyle='#091521a8';g.fillRect(16,-9,7,3);g.fillRect(16,6,7,3);
+ if(apexData.wing[v.id]&&apexData.wing[v.id]!=='stock'){g.fillStyle='#18202b';g.fillRect(-34,-22,7,44);}
+ g.restore();
+};
 
-let prev=performance.now();function frame(now){pollPad();let dt=Math.min((now-prev)/1000,.04);prev=now;for(let i=0;i<Math.ceil(dt/.012);i++)update(dt/Math.ceil(dt/.012));updateEngineDisplayAndAudio(dt);updateApexModes(dt);draw();sendPosition(now);requestAnimationFrame(frame)}requestAnimationFrame(frame);renderGarage();
+let prev=performance.now();// Weather visuals render in screen space, independently of the road wetness simulation.
+// Fixed pseudo-random positions give smooth falling streaks without creating objects each frame.
+function drawVisibleRain(now,dt){
+ const intensity=rainStrength;
+ if(intensity<=0)return;
+ const t=now*.001,wind=75+95*stormStrength;
+ ctx.save();
+ ctx.fillStyle='rgba(9,25,44,'+(intensity*.13)+')';ctx.fillRect(0,0,W,H);
+ const count=Math.round((W*H/9000)*intensity);
+ ctx.lineCap='round';ctx.lineWidth=1.15+.35*stormStrength;
+ for(let i=0;i<count;i++){
+  const seed=(i*7919.21)%10000;
+  const x0=(seed*1.6180339887%1)*W;
+  const y0=((seed*.754877666%1))*H;
+  const velocity=420+(i%7)*53;
+  const x=((x0+wind*t)% (W+80)+W+80)%(W+80)-40;
+  const y=(y0+velocity*t)%(H+60)-30;
+  const len=10+(i%6)*3+intensity*11;
+  ctx.strokeStyle=i%4===0?'rgba(220,240,255,'+(intensity*.58)+')':'rgba(160,211,246,'+(intensity*.35)+')';
+  ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x-5-intensity*7,y+len);ctx.stroke();
+ }
+ // Subtle rain haze, strongest in storms; leaves the car and track visible.
+ if(intensity>.4){ctx.fillStyle='rgba(122,157,190,'+(intensity*.035)+')';ctx.fillRect(0,0,W,H)}
+ ctx.restore();
+}
+function frame(now){pollPad();let dt=Math.min((now-prev)/1000,.04);prev=now;
+// Full 6-minute lighting cycle with smooth dawn, daylight, dusk and night.
+// The N button still changes the target immediately, but the scene fades smoothly.
+if(autoDayNight){
+ dayClock=(dayClock+dt)%360;
+ const phase=dayClock/360;
+ // Dawn 0-.17, day .17-.52, dusk .52-.70, night .70-1.
+ const smooth=t=>{t=Math.max(0,Math.min(1,t));return t*t*(3-2*t)};
+ nightTarget=phase<.17?1-smooth(phase/.17):phase<.52?0:phase<.70?smooth((phase-.52)/.18):1;
+ nightMode=nightTarget>=.5;
+ document.querySelector('#dayBtn').textContent=nightTarget>.75?'☾ NIGHT · N TO CHANGE':nightTarget>.2?'◐ TWILIGHT · N TO CHANGE':'☀ DAY · N TO CHANGE';
+}
+nightStrength+=(nightTarget-nightStrength)*Math.min(1,dt*1.3);
+weatherClock+=dt;
+if(weatherClock>=85){weatherClock=0;if(forcedWeather==='auto'){
+ // Prefer adjacent weather changes so conditions evolve naturally.
+ const index=weatherOptions.indexOf(simWeather);
+ const step=Math.random()<.5?-1:1;
+ simWeather=weatherOptions[Math.max(0,Math.min(weatherOptions.length-1,index+step))];
+ toast('WEATHER CHANGING: '+simWeather.toUpperCase());
+}}
+const weatherEase=Math.min(1,dt/22); // ~22-second gradual transitions
+const rainTarget=simWeather==='storm'?1:simWeather==='rain'?.65:0;
+const cloudTarget=simWeather==='clear'?0:simWeather==='cloudy'?.40:simWeather==='rain'?.70:1;
+rainStrength+=(rainTarget-rainStrength)*weatherEase;
+cloudStrength+=(cloudTarget-cloudStrength)*weatherEase;
+stormStrength+=((simWeather==='storm'?1:0)-stormStrength)*weatherEase;
+const targetWet=simWeather==='storm'?1:simWeather==='rain'?.76:simWeather==='cloudy'?.20:0;
+wetness+=(targetWet-wetness)*Math.min(1,dt*(targetWet>wetness?.075:.022));
+updateWeatherHud();for(let i=0;i<Math.ceil(dt/.012);i++)update(dt/Math.ceil(dt/.012));updateEngineDisplayAndAudio(dt);updateApexModes(dt);document.getElementById('apexLiveScore').textContent=Math.floor(comboPoints).toLocaleString('en-GB');document.getElementById('apexLiveScoreMeta').textContent='TOTAL BANKED '+Math.floor(totalPoints).toLocaleString('en-GB')+' · x'+comboMultiplier.toFixed(1);draw();if(cloudStrength>.003){ctx.save();ctx.fillStyle='rgba(20,32,52,'+(cloudStrength*.12)+')';ctx.fillRect(0,0,W,H);ctx.restore()}drawVisibleRain(now,dt);sendPosition(now);requestAnimationFrame(frame)}requestAnimationFrame(frame);renderGarage();
 
 // Private-room multiplayer: authoritative membership/track, client-side driving physics.
 const multiPanel=document.querySelector('#multiPanel'),roomStatus=document.querySelector('#roomStatus'),multiInfo=document.querySelector('#multiInfo');
@@ -1254,4 +1460,142 @@ buildOwnerGrid('#ownerCreditGrid','CR');buildOwnerGrid('#ownerXpGrid','XP');upda
 document.querySelectorAll('[data-owner-action]').forEach(b=>b.onclick=async()=>{const action=b.dataset.ownerAction;b.disabled=true;ownerMsg.textContent='Applying '+action+'…';try{const v=await ownerRequest('/api/admin/grant',{action});if(v.action==='cars')for(const c of CARS)owned.add(c.id);if(v.action==='upgrades')for(const c of CARS){const t=tuneFor(c.id);t.engine=4;t.turbo=turboIds.has(c.id)?3:0;t.trans=3;t.angleKit=3;}persist();renderGarage();ownerMsg.textContent='Done: '+(action==='credits'?'+10,000,000 CR':action==='cars'?'all cars unlocked':'all upgrades maxed')+'.';}catch(e){ownerMsg.textContent=e.message}finally{b.disabled=false}});
 if(new URLSearchParams(location.search).get('owner')==='1')setTimeout(ownerOpen,150);
 document.querySelector('#ownerSignOut').onclick=async()=>{try{await ownerRequest('/api/admin/logout',{})}catch(e){}ownerView(false);ownerMsg.textContent='Signed out.'};
-</script></body></html>
+</script>
+<style id="apex-unified-status-css">
+/* One cohesive status widget; preserve existing weather and car updates. */
+#currentCarBadge.apexUnifiedBadge{
+  position:fixed!important;left:14px!important;bottom:106px!important;top:auto!important;
+  display:flex!important;align-items:stretch!important;gap:0!important;
+  width:clamp(208px,23vw,278px)!important;max-width:calc(100vw - 28px)!important;
+  padding:0!important;overflow:hidden;flex-direction:column;
+  border:1px solid rgba(109,209,220,.42)!important;border-radius:14px!important;
+  background:linear-gradient(135deg,rgba(9,25,38,.97),rgba(16,49,65,.96))!important;
+  box-shadow:0 10px 32px rgba(0,0,0,.42),inset 0 1px rgba(255,255,255,.07)!important;
+  backdrop-filter:blur(14px);pointer-events:none!important;
+}
+#currentCarBadge.apexUnifiedBadge .car-dot{position:absolute;top:14px;left:0;width:3px;height:40px;border-radius:0 4px 4px 0}
+#currentCarBadge.apexUnifiedBadge>.apexCarInfo{padding:12px 14px 10px 16px;min-width:0}
+#currentCarBadge.apexUnifiedBadge .car-caption{font-size:9px;letter-spacing:1.6px;color:#81b8c7;font-weight:800}
+#currentCarBadge.apexUnifiedBadge #currentCarName{max-width:100%;font-size:16px;letter-spacing:.1px;line-height:1.3;color:#f1fcff}
+#currentCarBadge.apexUnifiedBadge #apexWeatherHud{
+  position:static!important;left:auto!important;bottom:auto!important;z-index:auto!important;
+  padding:10px 14px 11px 16px!important;width:100%;box-sizing:border-box;
+  background:rgba(3,15,24,.43)!important;border:0!important;border-top:1px solid rgba(109,209,220,.2)!important;
+  border-radius:0!important;color:#bfeefa!important;font-size:10px!important;
+  font-weight:800!important;letter-spacing:.15px;line-height:1.5;white-space:normal;
+}
+#currentCarBadge.apexUnifiedBadge #apexWeatherHud:before{content:'●';color:#51d6c9;margin-right:7px;font-size:9px}
+@media(max-width:800px){#currentCarBadge.apexUnifiedBadge{width:214px!important;bottom:105px!important}#currentCarBadge.apexUnifiedBadge #currentCarName{font-size:14px}}
+</style>
+<script id="apex-unified-status-init">
+(()=>{
+ const badge=document.getElementById('currentCarBadge');
+ const weather=document.getElementById('apexWeatherHud');
+ if(!badge||!weather)return;
+ const info=document.createElement('div');info.className='apexCarInfo';
+ const textBlock=badge.querySelector('.car-caption')?.parentElement;
+ if(textBlock){info.appendChild(textBlock);badge.appendChild(info)}
+ badge.appendChild(weather);
+ badge.classList.add('apexUnifiedBadge');
+})();
+</script>
+
+<style id="apex-corner-position-fix">
+/* Keep the combined vehicle/weather badge anchored to the top-left corner. */
+#currentCarBadge.apexUnifiedBadge{
+  position:fixed!important;top:10px!important;left:10px!important;
+  right:auto!important;bottom:auto!important;
+  margin:0!important;z-index:25!important;
+  width:clamp(208px,23vw,278px)!important;
+}
+@media(max-width:800px){
+  #currentCarBadge.apexUnifiedBadge{top:8px!important;left:8px!important;width:214px!important}
+}
+</style>
+<script id="apex-help-toggle-script">(()=>{const help=document.getElementById('help');if(!help)return;const btn=document.createElement('button');btn.id='apexHelpToggle';btn.type='button';btn.textContent='⌨ CONTROLS ?';btn.setAttribute('aria-expanded','false');btn.setAttribute('aria-controls','help');btn.addEventListener('click',()=>{const open=help.classList.toggle('apexHelpOpen');btn.textContent=open?'✕ HIDE CONTROLS':'⌨ CONTROLS ?';btn.setAttribute('aria-expanded',String(open));});document.body.appendChild(btn);})();</script>
+<style id="apex-hud-overhaul-2026">
+:root{--apex-glass:rgba(7,22,34,.91);--apex-edge:rgba(100,198,210,.34);--apex-mint:#5de8ce;--apex-ink:#e9faff}
+/* A consistent unobtrusive racing dashboard. */
+#hud,#rpmCluster,#currentCarBadge.apexUnifiedBadge,#apexRaceHud,#apexScoreBelow,#wallet,#multiInfo,#driveTelemetry span,#apexHelpToggle,#weatherControls select,#weatherControls button,#cameraBtn,#soundBtn,#trackSelect,#garageBtn,#reset,#dayBtn,#multiBtn{
+ font-family:system-ui,-apple-system,Segoe UI,sans-serif!important;box-shadow:0 8px 24px rgba(0,0,0,.28),inset 0 1px rgba(255,255,255,.07)!important;
+}
+#currentCarBadge.apexUnifiedBadge{top:12px!important;left:12px!important;width:242px!important;border-radius:15px!important;z-index:22!important}
+#currentCarBadge.apexUnifiedBadge>.apexCarInfo{padding:10px 14px 9px 16px!important}
+#currentCarBadge.apexUnifiedBadge #currentCarName{font-size:16px!important}
+#currentCarBadge.apexUnifiedBadge #apexWeatherHud{font-size:9px!important;padding:8px 12px 9px 16px!important}
+/* Driving data anchored low, leaving the circuit and car unobstructed. */
+#hud{position:fixed!important;top:auto!important;bottom:60px!important;left:12px!important;right:auto!important;width:246px!important;max-height:min(63vh,560px);overflow-y:auto;scrollbar-width:thin;min-width:0!important;z-index:11!important;transform:none!important;padding:13px 15px!important;border-radius:16px!important;background:linear-gradient(160deg,rgba(8,25,38,.95),rgba(6,18,29,.90))!important;border:1px solid var(--apex-edge)!important;backdrop-filter:blur(14px)}
+#hud #title{font-size:9px!important;letter-spacing:2px!important;padding-bottom:7px!important}
+#hud #speed{font-size:48px!important;line-height:1!important;margin:9px 0 5px!important}
+#hud #speed small{font-size:11px!important}
+#hud #status{font-size:10px!important}
+#hud #gearHud{font-size:12px!important;color:var(--apex-mint)!important}
+#hud #angle{font-size:14px!important;margin:6px 0 2px!important}
+#hud #direction{font-size:10px!important}
+#hud #lap{margin-top:7px!important;padding-top:6px!important}
+#hud #best,#hud #lapPoints,#hud #lastLapPoints{font-size:10px!important}
+#hud #telemetry{grid-template-columns:1fr 1fr!important;gap:6px!important;margin-top:8px!important}
+#hud .telemetry-tile{padding:6px!important}
+#hud .telemetry-tile strong{font-size:12px!important}
+#hud #xpHud{padding-top:7px!important;margin-top:7px!important;font-size:10px!important}
+#hud #scorebox{display:none!important} /* same score is visible in the centre */
+#hud #gripMeter{margin-top:7px!important}
+/* Motorsport & live drift score: one visual stack at top centre. */
+#apexRaceHud{position:fixed!important;top:12px!important;left:50%!important;transform:translateX(-50%)!important;width:238px!important;min-width:0!important;box-sizing:border-box!important;padding:9px 12px!important;border-radius:14px 14px 0 0!important;background:var(--apex-glass)!important;border:1px solid var(--apex-edge)!important;cursor:pointer!important;z-index:16!important;font-size:12px!important;letter-spacing:1px!important;transition:background .2s,border-color .2s}
+#apexRaceHud:hover,#apexRaceHud:focus-visible{background:#153b4b!important;border-color:var(--apex-mint)!important;outline:none}
+#apexRaceHud .muted{font-size:9px!important;letter-spacing:.3px!important;margin-top:2px!important}
+#apexScoreBelow{position:fixed!important;top:60px!important;left:50%!important;transform:translateX(-50%)!important;width:238px!important;min-width:0!important;box-sizing:border-box!important;padding:8px 12px 10px!important;border-radius:0 0 14px 14px!important;background:var(--apex-glass)!important;border:1px solid var(--apex-edge)!important;border-top:0!important;z-index:15!important;font-size:9px!important;letter-spacing:1.2px!important;text-align:center!important}
+#apexScoreBelow .scoreNumber{font-size:38px!important;line-height:1.08!important;letter-spacing:-1px!important;margin:3px 0!important;color:#ffdc88!important}
+#apexScoreBelow .scoreMeta{font-size:9px!important;line-height:1.4!important}
+/* Upper right: compact garage & track controls, with weather just above. */
+#weatherControls{position:fixed!important;top:12px!important;right:12px!important;bottom:auto!important;display:flex!important;gap:6px!important;max-width:330px!important;z-index:18!important}
+#weatherControls select,#weatherControls button{font-size:10px!important;padding:8px 10px!important;border-radius:10px!important}
+#apexHudToolbar{position:fixed;right:12px;top:56px;z-index:19;display:flex;align-items:center;justify-content:flex-end;gap:6px;max-width:min(65vw,640px);flex-wrap:wrap}
+#apexHudToolbar #trackSelect,#apexHudToolbar #garageBtn,#apexHudToolbar #reset,#apexHudToolbar #dayBtn,#apexHudToolbar #multiBtn{position:static!important;inset:auto!important;right:auto!important;top:auto!important;bottom:auto!important;transform:none!important;margin:0!important;font-size:10px!important;padding:9px 11px!important;border-radius:10px!important;white-space:nowrap!important;z-index:auto!important}
+#apexHudToolbar #trackSelect{max-width:185px!important;background:var(--apex-glass)!important;color:var(--apex-ink)!important;border:1px solid var(--apex-edge)!important}
+#apexHudToolbar #garageBtn{background:#2bdbc0!important;color:#04251f!important}
+#apexHudToolbar #reset,#apexHudToolbar #dayBtn,#apexHudToolbar #multiBtn{background:var(--apex-glass)!important;color:var(--apex-ink)!important;border:1px solid var(--apex-edge)!important}
+#apexHudToolbar button{cursor:pointer!important;transition:filter .15s,transform .15s}
+#apexHudToolbar button:hover{filter:brightness(1.25);transform:translateY(-1px)!important}
+#cameraBtn{top:111px!important;right:12px!important;bottom:auto!important;font-size:10px!important;padding:8px 11px!important}
+#soundBtn{top:151px!important;right:12px!important;bottom:auto!important;font-size:10px!important;padding:8px 11px!important}
+#wallet{top:192px!important;right:12px!important;bottom:auto!important;font-size:11px!important;padding:8px 12px!important;background:var(--apex-glass)!important;border:1px solid var(--apex-edge)!important;border-radius:11px!important}
+#multiInfo{top:232px!important;right:12px!important;bottom:auto!important;font-size:9px!important;padding:7px 10px!important;border-radius:10px!important;background:var(--apex-glass)!important}
+/* Gear and RPM remain central, just above the screen edge. */
+#rpmCluster{bottom:12px!important;left:50%!important;top:auto!important;width:240px!important;padding:8px 13px!important;border-radius:15px!important;background:var(--apex-glass)!important;border:1px solid var(--apex-edge)!important}
+#rpmReadout{font-size:24px!important}
+#driveTelemetry{left:12px!important;bottom:15px!important;top:auto!important;gap:5px!important;z-index:12!important}
+#driveTelemetry span{font-size:9px!important;padding:7px 8px!important;background:var(--apex-glass)!important}
+#apexHelpToggle{left:12px!important;bottom:15px!important;top:auto!important;z-index:21!important;padding:9px 12px!important;background:var(--apex-glass)!important}
+#help.apexHelpOpen{left:12px!important;bottom:58px!important;z-index:21!important}
+/* Keep lower left controls from colliding with driving telemetry. */
+#driveTelemetry{left:120px!important}
+@media(max-width:1150px){#apexHudToolbar{top:58px!important;max-width:42vw!important}#cameraBtn{top:146px!important}#soundBtn{top:185px!important}#wallet{top:224px!important}#multiInfo{top:263px!important}}
+@media(max-width:800px){
+ #currentCarBadge.apexUnifiedBadge{width:188px!important;top:8px!important;left:8px!important}
+ #apexRaceHud{width:175px!important;top:8px!important;font-size:10px!important}
+ #apexScoreBelow{width:175px!important;top:54px!important;padding:6px!important}
+ #apexScoreBelow .scoreNumber{font-size:29px!important}
+ #weatherControls{top:8px!important;right:8px!important;gap:3px!important;max-width:35vw!important;flex-wrap:wrap!important;justify-content:flex-end!important}
+ #weatherControls select,#weatherControls button{font-size:9px!important;padding:5px!important}
+ #apexHudToolbar{right:8px!important;top:88px!important;max-width:42vw!important;gap:4px!important}
+ #apexHudToolbar #trackSelect,#apexHudToolbar #garageBtn,#apexHudToolbar #reset,#apexHudToolbar #dayBtn,#apexHudToolbar #multiBtn{font-size:9px!important;padding:6px!important}
+ #cameraBtn{right:8px!important;top:205px!important;font-size:9px!important}
+ #soundBtn{right:8px!important;top:238px!important;font-size:9px!important}
+ #wallet{right:8px!important;top:271px!important;font-size:9px!important}
+ #multiInfo{display:none!important}
+ #hud{width:188px!important;bottom:62px!important;left:8px!important;padding:9px!important;max-height:43vh!important}
+ #hud #speed{font-size:37px!important}
+ #hud #telemetry,#hud #best,#hud #lastLapPoints{display:none!important}
+ #rpmCluster{width:185px!important;bottom:8px!important;padding:6px 9px!important}
+ #driveTelemetry{display:none!important}
+ #apexHelpToggle{left:8px!important;bottom:8px!important;font-size:9px!important;padding:7px!important}
+}
+</style>
+<script id="apex-hud-overhaul-init">(()=>{
+ const toolbar=document.createElement('nav');toolbar.id='apexHudToolbar';toolbar.setAttribute('aria-label','Driving shortcuts');
+ const ids=['trackSelect','garageBtn','reset','dayBtn','multiBtn'];
+ for(const id of ids){const element=document.getElementById(id);if(element)toolbar.appendChild(element)}
+ document.body.appendChild(toolbar);
+})();</script>
+</body></html>
