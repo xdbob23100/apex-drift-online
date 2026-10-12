@@ -1598,4 +1598,28 @@ document.querySelector('#ownerSignOut').onclick=async()=>{try{await ownerRequest
  for(const id of ids){const element=document.getElementById(id);if(element)toolbar.appendChild(element)}
  document.body.appendChild(toolbar);
 })();</script>
+<style id="apex-right-hud-dock-fix">
+/* All top-right widgets participate in one layout instead of using conflicting absolute coordinates. */
+#apexRightDock{position:fixed;top:12px;right:12px;z-index:23;width:min(338px,calc(100vw - 24px));box-sizing:border-box;display:flex;flex-direction:column;align-items:stretch;gap:7px;pointer-events:none}
+#apexRightDock>*{pointer-events:auto}
+#apexRightDock #weatherControls{position:static!important;inset:auto!important;max-width:none!important;width:100%!important;display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:7px!important;margin:0!important;flex-wrap:nowrap!important}
+#apexRightDock #weatherControls select,#apexRightDock #weatherControls button{width:100%!important;min-width:0!important;box-sizing:border-box!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;font-size:10px!important;padding:9px 7px!important}
+#apexRightDock #apexHudToolbar{position:static!important;inset:auto!important;max-width:none!important;width:100%!important;display:grid!important;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr)!important;gap:7px!important;margin:0!important;align-items:stretch!important}
+#apexRightDock #apexHudToolbar>*{box-sizing:border-box!important;width:100%!important;min-width:0!important;max-width:none!important;margin:0!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;padding:10px 6px!important;font-size:10px!important;min-height:35px!important}
+#apexRightDock #apexHudToolbar #trackSelect{grid-column:1 / -1!important}
+#apexRightDock #apexHudToolbar #multiBtn{grid-column:1 / -1!important}
+#apexRightDock #cameraBtn,#apexRightDock #soundBtn,#apexRightDock #wallet,#apexRightDock #multiInfo{position:static!important;inset:auto!important;left:auto!important;right:auto!important;top:auto!important;bottom:auto!important;transform:none!important;display:block!important;box-sizing:border-box!important;width:100%!important;max-width:100%!important;margin:0!important;text-align:center!important;white-space:normal!important;font-size:10px!important;line-height:1.35!important;padding:9px 10px!important}
+#apexRightDock #multiInfo{font-size:9px!important}
+#apexRightDock #wallet{font-size:11px!important}
+@media(max-width:800px){#apexRightDock{width:min(240px,calc(100vw - 16px));top:8px;right:8px;gap:5px}#apexRightDock #weatherControls{gap:4px!important}#apexRightDock #weatherControls select,#apexRightDock #weatherControls button{font-size:8px!important;padding:7px 3px!important}#apexRightDock #apexHudToolbar{gap:4px!important}#apexRightDock #apexHudToolbar>*{font-size:9px!important;padding:7px 3px!important;min-height:30px!important}#apexRightDock #cameraBtn,#apexRightDock #soundBtn,#apexRightDock #wallet,#apexRightDock #multiInfo{font-size:9px!important;padding:7px 5px!important}}
+@media(max-width:580px){#apexRightDock{width:180px}#apexRightDock #weatherControls{grid-template-columns:1fr!important}#apexRightDock #apexHudToolbar{grid-template-columns:1fr 1fr!important}#apexRightDock #apexHudToolbar #trackSelect{grid-column:1 / -1!important}#apexRightDock #apexHudToolbar #multiBtn{grid-column:1 / -1!important}}
+</style>
+<script id="apex-right-hud-dock-init">(()=>{
+ const toolbar=document.getElementById('apexHudToolbar');if(!toolbar)return;
+ const dock=document.createElement('aside');dock.id='apexRightDock';dock.setAttribute('aria-label','Game settings and shortcuts');
+ const weather=document.getElementById('weatherControls');if(weather)dock.appendChild(weather);
+ dock.appendChild(toolbar);
+ for(const id of ['cameraBtn','soundBtn','wallet','multiInfo']){const el=document.getElementById(id);if(el)dock.appendChild(el)}
+ document.body.appendChild(dock);
+})();</script>
 </body></html>
